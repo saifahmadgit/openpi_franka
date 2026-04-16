@@ -230,6 +230,9 @@ class LeRobotAlohaDataConfig(DataConfigFactory):
     # If true, will convert joint dimensions to deltas with respect to the current state before passing to the model.
     # Gripper dimensions will remain in absolute values.
     use_delta_joint_actions: bool = True
+    # Optional override for the delta action mask. If None, defaults to make_bool_mask(6, -1, 6, -1) for bimanual Aloha (14-dim).
+    # Override this for robots with different action dimensions, e.g. make_bool_mask(7, -2) for a 9-dim Franka.
+    delta_action_mask: tyro.conf.Suppress[tuple[bool, ...] | None] = None
     # If provided, will be injected into the input data if the "prompt" key is not present.
     default_prompt: str | None = None
     # If true, this will convert the joint and gripper values from the standard Aloha space to
@@ -261,7 +264,7 @@ class LeRobotAlohaDataConfig(DataConfigFactory):
             outputs=[aloha_policy.AlohaOutputs(adapt_to_pi=self.adapt_to_pi)],
         )
         if self.use_delta_joint_actions:
-            delta_action_mask = _transforms.make_bool_mask(6, -1, 6, -1)
+            delta_action_mask = self.delta_action_mask if self.delta_action_mask is not None else _transforms.make_bool_mask(6, -1, 6, -1)
             data_transforms = data_transforms.push(
                 inputs=[_transforms.DeltaActions(delta_action_mask)],
                 outputs=[_transforms.AbsoluteActions(delta_action_mask)],
@@ -970,6 +973,46 @@ _CONFIGS = [
         save_interval=5000,
     ),
     TrainConfig(
+        name="pi05_magicsim_apple_red_joint",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -2),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/panda_grasp_red_apple_409_v21_joint_angle_action",
+            default_prompt="grasp the red apple",
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.front",
+                                "cam_left_wrist": "observation.images.wrist",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        num_train_steps=100_000,
+        batch_size=2,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        save_interval=25000,
+    ),
+    TrainConfig(
         name="pi05_magicsim_apple",
         model=pi0_config.Pi0Config(
             pi05=True,
@@ -979,7 +1022,7 @@ _CONFIGS = [
         data=LeRobotAlohaDataConfig(
             use_delta_joint_actions=False,
             adapt_to_pi=False,
-            repo_id="Arashi2001/Magicsim_Random_Initial_Position_for_Apple",
+            repo_id="saifahmad123/panda_grasp_saif",
             default_prompt="grasp the red apple",
             repack_transforms=_transforms.Group(
                 inputs=[
