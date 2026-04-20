@@ -23,6 +23,7 @@ import openpi.policies.libero_policy as libero_policy
 import openpi.shared.download as _download
 import openpi.shared.normalize as _normalize
 import openpi.training.droid_rlds_dataset as droid_rlds_dataset
+import openpi.training.misc.lehome_config as lehome_config
 import openpi.training.misc.polaris_config as polaris_config
 import openpi.training.misc.roboarena_config as roboarena_config
 import openpi.training.optimizer as _optimizer
@@ -981,17 +982,18 @@ _CONFIGS = [
         ),
         data=LeRobotAlohaDataConfig(
             use_delta_joint_actions=True,
-            delta_action_mask=_transforms.make_bool_mask(7, -2),
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
             adapt_to_pi=False,
-            repo_id="saifahmad123/panda_grasp_red_apple_409_v21_joint_angle_action",
+            repo_id="saifahmad123/franka_grasp_joint_saif",
             default_prompt="grasp the red apple",
             repack_transforms=_transforms.Group(
                 inputs=[
                     _transforms.RepackTransform(
                         {
                             "images": {
-                                "cam_high": "observation.images.front",
-                                "cam_left_wrist": "observation.images.wrist",
+                                "cam_high": "observation.images.front_1",
+                                "cam_left_wrist": "observation.images.front_2",
+                                "cam_right_wrist": "observation.images.wrist",
                             },
                             "state": "observation.state",
                             "actions": "action",
@@ -1089,6 +1091,7 @@ _CONFIGS = [
     # RoboArena & PolaRiS configs.
     *roboarena_config.get_roboarena_configs(),
     *polaris_config.get_polaris_configs(),
+    *lehome_config.get_lehome_configs(),
 ]
 
 if len({config.name for config in _CONFIGS}) != len(_CONFIGS):
