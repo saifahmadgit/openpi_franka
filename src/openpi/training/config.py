@@ -1015,6 +1015,31 @@ _CONFIGS = [
         save_interval=25000,
     ),
     TrainConfig(
+        name="pi05_magicsim_base",
+        model=pi0_config.Pi0Config(pi05=True),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            default_prompt="pick up the apple",
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.front_1",
+                                "cam_left_wrist": "observation.images.front_2",
+                                "cam_right_wrist": "observation.images.wrist",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                        }
+                    )
+                ]
+            ),
+        ),
+    ),
+    TrainConfig(
         name="pi05_magicsim_apple",
         model=pi0_config.Pi0Config(
             pi05=True,
@@ -1052,6 +1077,49 @@ _CONFIGS = [
         ).get_freeze_filter(),
         ema_decay=None,
         save_interval=5000,
+    ),
+    TrainConfig(
+        name="pi05_Franka_Real_Random_Data",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=8,  # Franka 7-DOF + 1 gripper (update if different)
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/Real_Random",
+            default_prompt="pick up the orange cylinder",  # or use base_config=DataConfig(prompt_from_task=True)
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.front_1",
+                                "cam_left_wrist": "observation.images.front_2",
+                                "cam_right_wrist": "observation.images.wrist",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        num_train_steps=50_000,
+        batch_size=2,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        save_interval=25_000,
     ),
     #
     # Debugging configs.
