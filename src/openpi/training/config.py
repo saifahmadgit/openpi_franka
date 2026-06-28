@@ -1284,6 +1284,55 @@ _CONFIGS = [
         save_interval=5_000,
     ),
     TrainConfig(
+        name="pi05_Franka_Teleop",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/Teleop",
+            default_prompt="pick up the red object",
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=20_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps= 20_000,
+        batch_size=32,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        save_interval=2500,
+    ),
+    TrainConfig(
         name="pi05_Franka_Teleop_Random",
         model=pi0_config.Pi0Config(
             pi05=True,
