@@ -90,6 +90,32 @@ def main(config_name: str, max_frames: int | None = None):
     config = _config.get_config(config_name)
     data_config = config.data.create(config.assets_dirs, config.model)
 
+    # Pre-download the dataset once, waiting out HF rate limits (1000 req / 5 min)
+    # so this script never needs to be re-run by hand. snapshot_download resumes,
+    # so each retry only fetches what's still missing.
+    if data_config.repo_id not in (None, "fake") and data_config.rlds_data_dir is None:
+        import time
+
+        from huggingface_hub import snapshot_download
+        from lerobot.common.constants import HF_LEROBOT_HOME
+
+        root = HF_LEROBOT_HOME / data_config.repo_id
+        attempt = 0
+        while True:
+            attempt += 1
+            try:
+                snapshot_download(
+                    data_config.repo_id,
+                    repo_type="dataset",
+                    local_dir=root,
+                    max_workers=4,
+                )
+                print(f"Dataset fully cached at {root}")
+                break
+            except Exception as e:  # noqa: BLE001
+                print(f"[attempt {attempt}] HF rate-limited; waiting 320s then resuming: {str(e)[:200]}")
+                time.sleep(320)
+
     if data_config.rlds_data_dir is not None:
         data_loader, num_batches = create_rlds_dataloader(
             data_config, config.model.action_horizon, config.batch_size, max_frames
