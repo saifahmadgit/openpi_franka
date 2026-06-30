@@ -1423,6 +1423,7 @@ _CONFIGS = [
         ),
         num_train_steps=30_000,
         batch_size=32,
+        num_workers=32,
         freeze_filter=pi0_config.Pi0Config(
             paligemma_variant="gemma_2b_lora",
             action_expert_variant="gemma_300m_lora",

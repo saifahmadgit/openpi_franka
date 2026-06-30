@@ -21,6 +21,45 @@ class RemoveStrings(transforms.DataTransformFn):
         return {k: v for k, v in x.items() if not np.issubdtype(np.asarray(v).dtype, np.str_)}
 
 
+class InjectDummyImages(transforms.DataTransformFn):
+    """Adds tiny zero placeholders for the given (missing) image keys.
+
+    Used together with `disable_video_decoding`: norm stats only need `state`/`actions`,
+    so we skip the expensive per-frame video decode but still need the downstream
+    repack/policy-input transforms to find the image keys they expect. Image *content*
+    does not affect the state/action statistics, so zeros are fine.
+    """
+
+    def __init__(self, image_keys: list[str]):
+        self._image_keys = image_keys
+
+    def __call__(self, x: dict) -> dict:
+        for key in self._image_keys:
+            x.setdefault(key, np.zeros((3, 2, 2), dtype=np.uint8))
+        return x
+
+
+def disable_video_decoding(dataset: _data_loader.Dataset) -> list[str]:
+    """Stops a LeRobotDataset from decoding videos in __getitem__, returning the dropped video keys.
+
+    Computing norm stats only touches `state`/`actions` (read from the parquet files), so decoding
+    the camera videos for every frame is pure wasted work that can turn a minutes-long pass into hours.
+    Video decoding is gated on `len(meta.video_keys) > 0`, which derives from `meta.info["features"]`;
+    dropping the video features there disables decoding without affecting the parquet reads.
+    """
+    # Unwrap any TransformedDataset layers to reach the underlying LeRobotDataset.
+    base = dataset
+    while not hasattr(base, "meta") and hasattr(base, "_dataset"):
+        base = base._dataset
+    if not hasattr(base, "meta"):
+        return []
+    video_keys = list(base.meta.video_keys)
+    base.meta.info["features"] = {
+        k: v for k, v in base.meta.info["features"].items() if v["dtype"] != "video"
+    }
+    return video_keys
+
+
 def create_torch_dataloader(
     data_config: _config.DataConfig,
     action_horizon: int,
@@ -32,9 +71,13 @@ def create_torch_dataloader(
     if data_config.repo_id is None:
         raise ValueError("Data config must have a repo_id")
     dataset = _data_loader.create_torch_dataset(data_config, action_horizon, model_config)
+    # Skip video decoding (norm stats only use state/actions); inject zero placeholder images so the
+    # repack/policy-input transforms still run and produce identical state/action statistics.
+    video_keys = disable_video_decoding(dataset)
     dataset = _data_loader.TransformedDataset(
         dataset,
         [
+            InjectDummyImages(video_keys),
             *data_config.repack_transforms.inputs,
             *data_config.data_transforms.inputs,
             # Remove strings since they are not supported by JAX and are not needed to compute norm stats.
