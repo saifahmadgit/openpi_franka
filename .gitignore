@@ -1,5 +1,6 @@
 # Data directories.
-assets/
+assets/*
+!assets/pi05_Franka_3_objects_2/
 checkpoints/
 data/
 wandb/
