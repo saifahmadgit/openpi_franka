@@ -217,6 +217,35 @@ def main(config: _config.TrainConfig):
     )
     init_wandb(config, resuming=resuming, enabled=config.wandb_enabled)
 
+    # Pre-download the dataset once, waiting out HF rate limits (1000 req / 5 min), so the
+    # LeRobotDataset construction inside create_data_loader below hits a fully-cached local copy
+    # instead of triggering the same rate limit again. Mirrors scripts/compute_norm_stats.py.
+    data_config = config.data.create(config.assets_dirs, config.model)
+    if data_config.repo_id not in (None, "fake") and data_config.rlds_data_dir is None:
+        import os
+        import time
+
+        from huggingface_hub import snapshot_download
+        from lerobot.common.constants import HF_LEROBOT_HOME
+
+        root = HF_LEROBOT_HOME / data_config.repo_id
+        attempt = 0
+        while True:
+            attempt += 1
+            try:
+                snapshot_download(
+                    data_config.repo_id,
+                    repo_type="dataset",
+                    local_dir=root,
+                    max_workers=4,
+                )
+                logging.info(f"Dataset fully cached at {root}")
+                break
+            except Exception as e:  # noqa: BLE001
+                logging.info(f"[attempt {attempt}] HF rate-limited; waiting 320s then resuming: {str(e)[:200]}")
+                time.sleep(320)
+        os.environ["HF_HUB_OFFLINE"] = "1"
+
     data_loader = _data_loader.create_data_loader(
         config,
         sharding=data_sharding,

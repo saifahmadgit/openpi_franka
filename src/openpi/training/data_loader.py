@@ -143,6 +143,10 @@ def create_torch_dataset(
         delta_timestamps={
             key: [t / dataset_meta.fps for t in range(action_horizon)] for key in data_config.action_sequence_keys
         },
+        # torchcodec is importable but its FFmpeg shared libs (libavutil.so.*) aren't on the
+        # library path on some HPC nodes (e.g. Quest), so it crashes at decode time instead of
+        # import time. pyav bundles its own FFmpeg statically, so it works everywhere.
+        video_backend="pyav",
     )
 
     if data_config.prompt_from_task:
