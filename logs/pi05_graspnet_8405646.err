@@ -1,0 +1,2 @@
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+[2026-07-31T00:42:11.643] error: *** JOB 8405646 ON qgpu3012 CANCELLED AT 2026-07-31T00:42:11 DUE to SIGNAL Terminated ***

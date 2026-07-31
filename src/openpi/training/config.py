@@ -1624,29 +1624,29 @@ _CONFIGS = [
         weight_loader=weight_loaders.CheckpointWeightLoader(
             "gs://openpi-assets/checkpoints/pi05_base/params"
         ),
-        # batch_size 128 is 4x the usual 32, so the step count is cut 4x to 7_500 and the
-        # run still sees ~960k samples (~0.63 epochs of this dataset).
+        # batch_size 128 is 4x the usual 32; at 10_000 steps the run sees ~1.28M
+        # samples (~0.84 epochs of this dataset).
         # NOTE: decay_steps is NOT derived from num_train_steps — it must be changed
-        # alongside it. Leaving it at 30_000 would end training at ~89% of peak LR with
-        # the cosine anneal never applied.
-        # peak_lr is sqrt-scaled (2.5e-5 -> 5e-5) for the 4x batch; warmup scaled to keep
-        # it at ~3% of the run.
+        # alongside it. Leaving it higher would end training partway up the cosine
+        # curve with the anneal never applied.
+        # peak_lr is sqrt-scaled (2.5e-5 -> 5e-5) for the 4x batch; warmup is ~3% of
+        # the run.
         lr_schedule=_optimizer.CosineDecaySchedule(
-            warmup_steps=250,
+            warmup_steps=300,
             peak_lr=5e-5,
-            decay_steps=7_500,
+            decay_steps=10_000,
             decay_lr=5e-6,
         ),
-        num_train_steps=7_500,
+        num_train_steps=10_000,
         batch_size=128,
-        # 4x the batch needs 4x the video-decode throughput to stay GPU-bound.
-        num_workers=32,
+        # Matches the 16 cores the job requests (same as pi05_Franka_3_objects_2).
+        num_workers=14,
         freeze_filter=pi0_config.Pi0Config(
             paligemma_variant="gemma_2b_lora",
             action_expert_variant="gemma_300m_lora",
         ).get_freeze_filter(),
         ema_decay=None,
-        save_interval=1_500,
+        save_interval=2_000,
     ),
     TrainConfig(
         name="pi05_Franka_Teleop_Random",
