@@ -1,6 +1,9 @@
 # Data directories.
-assets/*
-!assets/pi05_Franka_3_objects_2/
+# Track norm_stats.json for every config (small JSON, needed at inference),
+# but keep any other asset content out of the repo.
+assets/**
+!assets/**/
+!assets/**/norm_stats.json
 checkpoints/
 data/
 wandb/
