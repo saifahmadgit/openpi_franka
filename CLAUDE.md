@@ -21,6 +21,7 @@ Upstream history is preserved; local work begins around `41178bc`
 | `scripts/train.py` | JAX training entrypoint. |
 | `scripts/compute_norm_stats.py` | Precompute normalization stats — **must run before training a new config**. |
 | `scripts/serve_policy.py` | Websocket policy server for robot-side inference. |
+| `scripts/upload_checkpoint.py` | Push a checkpoint step dir to the HuggingFace Hub. |
 | `slurm/*.sbatch` | Job submission scripts (paths inside are machine-specific). |
 | `assets/<config>/<repo_id>/norm_stats.json` | Output of `compute_norm_stats.py`. Small; belongs in git. |
 | `checkpoints/<config>/<exp_name>/<step>/` | `params/`, `train_state/`, `assets/`. ~1.8 GB per checkpoint. |
@@ -49,7 +50,15 @@ uv run scripts/compute_norm_stats.py --config-name <config_name>
 
 # 3. train
 uv run scripts/train.py <config_name> --exp-name=<run_name> [--overwrite | --resume]
+
+# 4. publish a checkpoint (repo id derived from <exp_name>_<step>)
+uv run scripts/upload_checkpoint.py --checkpoint-dir checkpoints/<config>/<exp>/<step> --dry-run
 ```
+
+A checkpoint step dir is ~8.9 GB: `params/` 6 GB and `train_state/` 3 GB, plus a
+2 KB `assets/` holding the norm stats. Serving needs only `params/` + `assets/`
+(see `policy_config.create_trained_policy`), so `upload_checkpoint.py` skips
+`train_state/` unless `--include-train-state` is passed.
 
 `--checkpoint-base-dir` overrides where checkpoints land (default `./checkpoints`),
 which is how runs are pointed at large scratch/project storage.

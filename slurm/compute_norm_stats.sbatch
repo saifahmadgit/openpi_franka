@@ -14,7 +14,7 @@
 #SBATCH --partition=normal
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=32
 #SBATCH --mem=120G
 #SBATCH --time=24:00:00
 #SBATCH --output=/gpfs/home/wgk1727/openpi_franka/logs/%x_%j.out
@@ -30,9 +30,27 @@ export HF_LEROBOT_HOME=/projects/p53063/data/lerobot
 export HF_HOME=/projects/p53063/hf_cache
 # No GPU on this partition; stop JAX from trying to initialize CUDA.
 export JAX_PLATFORMS=cpu
+# Without this, python/tqdm output is block-buffered into the log file and the
+# progress you see can lag many minutes behind what is actually happening.
+export PYTHONUNBUFFERED=1
 
 echo "Running on: $(hostname)"
 echo "Config:     ${CONFIG_NAME}"
 echo "Dataset ->  ${HF_LEROBOT_HOME}"
+
+# Heartbeat: the HF download's own progress bar is unreliable in a log file, so
+# report real on-disk progress to stdout every 2 minutes. Killed when the job ends.
+DATA_DIR="${HF_LEROBOT_HOME}"
+(
+    while true; do
+        sleep 120
+        printf '[%s] downloaded: %s in %s files\n' \
+            "$(date +%H:%M:%S)" \
+            "$(du -sh "${DATA_DIR}" 2>/dev/null | cut -f1)" \
+            "$(find "${DATA_DIR}" -type f 2>/dev/null | wc -l)"
+    done
+) &
+HEARTBEAT_PID=$!
+trap 'kill ${HEARTBEAT_PID} 2>/dev/null || true' EXIT
 
 uv run scripts/compute_norm_stats.py --config-name "${CONFIG_NAME}"
