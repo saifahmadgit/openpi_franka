@@ -1,0 +1,124 @@
+Running on: qgpu3014
+Fri Jul 31 01:16:12 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.43.02              KMD Version: 610.43.02     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:55:00.0 Off |                    0 |
+| N/A   45C    P0             74W /  700W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Step 0: grad_norm=0.1014, loss=0.0341, param_norm=1803.8630
+Step 100: grad_norm=0.0862, loss=0.0329, param_norm=1803.8634
+Step 200: grad_norm=0.0534, loss=0.0175, param_norm=1803.8679
+Step 300: grad_norm=0.0470, loss=0.0157, param_norm=1803.8815
+Step 400: grad_norm=0.0476, loss=0.0157, param_norm=1803.9048
+Step 500: grad_norm=0.0330, loss=0.0109, param_norm=1803.9283
+Step 600: grad_norm=0.0457, loss=0.0157, param_norm=1803.9537
+Step 700: grad_norm=0.0344, loss=0.0112, param_norm=1803.9790
+Step 800: grad_norm=0.0296, loss=0.0096, param_norm=1804.0028
+Step 900: grad_norm=0.0377, loss=0.0110, param_norm=1804.0267
+Step 1000: grad_norm=0.0404, loss=0.0105, param_norm=1804.0515
+Step 1100: grad_norm=0.0328, loss=0.0093, param_norm=1804.0740
+Step 1200: grad_norm=0.0361, loss=0.0100, param_norm=1804.0968
+Step 1300: grad_norm=0.0331, loss=0.0089, param_norm=1804.1206
+Step 1400: grad_norm=0.0361, loss=0.0090, param_norm=1804.1417
+Step 1500: grad_norm=0.0287, loss=0.0073, param_norm=1804.1647
+Step 1600: grad_norm=0.0392, loss=0.0088, param_norm=1804.1876
+Step 1700: grad_norm=0.0306, loss=0.0077, param_norm=1804.2096
+Step 1800: grad_norm=0.0257, loss=0.0065, param_norm=1804.2294
+Step 1900: grad_norm=0.0301, loss=0.0072, param_norm=1804.2507
+Step 2000: grad_norm=0.0259, loss=0.0062, param_norm=1804.2715
+Step 2100: grad_norm=0.0366, loss=0.0087, param_norm=1804.2919
+Step 2200: grad_norm=0.0292, loss=0.0073, param_norm=1804.3114
+Step 2300: grad_norm=0.0266, loss=0.0064, param_norm=1804.3300
+Step 2400: grad_norm=0.0298, loss=0.0067, param_norm=1804.3512
+Step 2500: grad_norm=0.0330, loss=0.0082, param_norm=1804.3700
+Step 2600: grad_norm=0.0264, loss=0.0060, param_norm=1804.3884
+Step 2700: grad_norm=0.0244, loss=0.0057, param_norm=1804.4042
+Step 2800: grad_norm=0.0303, loss=0.0069, param_norm=1804.4224
+Step 2900: grad_norm=0.0285, loss=0.0062, param_norm=1804.4388
+Step 3000: grad_norm=0.0298, loss=0.0059, param_norm=1804.4557
+Step 3100: grad_norm=0.0315, loss=0.0071, param_norm=1804.4722
+Step 3200: grad_norm=0.0240, loss=0.0058, param_norm=1804.4883
+Step 3300: grad_norm=0.0304, loss=0.0061, param_norm=1804.5042
+Step 3400: grad_norm=0.0235, loss=0.0060, param_norm=1804.5187
+Step 3500: grad_norm=0.0219, loss=0.0052, param_norm=1804.5331
+Step 3600: grad_norm=0.0239, loss=0.0060, param_norm=1804.5465
+Step 3700: grad_norm=0.0272, loss=0.0063, param_norm=1804.5601
+Step 3800: grad_norm=0.0290, loss=0.0062, param_norm=1804.5745
+Step 3900: grad_norm=0.0278, loss=0.0060, param_norm=1804.5870
+Step 4000: grad_norm=0.0317, loss=0.0080, param_norm=1804.6002
+Step 4100: grad_norm=0.0301, loss=0.0065, param_norm=1804.6118
+Step 4200: grad_norm=0.0339, loss=0.0062, param_norm=1804.6226
+Step 4300: grad_norm=0.0307, loss=0.0064, param_norm=1804.6342
+Step 4400: grad_norm=0.0326, loss=0.0058, param_norm=1804.6445
+Step 4500: grad_norm=0.0275, loss=0.0058, param_norm=1804.6541
+Step 4600: grad_norm=0.0263, loss=0.0053, param_norm=1804.6638
+Step 4700: grad_norm=0.0314, loss=0.0058, param_norm=1804.6736
+Step 4800: grad_norm=0.0293, loss=0.0059, param_norm=1804.6825
+Step 4900: grad_norm=0.0243, loss=0.0049, param_norm=1804.6909
+Step 5000: grad_norm=0.0243, loss=0.0053, param_norm=1804.6987
+Step 5100: grad_norm=0.0235, loss=0.0052, param_norm=1804.7068
+Step 5200: grad_norm=0.0319, loss=0.0062, param_norm=1804.7148
+Step 5300: grad_norm=0.0236, loss=0.0049, param_norm=1804.7224
+Step 5400: grad_norm=0.0218, loss=0.0044, param_norm=1804.7296
+Step 5500: grad_norm=0.0268, loss=0.0051, param_norm=1804.7362
+Step 5600: grad_norm=0.0258, loss=0.0053, param_norm=1804.7428
+Step 5700: grad_norm=0.0252, loss=0.0055, param_norm=1804.7494
+Step 5800: grad_norm=0.0233, loss=0.0044, param_norm=1804.7548
+Step 5900: grad_norm=0.0243, loss=0.0049, param_norm=1804.7600
+Step 6000: grad_norm=0.0217, loss=0.0044, param_norm=1804.7653
+Step 6100: grad_norm=0.0302, loss=0.0058, param_norm=1804.7697
+Step 6200: grad_norm=0.0247, loss=0.0045, param_norm=1804.7743
+Step 6300: grad_norm=0.0235, loss=0.0043, param_norm=1804.7784
+Step 6400: grad_norm=0.0208, loss=0.0041, param_norm=1804.7825
+Step 6500: grad_norm=0.0332, loss=0.0047, param_norm=1804.7865
+Step 6600: grad_norm=0.0230, loss=0.0043, param_norm=1804.7908
+Step 6700: grad_norm=0.0283, loss=0.0055, param_norm=1804.7942
+Step 6800: grad_norm=0.0242, loss=0.0041, param_norm=1804.7971
+Step 6900: grad_norm=0.0260, loss=0.0049, param_norm=1804.7999
+Step 7000: grad_norm=0.0237, loss=0.0047, param_norm=1804.8027
+Step 7100: grad_norm=0.0248, loss=0.0045, param_norm=1804.8053
+Step 7200: grad_norm=0.0230, loss=0.0044, param_norm=1804.8076
+Step 7300: grad_norm=0.0242, loss=0.0052, param_norm=1804.8099
+Step 7400: grad_norm=0.0221, loss=0.0041, param_norm=1804.8121
+Step 7500: grad_norm=0.0214, loss=0.0045, param_norm=1804.8140
+Step 7600: grad_norm=0.0252, loss=0.0045, param_norm=1804.8160
+Step 7700: grad_norm=0.0266, loss=0.0048, param_norm=1804.8181
+Step 7800: grad_norm=0.0217, loss=0.0037, param_norm=1804.8199
+Step 7900: grad_norm=0.0255, loss=0.0051, param_norm=1804.8215
+Step 8000: grad_norm=0.0209, loss=0.0039, param_norm=1804.8229
+Step 8100: grad_norm=0.0269, loss=0.0048, param_norm=1804.8242
+Step 8200: grad_norm=0.0199, loss=0.0043, param_norm=1804.8256
+Step 8300: grad_norm=0.0319, loss=0.0055, param_norm=1804.8268
+Step 8400: grad_norm=0.0211, loss=0.0036, param_norm=1804.8278
+Step 8500: grad_norm=0.0271, loss=0.0045, param_norm=1804.8287
+Step 8600: grad_norm=0.0275, loss=0.0042, param_norm=1804.8293
+Step 8700: grad_norm=0.0191, loss=0.0040, param_norm=1804.8303
+Step 8800: grad_norm=0.0188, loss=0.0035, param_norm=1804.8311
+Step 8900: grad_norm=0.0226, loss=0.0037, param_norm=1804.8317
+Step 9000: grad_norm=0.0233, loss=0.0041, param_norm=1804.8325
+Step 9100: grad_norm=0.0197, loss=0.0036, param_norm=1804.8333
+Step 9200: grad_norm=0.0230, loss=0.0039, param_norm=1804.8340
+Step 9300: grad_norm=0.0225, loss=0.0045, param_norm=1804.8346
+Step 9400: grad_norm=0.0221, loss=0.0041, param_norm=1804.8356
+Step 9500: grad_norm=0.0190, loss=0.0033, param_norm=1804.8359
+Step 9600: grad_norm=0.0211, loss=0.0037, param_norm=1804.8368
+Step 9700: grad_norm=0.0272, loss=0.0052, param_norm=1804.8374
+Step 9800: grad_norm=0.0278, loss=0.0039, param_norm=1804.8378
+Step 9900: grad_norm=0.0252, loss=0.0043, param_norm=1804.8385
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mgraspnet_test[0m at: [34mhttps://wandb.ai/mdahmad2026-northwestern-university/openpi/runs/g7vrytok[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20260731_011748-g7vrytok/logs[0m

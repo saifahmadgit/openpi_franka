@@ -1,0 +1,106 @@
+Uploading /projects/p53063/checkpoints/pi05_Franka_GraspNet_Test/graspnet_test/4000 -> saifahmad123/pi05-franka-graspnet-test
+8.9G	/projects/p53063/checkpoints/pi05_Franka_GraspNet_Test/graspnet_test/4000
+Repo created: https://huggingface.co/saifahmad123/pi05-franka-graspnet-test
+Found 51 candidate files to upload
+[33mYou are about to upload a large folder to the Hub using `huggingface-cli upload-large-folder`. This is a new feature so feedback is very welcome!
+
+A few things to keep in mind:
+  - Repository limits still apply: https://huggingface.co/docs/hub/repositories-recommendations
+  - Do not start several processes in parallel.
+  - You can interrupt and resume the process at any time. The script will pick up where it left off except for partially uploaded files that would have to be entirely reuploaded.
+  - Do not upload the same folder to several repositories. If you need to do so, you must delete the `./.cache/huggingface/` folder first.
+
+Some temporary metadata will be stored under `/projects/p53063/checkpoints/pi05_Franka_GraspNet_Test/graspnet_test/4000/.cache/huggingface`.
+  - You must not modify those files manually.
+  - You must not delete the `./.cache/huggingface/` folder while a process is running.
+  - You can delete the `./.cache/huggingface/` folder to reinitialize the upload state when process is not running. Files will have to be hashed and preuploaded again, except for already committed files.
+
+If the process output is too verbose, you can disable the progress bars with `--no-bars`. You can also entirely disable the status report with `--no-report`.
+
+For more details, run `huggingface-cli upload-large-folder --help` or check the documentation at https://huggingface.co/docs/huggingface_hub/guides/upload#upload-a-large-folder.[0m
+Recovering from metadata files:   0%|          | 0/51 [00:00<?, ?it/s]Recovering from metadata files: 100%|██████████| 51/51 [00:00<00:00, 2460.74it/s]
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Uploading files using Xet Storage..
+Successfully committed 50 at once. Increasing the limit for next batch.
+Uploading files using Xet Storage..
+All files have been processed! Exiting worker.
+All files have been processed! Exiting worker.
+INFO:huggingface_hub._upload_large_folder:All files have been processed! Exiting worker.
+All files have been processed! Exiting worker.
+INFO:huggingface_hub._upload_large_folder:All files have been processed! Exiting worker.
+All files have been processed! Exiting worker.
+INFO:huggingface_hub._upload_large_folder:All files have been processed! Exiting worker.
+All files have been processed! Exiting worker.
+INFO:huggingface_hub._upload_large_folder:All files have been processed! Exiting worker.
+All files have been processed! Exiting worker.
+INFO:huggingface_hub._upload_large_folder:All files have been processed! Exiting worker.
+All files have been processed! Exiting worker.
+INFO:huggingface_hub._upload_large_folder:All files have been processed! Exiting worker.
+All files have been processed! Exiting worker.
+INFO:huggingface_hub._upload_large_folder:All files have been processed! Exiting worker.
+
+---------- 2026-07-31 10:32:30 (0:01:03) ----------
+Files:   hashed 51/51 (9.6G/9.6G) | pre-uploaded: 49/49 (9.6G/9.6G) | committed: 51/51 (9.6G/9.6G) | ignored: 0
+Workers: hashing: 0 | get upload mode: 0 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+INFO:huggingface_hub._upload_large_folder:
+---------- 2026-07-31 10:32:30 (0:01:03) ----------
+Files:   hashed 51/51 (9.6G/9.6G) | pre-uploaded: 49/49 (9.6G/9.6G) | committed: 51/51 (9.6G/9.6G) | ignored: 0
+Workers: hashing: 0 | get upload mode: 0 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+
+
+
+---------- 2026-07-31 10:31:27 (0:00:00) ----------
+Files:   hashed 2/51 (544.0/9.6G) | pre-uploaded: 0/0 (0.0/9.6G) (+51 unsure) | committed: 0/51 (0.0/9.6G) | ignored: 0
+Workers: hashing: 8 | get upload mode: 0 | pre-uploading: 0 | committing: 0 | waiting: 0
+---------------------------------------------------
+DONE rc=0

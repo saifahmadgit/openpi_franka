@@ -1,0 +1,8 @@
+Uploading /projects/p53063/checkpoints/pi05_Franka_GraspNet_Test/graspnet_test/8000 -> saifahmad123/pi05-franka-graspnet-test:step_8000
+8.9G	/projects/p53063/checkpoints/pi05_Franka_GraspNet_Test/graspnet_test/8000
+It seems you are trying to upload a large folder at once. This might take some time and then fail if the folder is too large. For such cases, it is recommended to upload in smaller batches or to use `HfApi().upload_large_folder(...)`/`huggingface-cli upload-large-folder` instead. For more details, check out https://huggingface.co/docs/huggingface_hub/main/en/guides/upload#upload-a-large-folder.
+Start hashing 53 files.
+Finished hashing 53 files.
+Uploading files using Xet Storage..
+https://huggingface.co/saifahmad123/pi05-franka-graspnet-test/tree/main/step_8000
+DONE rc=0
