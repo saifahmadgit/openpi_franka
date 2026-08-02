@@ -1649,7 +1649,7 @@ _CONFIGS = [
         save_interval=2_000,
     ),
     TrainConfig(
-        name="pi05_Franka_GraspNet_Test_2",
+        name="pi05_Franka_GraspNet_Test_texture",
         model=pi0_config.Pi0Config(
             pi05=True,
             action_dim=32,
@@ -1661,7 +1661,7 @@ _CONFIGS = [
             use_delta_joint_actions=True,
             delta_action_mask=_transforms.make_bool_mask(7, -1),
             adapt_to_pi=False,
-            repo_id="saifahmad123/Franka_GraspNet_Test",
+            repo_id="saifahmad123/Franka_GraspNet_Test_texture",
             # Multi-task dataset (3 prompts): take the prompt from each episode's task
             # so the policy is language-conditioned at inference time.
             base_config=DataConfig(prompt_from_task=True),
