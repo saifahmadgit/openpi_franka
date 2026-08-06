@@ -22,6 +22,7 @@ import openpi.policies.droid_policy as droid_policy
 import openpi.policies.libero_policy as libero_policy
 import openpi.shared.download as _download
 import openpi.shared.normalize as _normalize
+import openpi.shared.nnx_utils as nnx_utils
 import openpi.training.droid_rlds_dataset as droid_rlds_dataset
 import openpi.training.misc.lehome_config as lehome_config
 import openpi.training.misc.polaris_config as polaris_config
@@ -558,6 +559,13 @@ class TrainConfig:
     def __post_init__(self) -> None:
         if self.resume and self.overwrite:
             raise ValueError("Cannot resume and overwrite at the same time.")
+
+
+# NNX filter matching the SigLIP image encoder (`PaliGemma/img/...`, 23 param arrays).
+# Unlike the LLM towers, SigLIP is instantiated without LoRA adapters, so combining this
+# with a config's `get_freeze_filter()` leaves the vision encoder completely static and
+# trains only the LoRA weights in the Gemma / action-expert towers.
+_FreezeSigLip = nnx_utils.PathRegex("^PaliGemma/img/.*")
 
 
 # Use `get_config` if you need to get a config by name in your code.
@@ -1811,6 +1819,180 @@ _CONFIGS = [
             paligemma_variant="gemma_2b_lora",
             action_expert_variant="gemma_300m_lora",
         ).get_freeze_filter(),
+        ema_decay=None,
+        save_interval=2500,
+    ),
+    # Same data / hyperparameters / 50-step horizon as pi05_Franka_GRASPNET, but the
+    # policy predicts *absolute* joint targets instead of deltas from the current state.
+    # With use_delta_joint_actions=False the DeltaActions/AbsoluteActions pair is dropped
+    # from the pipeline entirely, so delta_action_mask no longer applies. Note this needs
+    # its own norm stats: the delta transform runs before statistics are gathered, so the
+    # action stats here are not interchangeable with pi05_Franka_GRASPNET's.
+    TrainConfig(
+        name="pi05_Franka_GRASPNET_abs",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=False,
+            adapt_to_pi=False,
+            repo_id="saifahmad123/Franka_GRASPNET",
+            # Multi-task dataset (3 prompts): take the prompt from each episode's task
+            # so the policy is language-conditioned at inference time.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=30_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=30_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        save_interval=2500,
+    ),
+    # Same data / hyperparameters / 50-step horizon as pi05_Franka_GRASPNET, but the
+    # SigLIP vision encoder is frozen on top of the usual LoRA freeze filter.
+    TrainConfig(
+        name="pi05_Franka_GRASPNET_frozen_siglip",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/Franka_GRASPNET",
+            # Multi-task dataset (3 prompts): take the prompt from each episode's task
+            # so the policy is language-conditioned at inference time.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=30_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=30_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=nnx.Any(
+            pi0_config.Pi0Config(
+                paligemma_variant="gemma_2b_lora",
+                action_expert_variant="gemma_300m_lora",
+            ).get_freeze_filter(),
+            _FreezeSigLip,
+        ),
+        ema_decay=None,
+        save_interval=2500,
+    ),
+    # pi05_Franka_GRASPNET with both variations combined: absolute joint actions and a
+    # frozen SigLIP encoder. Shares its norm stats requirement with
+    # pi05_Franka_GRASPNET_abs (same data pipeline); freezing weights does not affect them.
+    TrainConfig(
+        name="pi05_Franka_GRASPNET_abs_frozen_siglip",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=False,
+            adapt_to_pi=False,
+            repo_id="saifahmad123/Franka_GRASPNET",
+            # Multi-task dataset (3 prompts): take the prompt from each episode's task
+            # so the policy is language-conditioned at inference time.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=30_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=30_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=nnx.Any(
+            pi0_config.Pi0Config(
+                paligemma_variant="gemma_2b_lora",
+                action_expert_variant="gemma_300m_lora",
+            ).get_freeze_filter(),
+            _FreezeSigLip,
+        ),
         ema_decay=None,
         save_interval=2500,
     ),
