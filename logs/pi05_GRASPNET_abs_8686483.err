@@ -1,0 +1,104 @@
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+04:26:26.740 [I] Running on: qgpu3012                                                             (867934:train.py:196)
+INFO:2026-08-06 04:26:28,708:jax._src.xla_bridge:925: Unable to initialize backend 'rocm': module 'jaxlib.xla_extension' has no attribute 'GpuAllocatorConfig'
+04:26:28.708 [I] Unable to initialize backend 'rocm': module 'jaxlib.xla_extension' has no attribute 'GpuAllocatorConfig' (867934:xla_bridge.py:925)
+INFO:2026-08-06 04:26:28,789:jax._src.xla_bridge:925: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+04:26:28.789 [I] Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory (867934:xla_bridge.py:925)
+04:26:30.197 [I] Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14ce3de23890> (867934:base_pytree_checkpoint_handler.py:334)
+04:26:30.197 [I] Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14ce3de23890> (867934:base_pytree_checkpoint_handler.py:334)
+04:26:30.197 [I] [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID. (867934:multihost.py:390)
+04:26:30.197 [I] [process=0][thread=MainThread] CheckpointManager init: checkpointers=None, item_names=None, item_handlers={'assets': <openpi.training.checkpoints.CallbackHandler object at 0x14cd189fa950>, 'train_state': <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14ce4387de50>, 'params': <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14cd1889dcd0>}, handler_registry=None (867934:checkpoint_manager.py:620)
+04:26:30.198 [I] Deferred registration for item: "assets". Adding handler `<openpi.training.checkpoints.CallbackHandler object at 0x14cd189fa950>` for item "assets" and save args `<class 'openpi.training.checkpoints.CallbackSave'>` and restore args `<class 'openpi.training.checkpoints.CallbackRestore'>` to `_handler_registry`. (867934:composite_checkpoint_handler.py:234)
+04:26:30.198 [I] Deferred registration for item: "train_state". Adding handler `<orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14ce4387de50>` for item "train_state" and save args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>` and restore args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>` to `_handler_registry`. (867934:composite_checkpoint_handler.py:234)
+04:26:30.198 [I] Deferred registration for item: "params". Adding handler `<orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14cd1889dcd0>` for item "params" and save args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>` and restore args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>` to `_handler_registry`. (867934:composite_checkpoint_handler.py:234)
+04:26:30.198 [I] Deferred registration for item: "metrics". Adding handler `<orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonCheckpointHandler object at 0x14cd188393d0>` for item "metrics" and save args `<class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonSaveArgs'>` and restore args `<class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonRestoreArgs'>` to `_handler_registry`. (867934:composite_checkpoint_handler.py:234)
+04:26:30.199 [I] Initialized registry DefaultCheckpointHandlerRegistry({('assets', <class 'openpi.training.checkpoints.CallbackSave'>): <openpi.training.checkpoints.CallbackHandler object at 0x14cd189fa950>, ('assets', <class 'openpi.training.checkpoints.CallbackRestore'>): <openpi.training.checkpoints.CallbackHandler object at 0x14cd189fa950>, ('train_state', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14ce4387de50>, ('train_state', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14ce4387de50>, ('params', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14cd1889dcd0>, ('params', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14cd1889dcd0>, ('metrics', <class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonSaveArgs'>): <orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonCheckpointHandler object at 0x14cd188393d0>, ('metrics', <class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonRestoreArgs'>): <orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonCheckpointHandler object at 0x14cd188393d0>}). (867934:composite_checkpoint_handler.py:502)
+04:26:30.199 [I] orbax-checkpoint version: 0.11.13                                                (867934:abstract_checkpointer.py:35)
+04:26:30.199 [I] [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x14cd17fff1a0> timeout: 7200 secs and primary_host=0 for async checkpoint writes (867934:async_checkpointer.py:170)
+04:26:30.199 [I] Found 0 checkpoint steps in /gpfs/projects/p53063/checkpoints/pi05_Franka_GRASPNET_abs/GRASPNET_abs (867934:checkpoint_manager.py:1701)
+04:26:30.200 [I] [process=0][thread=MainThread] CheckpointManager created,  primary_host=0, CheckpointManagerOptions=CheckpointManagerOptions(save_interval_steps=1, max_to_keep=1, keep_time_interval=None, keep_period=5000, should_keep_fn=None, best_fn=None, best_mode='max', keep_checkpoints_without_metrics=True, step_prefix=None, step_format_fixed_length=None, step_name_format=None, create=False, cleanup_tmp_directories=False, save_on_steps=frozenset(), single_host_load_and_broadcast=False, todelete_subdir=None, enable_background_delete=False, read_only=False, enable_async_checkpointing=True, async_options=AsyncOptions(timeout_secs=7200, barrier_sync_fn=None, post_finalization_callback=None, create_directories_asynchronously=True), multiprocessing_options=MultiprocessingOptions(primary_host=0, active_processes=None, barrier_sync_key_prefix=None), should_save_fn=None, file_options=FileOptions(path_permission_mode=None), save_root_metadata=True, temporary_path_class=None, save_decision_policy=None, prevent_write_metrics=False), root_directory=/gpfs/projects/p53063/checkpoints/pi05_Franka_GRASPNET_abs/GRASPNET_abs: <orbax.checkpoint.checkpoint_manager.CheckpointManager object at 0x14ce4387e110> (867934:checkpoint_manager.py:801)
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/wgk1727/.netrc.
+wandb: Currently logged in as: mdahmad2026 (mdahmad2026-northwestern-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /gpfs/home/wgk1727/openpi_franka/wandb/run-20260806_042631-3nszvd0h
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run GRASPNET_abs
+wandb: ⭐️ View project at https://wandb.ai/mdahmad2026-northwestern-university/openpi
+wandb: 🚀 View run at https://wandb.ai/mdahmad2026-northwestern-university/openpi/runs/3nszvd0h
+04:26:33.923 [I] Loaded norm stats from /gpfs/home/wgk1727/openpi_franka/assets/pi05_Franka_GRASPNET_abs/saifahmad123/Franka_GRASPNET (867934:config.py:198)
+Returning existing local_dir `/projects/p53063/data/lerobot/saifahmad123/Franka_GRASPNET` as remote repo cannot be accessed in `snapshot_download` (429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/saifahmad123/Franka_GRASPNET/revision/main (Request ID: Root=1-6a745349-3d6fd3e448759a175219e159;2d3256d4-6854-4a71-b9b8-e0243dcc95b4)
+
+We had to rate limit your IP (129.105.223.10). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using the API.).
+04:26:33.968 [W] Returning existing local_dir `/projects/p53063/data/lerobot/saifahmad123/Franka_GRASPNET` as remote repo cannot be accessed in `snapshot_download` (429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/saifahmad123/Franka_GRASPNET/revision/main (Request ID: Root=1-6a745349-3d6fd3e448759a175219e159;2d3256d4-6854-4a71-b9b8-e0243dcc95b4)
+
+We had to rate limit your IP (129.105.223.10). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using the API.). (867934:_snapshot_download.py:224)
+04:26:33.968 [I] Dataset fully cached at /projects/p53063/data/lerobot/saifahmad123/Franka_GRASPNET (867934:train.py:242)
+04:26:34.030 [I] Loaded norm stats from /gpfs/home/wgk1727/openpi_franka/assets/pi05_Franka_GRASPNET_abs/saifahmad123/Franka_GRASPNET (867934:config.py:198)
+04:26:34.031 [I] data_config: DataConfig(repo_id='saifahmad123/Franka_GRASPNET', asset_id='saifahmad123/Franka_GRASPNET', norm_stats={'state': NormStats(mean=array([ 0.00790341, -0.31686634,  0.02302417, -2.26753163, -0.03321141,
+        2.02855253,  0.82557899,  0.03756678,  0.03789237]), std=array([0.51340437, 0.51749909, 0.71167481, 0.46531281, 0.40393639,
+       0.62538135, 0.8765325 , 0.00479961, 0.0044709 ]), q01=array([-1.53897546, -1.46198817, -1.91679809, -3.07209992, -1.09714113,
+        1.10376036, -1.33985732,  0.02339684,  0.024296  ]), q99=array([ 1.53463947,  0.78471532,  1.9708948 , -1.08337645,  1.1668546 ,
+        3.75047393,  2.78621298,  0.03999212,  0.039992  ])), 'actions': NormStats(mean=array([ 0.01244288, -0.29289192,  0.02373731, -2.25491285, -0.01061977,
+        2.04731488,  0.8254317 ,  0.02678639]), std=array([0.54096222, 0.52210343, 0.73759729, 0.47686458, 0.40383178,
+       0.63548672, 0.90357572, 0.01881333]), q01=array([-1.56106524, -1.50015406, -1.92496612, -3.07179999, -1.02216744,
+        1.08560202, -1.33971152,  0.        ]), q99=array([ 1.59119716,  0.78898533,  1.98522996, -1.0793498 ,  1.19832328,
+        3.75174606,  2.79415612,  0.039992  ]))}, repack_transforms=Group(inputs=[RepackTransform(structure={'images': {'cam_high': 'observation.images.wrist', 'cam_left_wrist': 'observation.images.front_1', 'cam_right_wrist': 'observation.images.front_2'}, 'state': 'observation.state', 'actions': 'action', 'prompt': 'prompt'})], outputs=()), data_transforms=Group(inputs=[AlohaInputs(adapt_to_pi=False)], outputs=[AlohaOutputs(adapt_to_pi=False)]), model_transforms=Group(inputs=[InjectDefaultPrompt(prompt=None), ResizeImages(height=224, width=224), TokenizePrompt(tokenizer=<openpi.models.tokenizer.PaligemmaTokenizer object at 0x14ccb4135d90>, discrete_state_input=True), PadStatesAndActions(model_action_dim=32)], outputs=()), use_quantile_norm=True, action_sequence_keys=('action',), prompt_from_task=True, rlds_data_dir=None, action_space=None, datasets=()) (867934:data_loader.py:247)
+Traceback (most recent call last):
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/lerobot/common/datasets/lerobot_dataset.py", line 95, in __init__
+    self.load_metadata()
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/lerobot/common/datasets/lerobot_dataset.py", line 105, in load_metadata
+    self.info = load_info(self.root)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/lerobot/common/datasets/utils.py", line 178, in load_info
+    info = load_json(local_dir / INFO_PATH)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/lerobot/common/datasets/utils.py", line 146, in load_json
+    with open(fpath) as f:
+         ^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/projects/p53063/data/lerobot/saifahmad123/Franka_GRASPNET/meta/info.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 409, in hf_raise_for_status
+    response.raise_for_status()
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/saifahmad123/Franka_GRASPNET/refs
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/gpfs/home/wgk1727/openpi_franka/scripts/train.py", line 309, in <module>
+    main(_config.cli())
+  File "/gpfs/home/wgk1727/openpi_franka/scripts/train.py", line 249, in main
+    data_loader = _data_loader.create_data_loader(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/src/openpi/training/data_loader.py", line 260, in create_data_loader
+    return create_torch_data_loader(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/src/openpi/training/data_loader.py", line 306, in create_torch_data_loader
+    dataset = create_torch_dataset(data_config, action_horizon, model_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/src/openpi/training/data_loader.py", line 140, in create_torch_dataset
+    dataset_meta = lerobot_dataset.LeRobotDatasetMetadata(repo_id)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/lerobot/common/datasets/lerobot_dataset.py", line 98, in __init__
+    self.revision = get_safe_version(self.repo_id, self.revision)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/lerobot/common/datasets/utils.py", line 327, in get_safe_version
+    hub_versions = get_repo_versions(repo_id)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/lerobot/common/datasets/utils.py", line 309, in get_repo_versions
+    repo_refs = api.list_repo_refs(repo_id, repo_type="dataset")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/hf_api.py", line 3200, in list_repo_refs
+    hf_raise_for_status(response)
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 482, in hf_raise_for_status
+    raise _format(HfHubHTTPError, str(e), response) from e
+huggingface_hub.errors.HfHubHTTPError: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/saifahmad123/Franka_GRASPNET/refs (Request ID: Root=1-6a74534a-57718ddc30c7846676c4ef34;9a746bd8-5641-441d-a83e-69901ef61c47)
+
+We had to rate limit your IP (129.105.223.10). To continue using our service, create a HF account or login to your existing account, and make sure you pass a HF_TOKEN if you're using the API.

@@ -26,6 +26,10 @@ Examples:
     # override the derived name entirely
     uv run scripts/upload_checkpoint.py --checkpoint-dir <path> --repo-id myorg/my-policy
 
+    # one repo per experiment, one step_<N>/ subfolder per checkpoint
+    uv run scripts/upload_checkpoint.py --checkpoint-dir <path> \
+        --repo-id myorg/my-policy --step-subfolder
+
 Requires `uv run huggingface-cli login` (or HF_TOKEN in the environment) beforehand.
 Uploads are resumable: re-running after an interruption skips what already made it.
 """
@@ -49,6 +53,14 @@ class Args:
     # Full "owner/name" to upload to. If omitted, derived as <exp_name>_<step>
     # under your own HuggingFace account.
     repo_id: str | None = None
+
+    # Upload into a subfolder of the repo instead of its root, so one repo can
+    # hold several steps side by side. Pass --step-subfolder for "step_<step>/",
+    # or give an explicit path here.
+    path_in_repo: str | None = None
+
+    # Shorthand for --path-in-repo=step_<step>.
+    step_subfolder: bool = False
 
     # Create the repo as private. Pass --no-private to publish it.
     private: bool = True
@@ -89,9 +101,44 @@ def _find_dataset_repo_id(assets_dir: pathlib.Path) -> str | None:
     return None
 
 
-def _model_card(repo_id: str, config_name: str, exp_name: str, step: str, dataset_repo_id: str | None) -> str:
+def _existing_step_folders(api: HfApi, repo_id: str) -> list[str]:
+    """Top-level `step_*` folders already in the repo, if it exists."""
+    try:
+        files = api.list_repo_files(repo_id, repo_type="model")
+    except Exception:
+        return []
+    return sorted({f.split("/")[0] for f in files if f.startswith("step_") and "/" in f})
+
+
+def _model_card(
+    repo_id: str,
+    config_name: str,
+    exp_name: str,
+    step: str,
+    dataset_repo_id: str | None,
+    path_in_repo: str | None,
+    step_folders: list[str],
+) -> str:
     dataset_line = f"- **Training dataset:** [{dataset_repo_id}](https://huggingface.co/datasets/{dataset_repo_id})\n" if dataset_repo_id else ""
     tags = "- robotics\n- openpi\n- pi0\n- franka\n"
+
+    if path_in_repo:
+        listing = "\n".join(f"- `{s}/`" for s in step_folders) or f"- `{path_in_repo}/`"
+        step_section = f"""- **Checkpoints in this repo:**
+
+{listing}
+
+Each folder is one training step and is self-contained.
+"""
+        prefix = f"{path_in_repo}/"
+        download = (
+            f'ckpt = snapshot_download("{repo_id}", allow_patterns="{prefix}*") + "/{path_in_repo}"'
+        )
+    else:
+        step_section = f"- **Step:** `{step}`\n"
+        prefix = ""
+        download = f'ckpt = snapshot_download("{repo_id}")'
+
     return f"""---
 library_name: openpi
 tags:
@@ -103,15 +150,14 @@ openpi π₀.₅ policy checkpoint.
 
 - **Train config:** `{config_name}`
 - **Experiment:** `{exp_name}`
-- **Step:** `{step}`
-{dataset_line}
+{step_section}{dataset_line}
 ## Contents
 
 | Path | Purpose |
 |---|---|
-| `params/` | Model weights. Required to serve the policy. |
-| `assets/` | Normalization statistics. Required to serve the policy. |
-| `train_state/` | Optimizer state. Only present if uploaded with `--include-train-state`; needed to resume training. |
+| `{prefix}params/` | Model weights. Required to serve the policy. |
+| `{prefix}assets/` | Normalization statistics. Required to serve the policy. |
+| `{prefix}train_state/` | Optimizer state. Only present if uploaded with `--include-train-state`; needed to resume training. |
 
 ## Usage
 
@@ -120,7 +166,7 @@ from huggingface_hub import snapshot_download
 from openpi.policies import policy_config
 from openpi.training import config as _config
 
-ckpt = snapshot_download("{repo_id}")
+{download}
 train_config = _config.get_config("{config_name}")
 policy = policy_config.create_trained_policy(train_config, ckpt)
 
@@ -158,6 +204,13 @@ def main(args: Args) -> None:
             sys.exit(f"error: could not determine your HuggingFace account ({e}).\n       Run `uv run huggingface-cli login`, or pass --repo-id explicitly.")
         repo_id = f"{owner}/{exp_name}_{step}"
 
+    path_in_repo = args.path_in_repo
+    if args.step_subfolder:
+        if path_in_repo:
+            sys.exit("error: pass either --path-in-repo or --step-subfolder, not both.")
+        path_in_repo = f"step_{step}"
+    path_in_repo = path_in_repo.strip("/") if path_in_repo else None
+
     ignore_patterns = None if args.include_train_state else ["train_state/**"]
 
     upload_bytes = _dir_size(ckpt)
@@ -172,8 +225,14 @@ def main(args: Args) -> None:
     print(f"step         : {step}")
     print(f"dataset      : {dataset_repo_id or '(not found in assets/)'}")
     print(f"repo         : {repo_id}  ({'private' if args.private else 'PUBLIC'})")
+    print(f"destination  : {path_in_repo + '/' if path_in_repo else '(repo root)'}")
     print(f"train_state  : {'included' if args.include_train_state else 'skipped (--include-train-state to add)'}")
     print(f"upload size  : {_fmt(upload_bytes)}")
+
+    if path_in_repo:
+        already = _existing_step_folders(api, repo_id)
+        if already:
+            print(f"already there : {', '.join(already)}")
 
     if args.dry_run:
         print("\n--dry-run set; nothing was uploaded.")
@@ -181,9 +240,34 @@ def main(args: Args) -> None:
 
     api.create_repo(repo_id, repo_type="model", private=args.private, exist_ok=True)
 
+    print(f"\nuploading {_fmt(upload_bytes)} to {repo_id}/{path_in_repo or ''} ...")
+    if path_in_repo:
+        # upload_large_folder() has no path_in_repo, so subfolder uploads go
+        # through upload_folder(). LFS dedupes on re-run, so it is still safe
+        # to retry after an interruption.
+        api.upload_folder(
+            repo_id=repo_id,
+            folder_path=str(ckpt),
+            path_in_repo=path_in_repo,
+            repo_type="model",
+            ignore_patterns=ignore_patterns,
+        )
+    else:
+        api.upload_large_folder(
+            repo_id=repo_id,
+            folder_path=str(ckpt),
+            repo_type="model",
+            ignore_patterns=ignore_patterns,
+            num_workers=args.num_workers,
+        )
+
     if not args.skip_model_card:
+        # Written after the upload so the card can list every step now present.
+        step_folders = _existing_step_folders(api, repo_id) if path_in_repo else []
         tmp = pathlib.Path(tempfile.mkdtemp()) / "README.md"
-        tmp.write_text(_model_card(repo_id, config_name, exp_name, step, dataset_repo_id))
+        tmp.write_text(
+            _model_card(repo_id, config_name, exp_name, step, dataset_repo_id, path_in_repo, step_folders)
+        )
         api.upload_file(
             path_or_fileobj=str(tmp),
             path_in_repo="README.md",
@@ -191,15 +275,6 @@ def main(args: Args) -> None:
             repo_type="model",
         )
         shutil.rmtree(tmp.parent, ignore_errors=True)
-
-    print(f"\nuploading {_fmt(upload_bytes)} to {repo_id} ...")
-    api.upload_large_folder(
-        repo_id=repo_id,
-        folder_path=str(ckpt),
-        repo_type="model",
-        ignore_patterns=ignore_patterns,
-        num_workers=args.num_workers,
-    )
 
     print(f"\ndone: https://huggingface.co/{repo_id}")
 
