@@ -32,6 +32,12 @@ class Pi0Config(_model.BaseModelConfig):
     # This config option is not used directly by the model, but it is read by the ModelTransformFactory.
     discrete_state_input: bool = None  # type: ignore
 
+    # Model image keys that get geometric augmentation (random crop/resize/rotate) during
+    # training -- i.e. the cameras that are static in the world. None infers this from the key
+    # name (anything without "wrist" in it), which is only correct when each camera sits in a
+    # slot that describes it. Set explicitly if a RepackTransform says otherwise.
+    geometric_aug_keys: tuple[str, ...] | None = None
+
     pytorch_compile_mode: str | None = "max-autotune"
 
     def __post_init__(self):

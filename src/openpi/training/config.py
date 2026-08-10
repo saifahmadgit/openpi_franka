@@ -2051,6 +2051,132 @@ _CONFIGS = [
         ema_decay=None,
         save_interval=2500,
     ),
+    # Second GraspNet collection (2990 eps / 1.30M frames). Same schema and same 3 tasks
+    # as Franka_GRASPNET; hyperparameters match pi05_Franka_GRASPNET.
+    TrainConfig(
+        name="pi05_Franka_GraspNet_2",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/Franka_GraspNet_2",
+            # Multi-task dataset (3 prompts): take the prompt from each episode's task
+            # so the policy is language-conditioned at inference time.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=30_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=30_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        save_interval=2500,
+    ),
+    # pi05_Franka_GraspNet_2 with the camera slots assigned by what the cameras actually are,
+    # instead of the usual Franka remap. Two things were wrong with feeding the wrist camera
+    # into cam_high and the static front cameras into the wrist slots:
+    #
+    #  1. preprocess_observation gates geometric augmentation (random crop/resize/rotate) on
+    #     "wrist" not being in the model key, so the remap inverted it -- the wrist camera got
+    #     cropped and rotated (destroying the hand-eye relationship it exists to provide) while
+    #     both static cameras got none of the robustness to camera placement they need. That is
+    #     the augmentation most likely to matter for sim-to-real, since real camera extrinsics
+    #     never match the sim exactly.
+    #  2. pi05_base was pretrained with cam_high holding a scene-level third-person view and the
+    #     wrist slots holding gripper close-ups. The remap hands it the opposite, so adaptation
+    #     capacity gets spent relearning slot semantics.
+    #
+    # front_1 now takes cam_high; the wrist camera takes cam_left_wrist. front_2 has to sit in
+    # cam_right_wrist (only one non-wrist slot exists), so geometric_aug_keys names the two
+    # static cameras explicitly rather than letting the key-name heuristic decide.
+    TrainConfig(
+        name="pi05_Franka_GraspNet_2_camfix",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+            geometric_aug_keys=("base_0_rgb", "right_wrist_0_rgb"),
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/Franka_GraspNet_2",
+            # Multi-task dataset (3 prompts): take the prompt from each episode's task
+            # so the policy is language-conditioned at inference time.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.front_1",
+                                "cam_left_wrist": "observation.images.wrist",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=30_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=30_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        save_interval=2500,
+    ),
     TrainConfig(
         name="pi05_Franka_Teleop_Random",
         model=pi0_config.Pi0Config(

@@ -148,6 +148,7 @@ def preprocess_observation(
     train: bool = False,
     image_keys: Sequence[str] = IMAGE_KEYS,
     image_resolution: tuple[int, int] = IMAGE_RESOLUTION,
+    geometric_aug_keys: Sequence[str] | None = None,
 ) -> Observation:
     """Preprocess the observations by performing image augmentations (if train=True), resizing (if necessary), and
     filling in a default image mask (if necessary).
@@ -169,8 +170,16 @@ def preprocess_observation(
             # Convert from [-1, 1] to [0, 1] for augmax.
             image = image / 2.0 + 0.5
 
+            # Geometric augmentation belongs on cameras that are static in the world: random
+            # crop/rotate makes the policy tolerate a camera that isn't mounted exactly where
+            # it was in training. It must NOT hit gripper-mounted cameras, where it would
+            # corrupt the fixed hand-eye relationship. Inferred from the key name by default;
+            # pass geometric_aug_keys when a repack maps cameras onto slots whose names don't
+            # describe them (e.g. a static camera fed into cam_left_wrist).
+            is_static_camera = "wrist" not in key if geometric_aug_keys is None else key in geometric_aug_keys
+
             transforms = []
-            if "wrist" not in key:
+            if is_static_camera:
                 height, width = image.shape[1:3]
                 transforms += [
                     augmax.RandomCrop(int(width * 0.95), int(height * 0.95)),
