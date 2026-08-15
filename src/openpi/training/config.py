@@ -1648,6 +1648,11 @@ _CONFIGS = [
         ).get_freeze_filter(),
         ema_decay=None,
         save_interval=200,
+        # This run exists to find the minimum step count that works, so every saved
+        # checkpoint has to survive. max_to_keep=1 only spares steps where
+        # step % keep_period == 0; the default 5000 never matches below 2k, so all but
+        # the last would be pruned. 200 matches every save: 10 dirs, ~89 GB.
+        keep_period=200,
     ),
     TrainConfig(
         name="pi05_Franka_GraspNet_Test",
