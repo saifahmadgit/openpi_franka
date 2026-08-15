@@ -113,12 +113,16 @@ def create_rtc_policy(args: Args) -> tuple[_policy_rtc.RTCPolicy, _config.TrainC
         raise ValueError("RTC serving supports the JAX checkpoint path only, not PyTorch.")
 
     logging.info("Loading model...")
+    t0 = time.monotonic()
     model = train_config.model.load(_model.restore_params(pathlib.Path(checkpoint_dir) / "params", dtype=jnp.bfloat16))
+    logging.info("[timing] checkpoint restore + model build: %.1fs", time.monotonic() - t0)
 
+    t0 = time.monotonic()
     data_config = train_config.data.create(train_config.assets_dirs, train_config.model)
     if data_config.asset_id is None:
         raise ValueError("Asset id is required to load norm stats.")
     norm_stats = _checkpoints.load_norm_stats(pathlib.Path(checkpoint_dir) / "assets", data_config.asset_id)
+    logging.info("[timing] data config + norm stats: %.1fs", time.monotonic() - t0)
 
     action_dim = int(norm_stats["actions"].mean.shape[-1])
     state_dim = int(norm_stats["state"].mean.shape[-1])
@@ -201,13 +205,18 @@ def setup_compilation_cache(cache_dir: str) -> None:
 
 
 def main(args: Args) -> None:
+    t_start = time.monotonic()
     if args.compilation_cache_dir:
         setup_compilation_cache(args.compilation_cache_dir)
 
     policy, train_config, state_dim, action_dim = create_rtc_policy(args)
 
     if args.warmup:
+        t0 = time.monotonic()
         warmup_policy(policy, train_config, state_dim, action_dim)
+        logging.info("[timing] warmup total: %.1fs", time.monotonic() - t0)
+
+    logging.info("[timing] TOTAL startup: %.1fs", time.monotonic() - t_start)
 
     hostname = socket.gethostname()
     local_ip = socket.gethostbyname(hostname)
