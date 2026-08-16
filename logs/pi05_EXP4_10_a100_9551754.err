@@ -1,0 +1,604 @@
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+16:43:17.170 [I] Running on: qgpu2002                                                             (186004:train.py:196)
+INFO:2026-08-16 16:43:18,392:jax._src.xla_bridge:925: Unable to initialize backend 'rocm': module 'jaxlib.xla_extension' has no attribute 'GpuAllocatorConfig'
+16:43:18.392 [I] Unable to initialize backend 'rocm': module 'jaxlib.xla_extension' has no attribute 'GpuAllocatorConfig' (186004:xla_bridge.py:925)
+INFO:2026-08-16 16:43:18,467:jax._src.xla_bridge:925: Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+16:43:18.467 [I] Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory (186004:xla_bridge.py:925)
+16:43:19.792 [I] Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14e298a37950> (186004:base_pytree_checkpoint_handler.py:334)
+16:43:19.792 [I] Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14e298a37950> (186004:base_pytree_checkpoint_handler.py:334)
+16:43:19.792 [I] [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID. (186004:multihost.py:390)
+16:43:19.793 [I] [process=0][thread=MainThread] CheckpointManager init: checkpointers=None, item_names=None, item_handlers={'assets': <openpi.training.checkpoints.CallbackHandler object at 0x14e1732b6150>, 'train_state': <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e17303a3d0>, 'params': <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e1784f3650>}, handler_registry=None (186004:checkpoint_manager.py:620)
+16:43:19.793 [I] Deferred registration for item: "assets". Adding handler `<openpi.training.checkpoints.CallbackHandler object at 0x14e1732b6150>` for item "assets" and save args `<class 'openpi.training.checkpoints.CallbackSave'>` and restore args `<class 'openpi.training.checkpoints.CallbackRestore'>` to `_handler_registry`. (186004:composite_checkpoint_handler.py:234)
+16:43:19.793 [I] Deferred registration for item: "train_state". Adding handler `<orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e17303a3d0>` for item "train_state" and save args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>` and restore args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>` to `_handler_registry`. (186004:composite_checkpoint_handler.py:234)
+16:43:19.793 [I] Deferred registration for item: "params". Adding handler `<orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e1784f3650>` for item "params" and save args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>` and restore args `<class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>` to `_handler_registry`. (186004:composite_checkpoint_handler.py:234)
+16:43:19.793 [I] Deferred registration for item: "metrics". Adding handler `<orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonCheckpointHandler object at 0x14e17347a5d0>` for item "metrics" and save args `<class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonSaveArgs'>` and restore args `<class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonRestoreArgs'>` to `_handler_registry`. (186004:composite_checkpoint_handler.py:234)
+16:43:19.795 [I] Initialized registry DefaultCheckpointHandlerRegistry({('assets', <class 'openpi.training.checkpoints.CallbackSave'>): <openpi.training.checkpoints.CallbackHandler object at 0x14e1732b6150>, ('assets', <class 'openpi.training.checkpoints.CallbackRestore'>): <openpi.training.checkpoints.CallbackHandler object at 0x14e1732b6150>, ('train_state', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e17303a3d0>, ('train_state', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e17303a3d0>, ('params', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeSaveArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e1784f3650>, ('params', <class 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeRestoreArgs'>): <orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler object at 0x14e1784f3650>, ('metrics', <class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonSaveArgs'>): <orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonCheckpointHandler object at 0x14e17347a5d0>, ('metrics', <class 'orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonRestoreArgs'>): <orbax.checkpoint._src.handlers.json_checkpoint_handler.JsonCheckpointHandler object at 0x14e17347a5d0>}). (186004:composite_checkpoint_handler.py:502)
+16:43:19.795 [I] orbax-checkpoint version: 0.11.13                                                (186004:abstract_checkpointer.py:35)
+16:43:19.795 [I] [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x14e172d0ec00> timeout: 7200 secs and primary_host=0 for async checkpoint writes (186004:async_checkpointer.py:170)
+16:43:19.796 [I] Found 0 checkpoint steps in /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100 (186004:checkpoint_manager.py:1701)
+16:43:19.796 [I] [process=0][thread=MainThread] CheckpointManager created,  primary_host=0, CheckpointManagerOptions=CheckpointManagerOptions(save_interval_steps=1, max_to_keep=1, keep_time_interval=None, keep_period=500, should_keep_fn=None, best_fn=None, best_mode='max', keep_checkpoints_without_metrics=True, step_prefix=None, step_format_fixed_length=None, step_name_format=None, create=False, cleanup_tmp_directories=False, save_on_steps=frozenset(), single_host_load_and_broadcast=False, todelete_subdir=None, enable_background_delete=False, read_only=False, enable_async_checkpointing=True, async_options=AsyncOptions(timeout_secs=7200, barrier_sync_fn=None, post_finalization_callback=None, create_directories_asynchronously=True), multiprocessing_options=MultiprocessingOptions(primary_host=0, active_processes=None, barrier_sync_key_prefix=None), should_save_fn=None, file_options=FileOptions(path_permission_mode=None), save_root_metadata=True, temporary_path_class=None, save_decision_policy=None, prevent_write_metrics=False), root_directory=/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100: <orbax.checkpoint.checkpoint_manager.CheckpointManager object at 0x14e172f7ce50> (186004:checkpoint_manager.py:801)
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/wgk1727/.netrc.
+wandb: Currently logged in as: mdahmad2026 (mdahmad2026-northwestern-university) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.28.0
+wandb: Run data is saved locally in /gpfs/home/wgk1727/openpi_franka/wandb/run-20260816_164321-fg7gcu1s
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run EXP4_10_a100
+wandb: ⭐️ View project at https://wandb.ai/mdahmad2026-northwestern-university/openpi
+wandb: 🚀 View run at https://wandb.ai/mdahmad2026-northwestern-university/openpi/runs/fg7gcu1s
+16:43:23.544 [I] Loaded norm stats from /gpfs/home/wgk1727/openpi_franka/assets/pi05_Franka_EXP4_10/saifahmad123/EXP4_10 (186004:config.py:198)
+Fetching 205 files:   0%|          | 0/205 [00:00<?, ?it/s]Fetching 205 files:   0%|          | 1/205 [00:00<00:32,  6.35it/s]Fetching 205 files:   1%|          | 2/205 [00:02<04:38,  1.37s/it]Fetching 205 files:   3%|▎         | 6/205 [00:03<02:03,  1.62it/s]Fetching 205 files:   5%|▍         | 10/205 [00:05<01:39,  1.96it/s]Fetching 205 files:   6%|▌         | 12/205 [00:05<01:14,  2.59it/s]Fetching 205 files:   7%|▋         | 14/205 [00:05<00:59,  3.22it/s]Fetching 205 files:   8%|▊         | 16/205 [00:06<00:45,  4.17it/s]Fetching 205 files:   9%|▉         | 18/205 [00:06<00:39,  4.70it/s]Fetching 205 files:  10%|▉         | 20/205 [00:06<00:30,  6.05it/s]Fetching 205 files:  11%|█         | 22/205 [00:06<00:28,  6.35it/s]Fetching 205 files:  12%|█▏        | 25/205 [00:06<00:22,  8.11it/s]Fetching 205 files:  13%|█▎        | 27/205 [00:07<00:22,  8.04it/s]Fetching 205 files:  14%|█▍        | 29/205 [00:07<00:18,  9.37it/s]Fetching 205 files:  15%|█▌        | 31/205 [00:07<00:20,  8.44it/s]Fetching 205 files:  16%|█▌        | 33/205 [00:07<00:18,  9.50it/s]Fetching 205 files:  17%|█▋        | 35/205 [00:08<00:18,  9.13it/s]Fetching 205 files:  19%|█▊        | 38/205 [00:08<00:16,  9.91it/s]Fetching 205 files:  20%|█▉        | 40/205 [00:08<00:17,  9.55it/s]Fetching 205 files:  20%|██        | 42/205 [00:08<00:15, 10.55it/s]Fetching 205 files:  21%|██▏       | 44/205 [00:08<00:16,  9.86it/s]Fetching 205 files:  22%|██▏       | 46/205 [00:09<00:14, 10.83it/s]Fetching 205 files:  23%|██▎       | 48/205 [00:09<00:16,  9.52it/s]Fetching 205 files:  25%|██▍       | 51/205 [00:09<00:13, 11.72it/s]Fetching 205 files:  27%|██▋       | 55/205 [00:09<00:09, 16.47it/s]Fetching 205 files:  28%|██▊       | 58/205 [00:11<00:29,  4.92it/s]Fetching 205 files:  29%|██▉       | 60/205 [00:11<00:25,  5.70it/s]Fetching 205 files:  31%|███       | 63/205 [00:11<00:18,  7.71it/s]Fetching 205 files:  32%|███▏      | 65/205 [00:11<00:16,  8.57it/s]Fetching 205 files:  33%|███▎      | 67/205 [00:11<00:14,  9.78it/s]Fetching 205 files:  34%|███▎      | 69/205 [00:11<00:13, 10.32it/s]Fetching 205 files:  35%|███▍      | 71/205 [00:11<00:12, 10.48it/s]Fetching 205 files:  37%|███▋      | 75/205 [00:12<00:10, 12.19it/s]Fetching 205 files:  38%|███▊      | 77/205 [00:12<00:09, 13.45it/s]Fetching 205 files:  39%|███▊      | 79/205 [00:13<00:29,  4.30it/s]Fetching 205 files:  40%|████      | 83/205 [00:15<00:35,  3.44it/s]Fetching 205 files:  42%|████▏     | 87/205 [00:16<00:37,  3.16it/s]Fetching 205 files:  44%|████▍     | 91/205 [00:18<00:37,  3.04it/s]Fetching 205 files:  46%|████▋     | 95/205 [00:19<00:37,  2.92it/s]Fetching 205 files:  48%|████▊     | 99/205 [00:21<00:37,  2.85it/s]Fetching 205 files:  50%|█████     | 103/205 [00:22<00:36,  2.81it/s]Fetching 205 files:  52%|█████▏    | 107/205 [00:23<00:35,  2.78it/s]Fetching 205 files:  54%|█████▍    | 111/205 [00:25<00:34,  2.74it/s]Fetching 205 files:  56%|█████▌    | 115/205 [00:26<00:32,  2.76it/s]Fetching 205 files:  58%|█████▊    | 119/205 [00:28<00:31,  2.77it/s]Fetching 205 files:  60%|██████    | 123/205 [00:29<00:29,  2.74it/s]Fetching 205 files:  62%|██████▏   | 127/205 [00:31<00:28,  2.72it/s]Fetching 205 files:  64%|██████▍   | 131/205 [00:32<00:27,  2.73it/s]Fetching 205 files:  66%|██████▌   | 135/205 [00:34<00:25,  2.71it/s]Fetching 205 files:  68%|██████▊   | 139/205 [00:35<00:23,  2.76it/s]Fetching 205 files:  70%|██████▉   | 143/205 [00:37<00:22,  2.77it/s]Fetching 205 files:  72%|███████▏  | 147/205 [00:38<00:21,  2.76it/s]Fetching 205 files:  74%|███████▎  | 151/205 [00:40<00:19,  2.76it/s]Fetching 205 files:  76%|███████▌  | 155/205 [00:41<00:18,  2.77it/s]Fetching 205 files:  78%|███████▊  | 159/205 [00:42<00:16,  2.74it/s]Fetching 205 files:  78%|███████▊  | 160/205 [00:43<00:15,  2.84it/s]Fetching 205 files:  80%|████████  | 164/205 [00:43<00:09,  4.21it/s]Fetching 205 files:  81%|████████  | 166/205 [00:44<00:13,  2.96it/s]Fetching 205 files:  83%|████████▎ | 170/205 [00:46<00:12,  2.83it/s]Fetching 205 files:  85%|████████▍ | 174/205 [00:47<00:10,  2.84it/s]Fetching 205 files:  87%|████████▋ | 178/205 [00:49<00:09,  2.86it/s]Fetching 205 files:  89%|████████▉ | 182/205 [00:50<00:08,  2.74it/s]Fetching 205 files:  91%|█████████ | 186/205 [00:52<00:06,  2.77it/s]Fetching 205 files:  93%|█████████▎| 190/205 [00:53<00:05,  2.80it/s]Fetching 205 files:  95%|█████████▍| 194/205 [00:54<00:03,  2.81it/s]Fetching 205 files:  97%|█████████▋| 198/205 [00:56<00:02,  2.81it/s]Fetching 205 files:  97%|█████████▋| 199/205 [00:56<00:02,  2.91it/s]Fetching 205 files: 100%|██████████| 205/205 [00:57<00:00,  3.41it/s]Fetching 205 files: 100%|██████████| 205/205 [00:57<00:00,  3.54it/s]
+16:44:21.526 [I] Dataset fully cached at /projects/p53063/data/lerobot/saifahmad123/EXP4_10       (186004:train.py:242)
+16:44:21.630 [I] Loaded norm stats from /gpfs/home/wgk1727/openpi_franka/assets/pi05_Franka_EXP4_10/saifahmad123/EXP4_10 (186004:config.py:198)
+16:44:21.631 [I] data_config: DataConfig(repo_id='saifahmad123/EXP4_10', asset_id='saifahmad123/EXP4_10', norm_stats={'state': NormStats(mean=array([ 0.01905311, -0.37077564, -0.0196425 , -2.49541354, -0.0470362 ,
+        2.1337955 ,  0.82008237,  0.03439385,  0.03462357]), std=array([0.12929751, 0.29861718, 0.36173677, 0.1812017 , 0.17978695,
+       0.29699144, 0.40452826, 0.00857078, 0.0082186 ]), q01=array([-0.2092139 , -0.80313631, -0.70209695, -2.80417248, -0.60674896,
+        1.57764204,  0.06379064,  0.02019346,  0.02079592]), q99=array([ 0.34412591,  0.19202873,  0.66035494, -2.1805201 ,  0.30188063,
+        2.62923003,  1.57037291,  0.03999598,  0.03999608])), 'actions': NormStats(mean=array([ 0.02412947,  0.0384701 , -0.02004242,  0.00794726,  0.02594221,
+        0.03583768, -0.01329262,  0.0243419 ]), std=array([0.06256907, 0.15087743, 0.09107917, 0.08661804, 0.08124305,
+       0.20233271, 0.09169452, 0.01952293]), q01=array([-0.08825087, -0.31550749, -0.24392096, -0.17638053, -0.13806524,
+       -0.44670357, -0.23497517,  0.        ]), q99=array([0.23623052, 0.334118  , 0.21205387, 0.20954444, 0.2099513 ,
+       0.3959905 , 0.22951122, 0.039992  ]))}, repack_transforms=Group(inputs=[RepackTransform(structure={'images': {'cam_high': 'observation.images.wrist', 'cam_left_wrist': 'observation.images.front_1', 'cam_right_wrist': 'observation.images.front_2'}, 'state': 'observation.state', 'actions': 'action', 'prompt': 'prompt'})], outputs=()), data_transforms=Group(inputs=(AlohaInputs(adapt_to_pi=False), DeltaActions(mask=(True, True, True, True, True, True, True, False))), outputs=(AbsoluteActions(mask=(True, True, True, True, True, True, True, False)), AlohaOutputs(adapt_to_pi=False))), model_transforms=Group(inputs=[InjectDefaultPrompt(prompt=None), ResizeImages(height=224, width=224), TokenizePrompt(tokenizer=<openpi.models.tokenizer.PaligemmaTokenizer object at 0x14e172f95c10>, discrete_state_input=True), PadStatesAndActions(model_action_dim=32)], outputs=()), use_quantile_norm=True, action_sequence_keys=('action',), prompt_from_task=True, rlds_data_dir=None, action_space=None, datasets=()) (186004:data_loader.py:247)
+Downloading data:   0%|          | 0/50 [00:00<?, ?files/s]Downloading data: 100%|██████████| 50/50 [00:00<00:00, 255750.24files/s]
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 16154 examples [00:00, 211446.27 examples/s]
+16:44:22.597 [I] local_batch_size: 32                                                             (186004:data_loader.py:328)
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/torchvision/io/_video_deprecation_warning.py:5: UserWarning: The video decoding and encoding capabilities of torchvision are deprecated from version 0.22 and will be removed in version 0.24. We recommend that you migrate to TorchCodec, where we'll consolidate the future decoding/encoding capabilities of PyTorch: https://github.com/pytorch/torchcodec
+  warnings.warn(
+16:47:31.982 [I] Initialized data loader:
+[0].images['base_0_rgb']: (32, 224, 224, 3)@float32
+[0].images['left_wrist_0_rgb']: (32, 224, 224, 3)@float32
+[0].images['right_wrist_0_rgb']: (32, 224, 224, 3)@float32
+[0].image_masks['base_0_rgb']: (32,)@bool
+[0].image_masks['left_wrist_0_rgb']: (32,)@bool
+[0].image_masks['right_wrist_0_rgb']: (32,)@bool
+[0].state: (32, 32)@float32
+[0].tokenized_prompt: (32, 200)@int32
+[0].tokenized_prompt_mask: (32, 200)@bool
+[1]: (32, 50, 32)@float32 (186004:train.py:256)
+wandb: WARNING Data passed to `wandb.Image` should consist of values in the range [0, 255], image data will be normalized to this range, but behavior will be removed in a future version of wandb.
+16:47:33.690 [I] Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14e298a37950> (186004:base_pytree_checkpoint_handler.py:334)
+16:47:33.749 [I] Restoring checkpoint from /gpfs/home/wgk1727/.cache/openpi/openpi-assets/checkpoints/pi05_base/params. (186004:checkpointer.py:298)
+16:47:40.248 [I] [process=0] /jax/checkpoint/read/bytes_per_sec: 1.9 GiB/s (total bytes: 12.5 GiB) (time elapsed: 6 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+16:47:40.249 [I] Finished restoring checkpoint in 6.50 seconds from /gpfs/home/wgk1727/.cache/openpi/openpi-assets/checkpoints/pi05_base/params. (186004:checkpointer.py:309)
+16:47:47.949 [I] Initialized train state:
+['PaliGemma']['img']['Transformer']['encoder_norm']['bias'].value: (1152,)@float32
+['PaliGemma']['img']['Transformer']['encoder_norm']['scale'].value: (1152,)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['LayerNorm_0']['bias'].value: (27, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['LayerNorm_0']['scale'].value: (27, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['LayerNorm_1']['bias'].value: (27, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['LayerNorm_1']['scale'].value: (27, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MlpBlock_0']['Dense_0']['bias'].value: (27, 4304)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MlpBlock_0']['Dense_0']['kernel'].value: (27, 1152, 4304)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MlpBlock_0']['Dense_1']['bias'].value: (27, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MlpBlock_0']['Dense_1']['kernel'].value: (27, 4304, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['key']['bias'].value: (27, 16, 72)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['key']['kernel'].value: (27, 1152, 16, 72)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['out']['bias'].value: (27, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['out']['kernel'].value: (27, 16, 72, 1152)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['query']['bias'].value: (27, 16, 72)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['query']['kernel'].value: (27, 1152, 16, 72)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['value']['bias'].value: (27, 16, 72)@float32
+['PaliGemma']['img']['Transformer']['encoderblock']['MultiHeadDotProductAttention_0']['value']['kernel'].value: (27, 1152, 16, 72)@float32
+['PaliGemma']['img']['embedding']['bias'].value: (1152,)@float32
+['PaliGemma']['img']['embedding']['kernel'].value: (14, 14, 3, 1152)@float32
+['PaliGemma']['img']['head']['bias'].value: (2048,)@float32
+['PaliGemma']['img']['head']['kernel'].value: (1152, 2048)@float32
+['PaliGemma']['img']['pos_embedding'].value: (1, 256, 1152)@float32
+['PaliGemma']['llm']['embedder']['input_embedding'].value: (257152, 2048)@bfloat16
+['PaliGemma']['llm']['final_norm']['scale'].value: (2048,)@bfloat16
+['PaliGemma']['llm']['final_norm_1']['Dense_0']['bias'].value: (3072,)@bfloat16
+['PaliGemma']['llm']['final_norm_1']['Dense_0']['kernel'].value: (1024, 3072)@bfloat16
+['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum']['lora_a'].value: (18, 8, 256, 16)@float32
+['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum']['lora_b'].value: (18, 8, 16, 2048)@float32
+['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum']['w'].value: (18, 8, 256, 2048)@bfloat16
+['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum_1']['lora_a'].value: (18, 8, 256, 32)@float32
+['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum_1']['lora_b'].value: (18, 8, 32, 1024)@float32
+['PaliGemma']['llm']['layers']['attn']['attn_vec_einsum_1']['w'].value: (18, 8, 256, 1024)@bfloat16
+['PaliGemma']['llm']['layers']['attn']['kv_einsum']['lora_a'].value: (18, 2, 1, 2048, 16)@float32
+['PaliGemma']['llm']['layers']['attn']['kv_einsum']['lora_b'].value: (18, 2, 1, 16, 256)@float32
+['PaliGemma']['llm']['layers']['attn']['kv_einsum']['w'].value: (18, 2, 1, 2048, 256)@bfloat16
+['PaliGemma']['llm']['layers']['attn']['kv_einsum_1']['lora_a'].value: (18, 2, 1, 1024, 32)@float32
+['PaliGemma']['llm']['layers']['attn']['kv_einsum_1']['lora_b'].value: (18, 2, 1, 32, 256)@float32
+['PaliGemma']['llm']['layers']['attn']['kv_einsum_1']['w'].value: (18, 2, 1, 1024, 256)@bfloat16
+['PaliGemma']['llm']['layers']['attn']['q_einsum']['lora_a'].value: (18, 8, 2048, 16)@float32
+['PaliGemma']['llm']['layers']['attn']['q_einsum']['lora_b'].value: (18, 8, 16, 256)@float32
+['PaliGemma']['llm']['layers']['attn']['q_einsum']['w'].value: (18, 8, 2048, 256)@bfloat16
+['PaliGemma']['llm']['layers']['attn']['q_einsum_1']['lora_a'].value: (18, 8, 1024, 32)@float32
+['PaliGemma']['llm']['layers']['attn']['q_einsum_1']['lora_b'].value: (18, 8, 32, 256)@float32
+['PaliGemma']['llm']['layers']['attn']['q_einsum_1']['w'].value: (18, 8, 1024, 256)@bfloat16
+['PaliGemma']['llm']['layers']['mlp']['gating_einsum'].value: (18, 2, 2048, 16384)@bfloat16
+['PaliGemma']['llm']['layers']['mlp']['gating_einsum_lora_a'].value: (18, 2, 2048, 16)@float32
+['PaliGemma']['llm']['layers']['mlp']['gating_einsum_lora_b'].value: (18, 2, 16, 16384)@float32
+['PaliGemma']['llm']['layers']['mlp']['linear'].value: (18, 16384, 2048)@bfloat16
+['PaliGemma']['llm']['layers']['mlp']['linear_lora_a'].value: (18, 16384, 16)@float32
+['PaliGemma']['llm']['layers']['mlp']['linear_lora_b'].value: (18, 16, 2048)@float32
+['PaliGemma']['llm']['layers']['mlp_1']['gating_einsum'].value: (18, 2, 1024, 4096)@bfloat16
+['PaliGemma']['llm']['layers']['mlp_1']['gating_einsum_lora_a'].value: (18, 2, 1024, 32)@float32
+['PaliGemma']['llm']['layers']['mlp_1']['gating_einsum_lora_b'].value: (18, 2, 32, 4096)@float32
+['PaliGemma']['llm']['layers']['mlp_1']['linear'].value: (18, 4096, 1024)@bfloat16
+['PaliGemma']['llm']['layers']['mlp_1']['linear_lora_a'].value: (18, 4096, 32)@float32
+['PaliGemma']['llm']['layers']['mlp_1']['linear_lora_b'].value: (18, 32, 1024)@float32
+['PaliGemma']['llm']['layers']['pre_attention_norm']['scale'].value: (18, 2048)@bfloat16
+['PaliGemma']['llm']['layers']['pre_attention_norm_1']['Dense_0']['bias'].value: (18, 3072)@bfloat16
+['PaliGemma']['llm']['layers']['pre_attention_norm_1']['Dense_0']['kernel'].value: (18, 1024, 3072)@bfloat16
+['PaliGemma']['llm']['layers']['pre_ffw_norm']['scale'].value: (18, 2048)@bfloat16
+['PaliGemma']['llm']['layers']['pre_ffw_norm_1']['Dense_0']['bias'].value: (18, 3072)@bfloat16
+['PaliGemma']['llm']['layers']['pre_ffw_norm_1']['Dense_0']['kernel'].value: (18, 1024, 3072)@bfloat16
+['action_in_proj']['bias'].value: (1024,)@float32
+['action_in_proj']['kernel'].value: (32, 1024)@float32
+['action_out_proj']['bias'].value: (32,)@float32
+['action_out_proj']['kernel'].value: (1024, 32)@float32
+['time_mlp_in']['bias'].value: (1024,)@float32
+['time_mlp_in']['kernel'].value: (1024, 1024)@float32
+['time_mlp_out']['bias'].value: (1024,)@float32
+['time_mlp_out']['kernel'].value: (1024, 1024)@float32 (186004:train.py:267)
+16:47:47.960 [I] Progress on: -/1000 rate:- remaining:? elapsed:00:00 postfix:-                   (186004:tqdm_logging.py:145)
+16:49:02.377 [I] Progress on: -/1000 rate:- remaining:? elapsed:01:14 postfix:-                   (186004:tqdm_logging.py:145)
+16:49:14.416 [I] Progress on: 6.00it/1.00kit rate:6.8s/it remaining:1:52:58 elapsed:01:26 postfix:- (186004:tqdm_logging.py:145)
+16:49:26.314 [I] Progress on: 10.0it/1.00kit rate:3.8s/it remaining:1:02:56 elapsed:01:38 postfix:- (186004:tqdm_logging.py:145)
+16:49:38.331 [I] Progress on: 14.0it/1.00kit rate:3.2s/it remaining:52:46 elapsed:01:50 postfix:- (186004:tqdm_logging.py:145)
+16:49:50.084 [I] Progress on: 18.0it/1.00kit rate:3.0s/it remaining:49:17 elapsed:02:02 postfix:- (186004:tqdm_logging.py:145)
+16:50:01.974 [I] Progress on: 22.0it/1.00kit rate:3.0s/it remaining:48:37 elapsed:02:14 postfix:- (186004:tqdm_logging.py:145)
+16:50:13.876 [I] Progress on: 26.0it/1.00kit rate:3.0s/it remaining:48:20 elapsed:02:25 postfix:- (186004:tqdm_logging.py:145)
+16:50:25.848 [I] Progress on: 30.0it/1.00kit rate:3.0s/it remaining:48:20 elapsed:02:37 postfix:- (186004:tqdm_logging.py:145)
+16:50:37.691 [I] Progress on: 34.0it/1.00kit rate:3.0s/it remaining:47:52 elapsed:02:49 postfix:- (186004:tqdm_logging.py:145)
+16:50:49.630 [I] Progress on: 38.0it/1.00kit rate:3.0s/it remaining:47:52 elapsed:03:01 postfix:- (186004:tqdm_logging.py:145)
+16:51:01.613 [I] Progress on: 42.0it/1.00kit rate:3.0s/it remaining:47:59 elapsed:03:13 postfix:- (186004:tqdm_logging.py:145)
+16:51:13.442 [I] Progress on: 46.0it/1.00kit rate:3.0s/it remaining:47:04 elapsed:03:25 postfix:- (186004:tqdm_logging.py:145)
+16:51:25.372 [I] Progress on: 50.0it/1.00kit rate:3.0s/it remaining:47:09 elapsed:03:37 postfix:- (186004:tqdm_logging.py:145)
+16:51:37.309 [I] Progress on: 54.0it/1.00kit rate:3.0s/it remaining:47:01 elapsed:03:49 postfix:- (186004:tqdm_logging.py:145)
+16:51:49.282 [I] Progress on: 58.0it/1.00kit rate:3.0s/it remaining:46:59 elapsed:04:01 postfix:- (186004:tqdm_logging.py:145)
+16:52:01.188 [I] Progress on: 62.0it/1.00kit rate:3.0s/it remaining:46:38 elapsed:04:13 postfix:- (186004:tqdm_logging.py:145)
+16:52:13.131 [I] Progress on: 66.0it/1.00kit rate:3.0s/it remaining:46:27 elapsed:04:25 postfix:- (186004:tqdm_logging.py:145)
+16:52:25.093 [I] Progress on: 70.0it/1.00kit rate:3.0s/it remaining:46:18 elapsed:04:37 postfix:- (186004:tqdm_logging.py:145)
+16:52:37.038 [I] Progress on: 74.0it/1.00kit rate:3.0s/it remaining:45:58 elapsed:04:49 postfix:- (186004:tqdm_logging.py:145)
+16:52:48.974 [I] Progress on: 78.0it/1.00kit rate:3.0s/it remaining:45:50 elapsed:05:01 postfix:- (186004:tqdm_logging.py:145)
+16:53:00.941 [I] Progress on: 82.0it/1.00kit rate:3.0s/it remaining:45:45 elapsed:05:12 postfix:- (186004:tqdm_logging.py:145)
+16:53:13.019 [I] Progress on: 86.0it/1.00kit rate:3.0s/it remaining:46:06 elapsed:05:25 postfix:- (186004:tqdm_logging.py:145)
+16:53:24.826 [I] Progress on: 90.0it/1.00kit rate:3.0s/it remaining:45:14 elapsed:05:36 postfix:- (186004:tqdm_logging.py:145)
+16:53:36.771 [I] Progress on: 94.0it/1.00kit rate:3.0s/it remaining:45:04 elapsed:05:48 postfix:- (186004:tqdm_logging.py:145)
+16:53:48.744 [I] Progress on: 98.0it/1.00kit rate:3.0s/it remaining:44:58 elapsed:06:00 postfix:- (186004:tqdm_logging.py:145)
+16:54:00.574 [I] Progress on: 100it/1.00kit rate:3.0s/it remaining:45:27 elapsed:06:12 postfix:-  (186004:tqdm_logging.py:145)
+16:54:12.706 [I] Progress on: 106it/1.00kit rate:2.9s/it remaining:43:37 elapsed:06:24 postfix:-  (186004:tqdm_logging.py:145)
+16:54:24.678 [I] Progress on: 110it/1.00kit rate:3.0s/it remaining:44:11 elapsed:06:36 postfix:-  (186004:tqdm_logging.py:145)
+16:54:36.781 [I] Progress on: 114it/1.00kit rate:3.0s/it remaining:44:43 elapsed:06:48 postfix:-  (186004:tqdm_logging.py:145)
+16:54:48.600 [I] Progress on: 118it/1.00kit rate:3.0s/it remaining:43:51 elapsed:07:00 postfix:-  (186004:tqdm_logging.py:145)
+16:55:00.563 [I] Progress on: 122it/1.00kit rate:3.0s/it remaining:43:44 elapsed:07:12 postfix:-  (186004:tqdm_logging.py:145)
+16:55:12.531 [I] Progress on: 126it/1.00kit rate:3.0s/it remaining:43:34 elapsed:07:24 postfix:-  (186004:tqdm_logging.py:145)
+16:55:24.477 [I] Progress on: 130it/1.00kit rate:3.0s/it remaining:43:11 elapsed:07:36 postfix:-  (186004:tqdm_logging.py:145)
+16:55:36.443 [I] Progress on: 134it/1.00kit rate:3.0s/it remaining:43:08 elapsed:07:48 postfix:-  (186004:tqdm_logging.py:145)
+16:55:48.405 [I] Progress on: 138it/1.00kit rate:3.0s/it remaining:42:58 elapsed:08:00 postfix:-  (186004:tqdm_logging.py:145)
+16:56:00.497 [I] Progress on: 142it/1.00kit rate:3.0s/it remaining:43:18 elapsed:08:12 postfix:-  (186004:tqdm_logging.py:145)
+16:56:12.320 [I] Progress on: 146it/1.00kit rate:3.0s/it remaining:42:29 elapsed:08:24 postfix:-  (186004:tqdm_logging.py:145)
+16:56:24.273 [I] Progress on: 150it/1.00kit rate:3.0s/it remaining:42:19 elapsed:08:36 postfix:-  (186004:tqdm_logging.py:145)
+16:56:36.249 [I] Progress on: 154it/1.00kit rate:3.0s/it remaining:42:10 elapsed:08:48 postfix:-  (186004:tqdm_logging.py:145)
+16:56:48.201 [I] Progress on: 158it/1.00kit rate:3.0s/it remaining:41:49 elapsed:09:00 postfix:-  (186004:tqdm_logging.py:145)
+16:57:00.159 [I] Progress on: 162it/1.00kit rate:3.0s/it remaining:41:43 elapsed:09:12 postfix:-  (186004:tqdm_logging.py:145)
+16:57:12.132 [I] Progress on: 166it/1.00kit rate:3.0s/it remaining:41:36 elapsed:09:24 postfix:-  (186004:tqdm_logging.py:145)
+16:57:24.233 [I] Progress on: 170it/1.00kit rate:3.0s/it remaining:41:57 elapsed:09:36 postfix:-  (186004:tqdm_logging.py:145)
+16:57:36.025 [I] Progress on: 174it/1.00kit rate:3.0s/it remaining:41:02 elapsed:09:48 postfix:-  (186004:tqdm_logging.py:145)
+16:57:47.984 [I] Progress on: 178it/1.00kit rate:3.0s/it remaining:40:55 elapsed:10:00 postfix:-  (186004:tqdm_logging.py:145)
+16:57:59.958 [I] Progress on: 182it/1.00kit rate:3.0s/it remaining:40:47 elapsed:10:11 postfix:-  (186004:tqdm_logging.py:145)
+16:58:11.896 [I] Progress on: 186it/1.00kit rate:3.0s/it remaining:40:23 elapsed:10:23 postfix:-  (186004:tqdm_logging.py:145)
+16:58:23.850 [I] Progress on: 190it/1.00kit rate:3.0s/it remaining:40:17 elapsed:10:35 postfix:-  (186004:tqdm_logging.py:145)
+16:58:35.841 [I] Progress on: 194it/1.00kit rate:3.0s/it remaining:40:15 elapsed:10:47 postfix:-  (186004:tqdm_logging.py:145)
+16:58:47.927 [I] Progress on: 198it/1.00kit rate:3.0s/it remaining:40:30 elapsed:10:59 postfix:-  (186004:tqdm_logging.py:145)
+16:58:59.583 [I] Progress on: 200it/1.00kit rate:3.0s/it remaining:39:44 elapsed:11:11 postfix:-  (186004:tqdm_logging.py:145)
+16:58:59.615 [I] [process=0][thread=MainThread][wait_until_finished] No Save Finalize thread to wait for. Returning. (186004:checkpoint_manager.py:1987)
+16:58:59.616 [I] [process=0] Saving checkpoint at step 200                                        (186004:checkpoint_manager.py:1408)
+16:58:59.617 [I] [process=0] Started async saving checkpoint to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200. (186004:async_checkpointer.py:439)
+16:58:59.619 [I] Using ThreadSafeKeyValueSignalingClient                                          (186004:signaling_client.py:332)
+16:58:59.632 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0 (186004:atomicity.py:144)
+16:58:59.636 [I] Wrote Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1786917539634055182, 'commit_timestamp_nsecs': None, 'custom_metadata': {}}, json={"item_handlers": null, "metrics": {}, "performance_metrics": {}, "init_timestamp_nsecs": 1786917539634055182, "commit_timestamp_nsecs": null, "custom_metadata": {}} to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/_CHECKPOINT_METADATA (186004:checkpoint.py:186)
+16:58:59.637 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/assets.orbax-checkpoint-tmp-1 (186004:atomicity.py:144)
+16:58:59.637 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/params.orbax-checkpoint-tmp-2 (186004:atomicity.py:144)
+16:58:59.637 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/train_state.orbax-checkpoint-tmp-3 (186004:atomicity.py:144)
+16:58:59.784 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+16:59:02.145 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+16:59:02.149 [I] Array name: 'params.PaliGemma.llm.layers.mlp.gating_einsum.value', global shape: (18, 2, 2048, 16384), write shape: (18, 2, 2048, 16384), chosen chunk shape: (18, 2, 2048, 8192) (186004:tensorstore_utils.py:408)
+16:59:02.192 [I] [process=0][thread=array_type_handler] Wrote 71 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/params.orbax-checkpoint-tmp-2/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+16:59:04.478 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 1.5 GiB/s (total bytes: 7.2 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+16:59:04.484 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 734.0 MiB/s (total bytes: 3.5 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+16:59:04.499 [I] [process=0][thread=async_save] Background save thread started.                   (186004:async_checkpointer.py:77)
+16:59:04.500 [I] Finished blocking save in 4.88 seconds. Continuing to save asynchronously to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200. (186004:async_checkpointer.py:548)
+16:59:04.503 [I] [process=0][thread=MainThread][step=200] Starting CheckpointManager Save Finalize thread=save_finalize (186004:checkpoint_manager.py:1453)
+16:59:04.504 [I] [process=0][thread=save_finalize] Waiting for background save thread=async_save. (186004:async_checkpointer.py:258)
+16:59:04.504 [I] {'step': 200, 'event_type': 'save', 'directory': '/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100', 'reached_preemption': False, 'preemption_received_at': None, 'synchronous': False, 'wait_for_prev_start_time': 1786917539.6157868, 'wait_for_prev_duration_secs': 0.0003006458282470703, 'checkpointer_blocking_start_time': 1786917539.616815, 'checkpointer_blocking_duration_secs': 4.886637926101685, 'get_old_steps_start_time': 1786917544.5034828, 'get_old_steps_duration_secs': 8.58306884765625e-06, 'checkpoint_manager_blocking_start_time': 1786917539.6154654, 'checkpoint_manager_blocking_duration_secs': 4.888869524002075} (186004:standard_logger.py:34)
+16:59:04.593 [I] [process=0][thread=array_type_handler] Wrote 105 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/train_state.orbax-checkpoint-tmp-3/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+16:59:08.820 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 802.5 MiB/s (total bytes: 7.2 GiB) (time elapsed: 9 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+16:59:08.820 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 387.7 MiB/s (total bytes: 3.5 GiB) (time elapsed: 9 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+16:59:08.820 [I] [process=0][thread=async_save] 5 Handler Commit operations completed.            (186004:async_checkpointer.py:87)
+16:59:08.821 [I] Read Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1786917539634055182, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} from /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/_CHECKPOINT_METADATA (186004:checkpoint.py:226)
+16:59:08.821 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/assets.orbax-checkpoint-tmp-1 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/assets (186004:atomicity.py:289)
+16:59:08.822 [I] Updated Metadata={'item_handlers': {'assets': 'openpi.training.checkpoints.CallbackHandler', 'params': 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler', 'train_state': 'orbax.checkpoint._src.handlers.pytree_checkpoint_handler.PyTreeCheckpointHandler'}, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1786917539634055182, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/_CHECKPOINT_METADATA (186004:checkpoint.py:245)
+16:59:08.825 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+16:59:08.830 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/train_state.orbax-checkpoint-tmp-3 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/train_state (186004:atomicity.py:289)
+16:59:08.832 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+16:59:08.837 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/params.orbax-checkpoint-tmp-2 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0/params (186004:atomicity.py:289)
+16:59:08.838 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200.orbax-checkpoint-tmp-0 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200 (186004:atomicity.py:289)
+16:59:08.839 [I] [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200`. (186004:atomicity.py:573)
+16:59:08.839 [I] Finished asynchronous save (blocking + background) in 9.22 seconds to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/200 (186004:async_checkpointer.py:412)
+16:59:08.839 [I] [process=0][thread=async_save] Background save thread done.                      (186004:async_checkpointer.py:143)
+16:59:08.839 [I] [process=0][thread=save_finalize] Done with waiting for background save thread=async_save. (186004:async_checkpointer.py:266)
+16:59:08.840 [I] [process=0][thread=save_finalize] No errors found in background save thread=async_save. (186004:async_checkpointer.py:276)
+16:59:08.840 [I] [process=0][thread=save_finalize][step=200] CheckpointManager Save Finalize is syncing with other hosts... (186004:checkpoint_manager.py:2095)
+16:59:08.840 [I] [process=0][thread=save_finalize][step=200] CheckpointManager Save Finalize is done on all hosts. (186004:checkpoint_manager.py:2110)
+16:59:10.623 [I] Progress on: 204it/1.00kit rate:3.3s/it remaining:44:23 elapsed:11:22 postfix:-  (186004:tqdm_logging.py:145)
+16:59:22.566 [I] Progress on: 208it/1.00kit rate:3.1s/it remaining:40:35 elapsed:11:34 postfix:-  (186004:tqdm_logging.py:145)
+16:59:34.676 [I] Progress on: 212it/1.00kit rate:3.1s/it remaining:40:06 elapsed:11:46 postfix:-  (186004:tqdm_logging.py:145)
+16:59:46.485 [I] Progress on: 216it/1.00kit rate:3.0s/it remaining:39:04 elapsed:11:58 postfix:-  (186004:tqdm_logging.py:145)
+16:59:58.451 [I] Progress on: 220it/1.00kit rate:3.0s/it remaining:38:52 elapsed:12:10 postfix:-  (186004:tqdm_logging.py:145)
+17:00:10.439 [I] Progress on: 224it/1.00kit rate:3.0s/it remaining:38:44 elapsed:12:22 postfix:-  (186004:tqdm_logging.py:145)
+17:00:22.395 [I] Progress on: 228it/1.00kit rate:3.0s/it remaining:38:22 elapsed:12:34 postfix:-  (186004:tqdm_logging.py:145)
+17:00:34.380 [I] Progress on: 232it/1.00kit rate:3.0s/it remaining:38:18 elapsed:12:46 postfix:-  (186004:tqdm_logging.py:145)
+17:00:46.360 [I] Progress on: 236it/1.00kit rate:3.0s/it remaining:38:09 elapsed:12:58 postfix:-  (186004:tqdm_logging.py:145)
+17:00:58.457 [I] Progress on: 240it/1.00kit rate:3.0s/it remaining:38:23 elapsed:13:10 postfix:-  (186004:tqdm_logging.py:145)
+17:01:10.291 [I] Progress on: 244it/1.00kit rate:3.0s/it remaining:37:38 elapsed:13:22 postfix:-  (186004:tqdm_logging.py:145)
+17:01:22.273 [I] Progress on: 248it/1.00kit rate:3.0s/it remaining:37:30 elapsed:13:34 postfix:-  (186004:tqdm_logging.py:145)
+17:01:34.271 [I] Progress on: 252it/1.00kit rate:3.0s/it remaining:37:21 elapsed:13:46 postfix:-  (186004:tqdm_logging.py:145)
+17:01:46.235 [I] Progress on: 256it/1.00kit rate:3.0s/it remaining:37:00 elapsed:13:58 postfix:-  (186004:tqdm_logging.py:145)
+17:01:58.204 [I] Progress on: 260it/1.00kit rate:3.0s/it remaining:36:53 elapsed:14:10 postfix:-  (186004:tqdm_logging.py:145)
+17:02:10.190 [I] Progress on: 264it/1.00kit rate:3.0s/it remaining:36:45 elapsed:14:22 postfix:-  (186004:tqdm_logging.py:145)
+17:02:22.303 [I] Progress on: 268it/1.00kit rate:3.0s/it remaining:37:01 elapsed:14:34 postfix:-  (186004:tqdm_logging.py:145)
+17:02:34.158 [I] Progress on: 272it/1.00kit rate:3.0s/it remaining:36:18 elapsed:14:46 postfix:-  (186004:tqdm_logging.py:145)
+17:02:46.155 [I] Progress on: 276it/1.00kit rate:3.0s/it remaining:36:11 elapsed:14:58 postfix:-  (186004:tqdm_logging.py:145)
+17:02:58.149 [I] Progress on: 280it/1.00kit rate:3.0s/it remaining:35:59 elapsed:15:10 postfix:-  (186004:tqdm_logging.py:145)
+17:03:10.112 [I] Progress on: 284it/1.00kit rate:3.0s/it remaining:35:37 elapsed:15:22 postfix:-  (186004:tqdm_logging.py:145)
+17:03:22.091 [I] Progress on: 288it/1.00kit rate:3.0s/it remaining:35:30 elapsed:15:34 postfix:-  (186004:tqdm_logging.py:145)
+17:03:34.088 [I] Progress on: 292it/1.00kit rate:3.0s/it remaining:35:23 elapsed:15:46 postfix:-  (186004:tqdm_logging.py:145)
+17:03:46.193 [I] Progress on: 296it/1.00kit rate:3.0s/it remaining:35:34 elapsed:15:58 postfix:-  (186004:tqdm_logging.py:145)
+17:03:58.037 [I] Progress on: 300it/1.00kit rate:3.0s/it remaining:34:53 elapsed:16:10 postfix:-  (186004:tqdm_logging.py:145)
+17:04:10.024 [I] Progress on: 304it/1.00kit rate:2.9s/it remaining:33:16 elapsed:16:22 postfix:-  (186004:tqdm_logging.py:145)
+17:04:22.030 [I] Progress on: 308it/1.00kit rate:3.0s/it remaining:34:13 elapsed:16:34 postfix:-  (186004:tqdm_logging.py:145)
+17:04:33.999 [I] Progress on: 312it/1.00kit rate:3.0s/it remaining:34:08 elapsed:16:46 postfix:-  (186004:tqdm_logging.py:145)
+17:04:45.976 [I] Progress on: 316it/1.00kit rate:3.0s/it remaining:34:05 elapsed:16:58 postfix:-  (186004:tqdm_logging.py:145)
+17:04:57.978 [I] Progress on: 320it/1.00kit rate:3.0s/it remaining:34:00 elapsed:17:10 postfix:-  (186004:tqdm_logging.py:145)
+17:05:10.078 [I] Progress on: 324it/1.00kit rate:3.0s/it remaining:34:10 elapsed:17:22 postfix:-  (186004:tqdm_logging.py:145)
+17:05:21.924 [I] Progress on: 328it/1.00kit rate:3.0s/it remaining:33:29 elapsed:17:33 postfix:-  (186004:tqdm_logging.py:145)
+17:05:33.905 [I] Progress on: 332it/1.00kit rate:3.0s/it remaining:33:19 elapsed:17:45 postfix:-  (186004:tqdm_logging.py:145)
+17:05:45.899 [I] Progress on: 336it/1.00kit rate:3.0s/it remaining:33:10 elapsed:17:57 postfix:-  (186004:tqdm_logging.py:145)
+17:05:57.861 [I] Progress on: 340it/1.00kit rate:3.0s/it remaining:32:49 elapsed:18:09 postfix:-  (186004:tqdm_logging.py:145)
+17:06:09.839 [I] Progress on: 344it/1.00kit rate:3.0s/it remaining:32:43 elapsed:18:21 postfix:-  (186004:tqdm_logging.py:145)
+17:06:21.830 [I] Progress on: 348it/1.00kit rate:3.0s/it remaining:32:34 elapsed:18:33 postfix:-  (186004:tqdm_logging.py:145)
+17:06:33.930 [I] Progress on: 352it/1.00kit rate:3.0s/it remaining:32:45 elapsed:18:45 postfix:-  (186004:tqdm_logging.py:145)
+17:06:45.754 [I] Progress on: 356it/1.00kit rate:3.0s/it remaining:32:03 elapsed:18:57 postfix:-  (186004:tqdm_logging.py:145)
+17:06:57.729 [I] Progress on: 360it/1.00kit rate:3.0s/it remaining:31:55 elapsed:19:09 postfix:-  (186004:tqdm_logging.py:145)
+17:07:09.722 [I] Progress on: 364it/1.00kit rate:3.0s/it remaining:31:46 elapsed:19:21 postfix:-  (186004:tqdm_logging.py:145)
+17:07:21.676 [I] Progress on: 368it/1.00kit rate:3.0s/it remaining:31:25 elapsed:19:33 postfix:-  (186004:tqdm_logging.py:145)
+17:07:33.656 [I] Progress on: 372it/1.00kit rate:3.0s/it remaining:31:18 elapsed:19:45 postfix:-  (186004:tqdm_logging.py:145)
+17:07:45.654 [I] Progress on: 376it/1.00kit rate:3.0s/it remaining:31:11 elapsed:19:57 postfix:-  (186004:tqdm_logging.py:145)
+17:07:57.757 [I] Progress on: 380it/1.00kit rate:3.0s/it remaining:31:20 elapsed:20:09 postfix:-  (186004:tqdm_logging.py:145)
+17:08:09.594 [I] Progress on: 384it/1.00kit rate:3.0s/it remaining:30:40 elapsed:20:21 postfix:-  (186004:tqdm_logging.py:145)
+17:08:21.579 [I] Progress on: 388it/1.00kit rate:3.0s/it remaining:30:33 elapsed:20:33 postfix:-  (186004:tqdm_logging.py:145)
+17:08:33.566 [I] Progress on: 392it/1.00kit rate:3.0s/it remaining:30:21 elapsed:20:45 postfix:-  (186004:tqdm_logging.py:145)
+17:08:45.535 [I] Progress on: 396it/1.00kit rate:3.0s/it remaining:30:02 elapsed:20:57 postfix:-  (186004:tqdm_logging.py:145)
+17:08:57.515 [I] Progress on: 400it/1.00kit rate:3.0s/it remaining:29:55 elapsed:21:09 postfix:-  (186004:tqdm_logging.py:145)
+17:09:03.353 [I] [process=0][thread=MainThread][wait_until_finished] No Save Finalize thread to wait for. Returning. (186004:checkpoint_manager.py:1987)
+17:09:03.354 [I] [process=0] Saving checkpoint at step 400                                        (186004:checkpoint_manager.py:1408)
+17:09:03.355 [I] [process=0] Started async saving checkpoint to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400. (186004:async_checkpointer.py:439)
+17:09:03.366 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4 (186004:atomicity.py:144)
+17:09:03.372 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/assets.orbax-checkpoint-tmp-5 (186004:atomicity.py:144)
+17:09:03.373 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/params.orbax-checkpoint-tmp-6 (186004:atomicity.py:144)
+17:09:03.373 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/train_state.orbax-checkpoint-tmp-7 (186004:atomicity.py:144)
+17:09:03.388 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:09:05.762 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:09:05.765 [I] Array name: 'params.PaliGemma.llm.layers.mlp.gating_einsum.value', global shape: (18, 2, 2048, 16384), write shape: (18, 2, 2048, 16384), chosen chunk shape: (18, 2, 2048, 8192) (186004:tensorstore_utils.py:408)
+17:09:05.801 [I] [process=0][thread=array_type_handler] Wrote 71 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/params.orbax-checkpoint-tmp-6/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:09:07.667 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 1.7 GiB/s (total bytes: 7.2 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:09:07.676 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 826.2 MiB/s (total bytes: 3.5 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:09:07.689 [I] [process=0][thread=async_save] Background save thread started.                   (186004:async_checkpointer.py:77)
+17:09:07.691 [I] Finished blocking save in 4.34 seconds. Continuing to save asynchronously to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400. (186004:async_checkpointer.py:548)
+17:09:07.691 [I] Deleting Checkpoint[step=200 | time=2026-08-16 21:59:04.503468+00:00]: (Reason: old checkpoint). (186004:checkpoint_manager.py:1963)
+17:09:07.691 [I] [process=0][thread=MainThread][step=400] Starting CheckpointManager Save Finalize thread=save_finalize (186004:checkpoint_manager.py:1453)
+17:09:07.694 [I] [process=0][thread=save_finalize] Waiting for background save thread=async_save. (186004:async_checkpointer.py:258)
+17:09:07.694 [I] {'step': 400, 'event_type': 'save', 'directory': '/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100', 'reached_preemption': False, 'preemption_received_at': None, 'synchronous': False, 'wait_for_prev_start_time': 1786918143.353429, 'wait_for_prev_duration_secs': 0.0003046989440917969, 'checkpointer_blocking_start_time': 1786918143.3545847, 'checkpointer_blocking_duration_secs': 4.336707353591919, 'get_old_steps_start_time': 1786918147.6913772, 'get_old_steps_duration_secs': 0.0002684593200683594, 'checkpoint_manager_blocking_start_time': 1786918143.3531003, 'checkpoint_manager_blocking_duration_secs': 4.341484785079956} (186004:standard_logger.py:34)
+17:09:07.696 [I] Progress on: 401it/1.00kit rate:5.1s/it remaining:51:24 elapsed:21:19 postfix:-  (186004:tqdm_logging.py:145)
+17:09:07.732 [I] [process=0][thread=array_type_handler] Wrote 105 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/train_state.orbax-checkpoint-tmp-7/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:09:11.680 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 886.9 MiB/s (total bytes: 7.2 GiB) (time elapsed: 8 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:09:11.681 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 428.4 MiB/s (total bytes: 3.5 GiB) (time elapsed: 8 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:09:11.681 [I] [process=0][thread=async_save] 5 Handler Commit operations completed.            (186004:async_checkpointer.py:87)
+17:09:11.682 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/assets.orbax-checkpoint-tmp-5 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/assets (186004:atomicity.py:289)
+17:09:11.684 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:09:11.690 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/train_state.orbax-checkpoint-tmp-7 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/train_state (186004:atomicity.py:289)
+17:09:11.692 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:09:11.696 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/params.orbax-checkpoint-tmp-6 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4/params (186004:atomicity.py:289)
+17:09:11.697 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400.orbax-checkpoint-tmp-4 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400 (186004:atomicity.py:289)
+17:09:11.698 [I] [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400`. (186004:atomicity.py:573)
+17:09:11.698 [I] Finished asynchronous save (blocking + background) in 8.34 seconds to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/400 (186004:async_checkpointer.py:412)
+17:09:11.698 [I] [process=0][thread=async_save] Background save thread done.                      (186004:async_checkpointer.py:143)
+17:09:11.699 [I] [process=0][thread=save_finalize] Done with waiting for background save thread=async_save. (186004:async_checkpointer.py:266)
+17:09:11.699 [I] [process=0][thread=save_finalize] No errors found in background save thread=async_save. (186004:async_checkpointer.py:276)
+17:09:11.706 [I] Deleted step 200.                                                                (186004:deleter.py:114)
+17:09:11.707 [I] [process=0][thread=save_finalize][step=400] CheckpointManager Save Finalize is syncing with other hosts... (186004:checkpoint_manager.py:2095)
+17:09:11.707 [I] [process=0][thread=save_finalize][step=400] CheckpointManager Save Finalize is done on all hosts. (186004:checkpoint_manager.py:2110)
+17:09:19.845 [I] Progress on: 406it/1.00kit rate:3.1s/it remaining:31:04 elapsed:21:31 postfix:-  (186004:tqdm_logging.py:145)
+17:09:31.793 [I] Progress on: 410it/1.00kit rate:3.0s/it remaining:29:38 elapsed:21:43 postfix:-  (186004:tqdm_logging.py:145)
+17:09:43.755 [I] Progress on: 414it/1.00kit rate:3.0s/it remaining:29:15 elapsed:21:55 postfix:-  (186004:tqdm_logging.py:145)
+17:09:55.746 [I] Progress on: 418it/1.00kit rate:3.0s/it remaining:29:05 elapsed:22:07 postfix:-  (186004:tqdm_logging.py:145)
+17:10:07.843 [I] Progress on: 422it/1.00kit rate:3.0s/it remaining:29:13 elapsed:22:19 postfix:-  (186004:tqdm_logging.py:145)
+17:10:19.676 [I] Progress on: 426it/1.00kit rate:3.0s/it remaining:28:35 elapsed:22:31 postfix:-  (186004:tqdm_logging.py:145)
+17:10:31.653 [I] Progress on: 430it/1.00kit rate:3.0s/it remaining:28:25 elapsed:22:43 postfix:-  (186004:tqdm_logging.py:145)
+17:10:43.636 [I] Progress on: 434it/1.00kit rate:3.0s/it remaining:28:15 elapsed:22:55 postfix:-  (186004:tqdm_logging.py:145)
+17:10:55.587 [I] Progress on: 438it/1.00kit rate:3.0s/it remaining:27:55 elapsed:23:07 postfix:-  (186004:tqdm_logging.py:145)
+17:11:07.554 [I] Progress on: 442it/1.00kit rate:3.0s/it remaining:27:47 elapsed:23:19 postfix:-  (186004:tqdm_logging.py:145)
+17:11:19.552 [I] Progress on: 446it/1.00kit rate:3.0s/it remaining:27:40 elapsed:23:31 postfix:-  (186004:tqdm_logging.py:145)
+17:11:31.667 [I] Progress on: 450it/1.00kit rate:3.0s/it remaining:27:49 elapsed:23:43 postfix:-  (186004:tqdm_logging.py:145)
+17:11:43.489 [I] Progress on: 454it/1.00kit rate:3.0s/it remaining:27:11 elapsed:23:55 postfix:-  (186004:tqdm_logging.py:145)
+17:11:55.457 [I] Progress on: 458it/1.00kit rate:3.0s/it remaining:27:01 elapsed:24:07 postfix:-  (186004:tqdm_logging.py:145)
+17:12:07.445 [I] Progress on: 462it/1.00kit rate:3.0s/it remaining:26:50 elapsed:24:19 postfix:-  (186004:tqdm_logging.py:145)
+17:12:19.406 [I] Progress on: 466it/1.00kit rate:3.0s/it remaining:26:32 elapsed:24:31 postfix:-  (186004:tqdm_logging.py:145)
+17:12:31.383 [I] Progress on: 470it/1.00kit rate:3.0s/it remaining:26:25 elapsed:24:43 postfix:-  (186004:tqdm_logging.py:145)
+17:12:43.364 [I] Progress on: 474it/1.00kit rate:3.0s/it remaining:26:15 elapsed:24:55 postfix:-  (186004:tqdm_logging.py:145)
+17:12:55.450 [I] Progress on: 478it/1.00kit rate:3.0s/it remaining:26:21 elapsed:25:07 postfix:-  (186004:tqdm_logging.py:145)
+17:13:07.286 [I] Progress on: 482it/1.00kit rate:3.0s/it remaining:25:47 elapsed:25:19 postfix:-  (186004:tqdm_logging.py:145)
+17:13:19.251 [I] Progress on: 486it/1.00kit rate:3.0s/it remaining:25:36 elapsed:25:31 postfix:-  (186004:tqdm_logging.py:145)
+17:13:31.239 [I] Progress on: 490it/1.00kit rate:3.0s/it remaining:25:27 elapsed:25:43 postfix:-  (186004:tqdm_logging.py:145)
+17:13:43.185 [I] Progress on: 494it/1.00kit rate:3.0s/it remaining:25:08 elapsed:25:55 postfix:-  (186004:tqdm_logging.py:145)
+17:13:55.142 [I] Progress on: 498it/1.00kit rate:3.0s/it remaining:25:00 elapsed:26:07 postfix:-  (186004:tqdm_logging.py:145)
+17:14:06.949 [I] Progress on: 500it/1.00kit rate:3.0s/it remaining:24:55 elapsed:26:18 postfix:-  (186004:tqdm_logging.py:145)
+17:14:26.594 [I] Progress on: 504it/1.00kit rate:6.9s/it remaining:57:07 elapsed:26:38 postfix:-  (186004:tqdm_logging.py:145)
+17:14:38.665 [I] Progress on: 509it/1.00kit rate:3.4s/it remaining:27:45 elapsed:26:50 postfix:-  (186004:tqdm_logging.py:145)
+17:14:50.586 [I] Progress on: 513it/1.00kit rate:3.1s/it remaining:24:59 elapsed:27:02 postfix:-  (186004:tqdm_logging.py:145)
+17:15:02.529 [I] Progress on: 517it/1.00kit rate:3.0s/it remaining:24:13 elapsed:27:14 postfix:-  (186004:tqdm_logging.py:145)
+17:15:14.454 [I] Progress on: 521it/1.00kit rate:3.0s/it remaining:23:47 elapsed:27:26 postfix:-  (186004:tqdm_logging.py:145)
+17:15:26.394 [I] Progress on: 525it/1.00kit rate:3.0s/it remaining:23:37 elapsed:27:38 postfix:-  (186004:tqdm_logging.py:145)
+17:15:38.353 [I] Progress on: 529it/1.00kit rate:3.0s/it remaining:23:26 elapsed:27:50 postfix:-  (186004:tqdm_logging.py:145)
+17:15:50.294 [I] Progress on: 533it/1.00kit rate:3.0s/it remaining:23:08 elapsed:28:02 postfix:-  (186004:tqdm_logging.py:145)
+17:16:02.231 [I] Progress on: 537it/1.00kit rate:3.0s/it remaining:23:00 elapsed:28:14 postfix:-  (186004:tqdm_logging.py:145)
+17:16:14.178 [I] Progress on: 541it/1.00kit rate:3.0s/it remaining:22:50 elapsed:28:26 postfix:-  (186004:tqdm_logging.py:145)
+17:16:26.124 [I] Progress on: 545it/1.00kit rate:3.0s/it remaining:22:37 elapsed:28:38 postfix:-  (186004:tqdm_logging.py:145)
+17:16:38.076 [I] Progress on: 549it/1.00kit rate:3.0s/it remaining:22:23 elapsed:28:50 postfix:-  (186004:tqdm_logging.py:145)
+17:16:50.024 [I] Progress on: 553it/1.00kit rate:3.0s/it remaining:22:14 elapsed:29:02 postfix:-  (186004:tqdm_logging.py:145)
+17:17:01.993 [I] Progress on: 557it/1.00kit rate:3.0s/it remaining:22:03 elapsed:29:14 postfix:-  (186004:tqdm_logging.py:145)
+17:17:13.938 [I] Progress on: 561it/1.00kit rate:3.0s/it remaining:21:45 elapsed:29:25 postfix:-  (186004:tqdm_logging.py:145)
+17:17:25.899 [I] Progress on: 565it/1.00kit rate:3.0s/it remaining:21:39 elapsed:29:37 postfix:-  (186004:tqdm_logging.py:145)
+17:17:37.874 [I] Progress on: 569it/1.00kit rate:3.0s/it remaining:21:29 elapsed:29:49 postfix:-  (186004:tqdm_logging.py:145)
+17:17:49.832 [I] Progress on: 573it/1.00kit rate:3.0s/it remaining:21:16 elapsed:30:01 postfix:-  (186004:tqdm_logging.py:145)
+17:18:01.796 [I] Progress on: 577it/1.00kit rate:3.0s/it remaining:21:02 elapsed:30:13 postfix:-  (186004:tqdm_logging.py:145)
+17:18:13.754 [I] Progress on: 581it/1.00kit rate:3.0s/it remaining:20:52 elapsed:30:25 postfix:-  (186004:tqdm_logging.py:145)
+17:18:25.730 [I] Progress on: 585it/1.00kit rate:3.0s/it remaining:20:40 elapsed:30:37 postfix:-  (186004:tqdm_logging.py:145)
+17:18:37.685 [I] Progress on: 589it/1.00kit rate:3.0s/it remaining:20:24 elapsed:30:49 postfix:-  (186004:tqdm_logging.py:145)
+17:18:49.646 [I] Progress on: 593it/1.00kit rate:3.0s/it remaining:20:16 elapsed:31:01 postfix:-  (186004:tqdm_logging.py:145)
+17:19:01.595 [I] Progress on: 597it/1.00kit rate:3.0s/it remaining:20:03 elapsed:31:13 postfix:-  (186004:tqdm_logging.py:145)
+17:19:16.389 [I] Progress on: 600it/1.00kit rate:3.0s/it remaining:19:54 elapsed:31:28 postfix:-  (186004:tqdm_logging.py:145)
+17:19:16.403 [I] [process=0][thread=MainThread][wait_until_finished] No Save Finalize thread to wait for. Returning. (186004:checkpoint_manager.py:1987)
+17:19:16.404 [I] [process=0] Saving checkpoint at step 600                                        (186004:checkpoint_manager.py:1408)
+17:19:16.405 [I] [process=0] Started async saving checkpoint to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600. (186004:async_checkpointer.py:439)
+17:19:16.419 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8 (186004:atomicity.py:144)
+17:19:16.433 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:19:16.439 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/assets.orbax-checkpoint-tmp-9 (186004:atomicity.py:144)
+17:19:16.440 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/params.orbax-checkpoint-tmp-10 (186004:atomicity.py:144)
+17:19:16.440 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/train_state.orbax-checkpoint-tmp-11 (186004:atomicity.py:144)
+17:19:18.723 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:19:18.725 [I] Array name: 'params.PaliGemma.llm.layers.mlp.gating_einsum.value', global shape: (18, 2, 2048, 16384), write shape: (18, 2, 2048, 16384), chosen chunk shape: (18, 2, 2048, 8192) (186004:tensorstore_utils.py:408)
+17:19:18.756 [I] [process=0][thread=array_type_handler] Wrote 71 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/params.orbax-checkpoint-tmp-10/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:19:20.457 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 1.8 GiB/s (total bytes: 7.2 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:19:20.467 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 879.0 MiB/s (total bytes: 3.5 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:19:20.477 [I] [process=0][thread=async_save] Background save thread started.                   (186004:async_checkpointer.py:77)
+17:19:20.478 [I] Finished blocking save in 4.07 seconds. Continuing to save asynchronously to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600. (186004:async_checkpointer.py:548)
+17:19:20.485 [I] Deleting Checkpoint[step=400 | time=2026-08-16 22:09:07.691351+00:00]: (Reason: old checkpoint). (186004:checkpoint_manager.py:1963)
+17:19:20.487 [I] [process=0][thread=MainThread][step=600] Starting CheckpointManager Save Finalize thread=save_finalize (186004:checkpoint_manager.py:1453)
+17:19:20.488 [I] [process=0][thread=save_finalize] Waiting for background save thread=async_save. (186004:async_checkpointer.py:258)
+17:19:20.490 [I] {'step': 600, 'event_type': 'save', 'directory': '/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100', 'reached_preemption': False, 'preemption_received_at': None, 'synchronous': False, 'wait_for_prev_start_time': 1786918756.4034135, 'wait_for_prev_duration_secs': 0.0003020763397216797, 'checkpointer_blocking_start_time': 1786918756.404535, 'checkpointer_blocking_duration_secs': 4.081127882003784, 'get_old_steps_start_time': 1786918760.485691, 'get_old_steps_duration_secs': 0.001909494400024414, 'checkpoint_manager_blocking_start_time': 1786918756.4030807, 'checkpoint_manager_blocking_duration_secs': 4.086886882781982} (186004:standard_logger.py:34)
+17:19:20.526 [I] [process=0][thread=array_type_handler] Wrote 105 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/train_state.orbax-checkpoint-tmp-11/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:19:23.922 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 982.4 MiB/s (total bytes: 7.2 GiB) (time elapsed: 7 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:19:23.922 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 474.5 MiB/s (total bytes: 3.5 GiB) (time elapsed: 7 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:19:23.922 [I] [process=0][thread=async_save] 5 Handler Commit operations completed.            (186004:async_checkpointer.py:87)
+17:19:23.923 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/assets.orbax-checkpoint-tmp-9 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/assets (186004:atomicity.py:289)
+17:19:23.926 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:19:23.931 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/train_state.orbax-checkpoint-tmp-11 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/train_state (186004:atomicity.py:289)
+17:19:23.933 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:19:23.937 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/params.orbax-checkpoint-tmp-10 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8/params (186004:atomicity.py:289)
+17:19:23.938 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600.orbax-checkpoint-tmp-8 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600 (186004:atomicity.py:289)
+17:19:23.939 [I] [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600`. (186004:atomicity.py:573)
+17:19:23.939 [I] Finished asynchronous save (blocking + background) in 7.53 seconds to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/600 (186004:async_checkpointer.py:412)
+17:19:23.939 [I] [process=0][thread=async_save] Background save thread done.                      (186004:async_checkpointer.py:143)
+17:19:23.940 [I] [process=0][thread=save_finalize] Done with waiting for background save thread=async_save. (186004:async_checkpointer.py:266)
+17:19:23.940 [I] [process=0][thread=save_finalize] No errors found in background save thread=async_save. (186004:async_checkpointer.py:276)
+17:19:23.948 [I] Deleted step 400.                                                                (186004:deleter.py:114)
+17:19:23.948 [I] [process=0][thread=save_finalize][step=600] CheckpointManager Save Finalize is syncing with other hosts... (186004:checkpoint_manager.py:2095)
+17:19:23.948 [I] [process=0][thread=save_finalize][step=600] CheckpointManager Save Finalize is done on all hosts. (186004:checkpoint_manager.py:2110)
+17:19:26.613 [I] Progress on: 604it/1.00kit rate:3.2s/it remaining:21:26 elapsed:31:38 postfix:-  (186004:tqdm_logging.py:145)
+17:19:38.546 [I] Progress on: 608it/1.00kit rate:3.0s/it remaining:19:54 elapsed:31:50 postfix:-  (186004:tqdm_logging.py:145)
+17:19:50.558 [I] Progress on: 612it/1.00kit rate:3.0s/it remaining:19:31 elapsed:32:02 postfix:-  (186004:tqdm_logging.py:145)
+17:20:02.621 [I] Progress on: 616it/1.00kit rate:3.0s/it remaining:19:25 elapsed:32:14 postfix:-  (186004:tqdm_logging.py:145)
+17:20:14.440 [I] Progress on: 620it/1.00kit rate:3.0s/it remaining:18:54 elapsed:32:26 postfix:-  (186004:tqdm_logging.py:145)
+17:20:26.411 [I] Progress on: 624it/1.00kit rate:3.0s/it remaining:18:44 elapsed:32:38 postfix:-  (186004:tqdm_logging.py:145)
+17:20:38.382 [I] Progress on: 628it/1.00kit rate:3.0s/it remaining:18:31 elapsed:32:50 postfix:-  (186004:tqdm_logging.py:145)
+17:20:50.350 [I] Progress on: 632it/1.00kit rate:3.0s/it remaining:18:17 elapsed:33:02 postfix:-  (186004:tqdm_logging.py:145)
+17:21:02.315 [I] Progress on: 636it/1.00kit rate:3.0s/it remaining:18:07 elapsed:33:14 postfix:-  (186004:tqdm_logging.py:145)
+17:21:14.336 [I] Progress on: 640it/1.00kit rate:3.0s/it remaining:18:02 elapsed:33:26 postfix:-  (186004:tqdm_logging.py:145)
+17:21:26.416 [I] Progress on: 644it/1.00kit rate:3.0s/it remaining:18:01 elapsed:33:38 postfix:-  (186004:tqdm_logging.py:145)
+17:21:38.240 [I] Progress on: 648it/1.00kit rate:3.0s/it remaining:17:31 elapsed:33:50 postfix:-  (186004:tqdm_logging.py:145)
+17:21:50.213 [I] Progress on: 652it/1.00kit rate:3.0s/it remaining:17:21 elapsed:34:02 postfix:-  (186004:tqdm_logging.py:145)
+17:22:02.200 [I] Progress on: 656it/1.00kit rate:3.0s/it remaining:17:09 elapsed:34:14 postfix:-  (186004:tqdm_logging.py:145)
+17:22:14.167 [I] Progress on: 660it/1.00kit rate:3.0s/it remaining:16:54 elapsed:34:26 postfix:-  (186004:tqdm_logging.py:145)
+17:22:26.140 [I] Progress on: 664it/1.00kit rate:3.0s/it remaining:16:44 elapsed:34:38 postfix:-  (186004:tqdm_logging.py:145)
+17:22:38.163 [I] Progress on: 668it/1.00kit rate:3.0s/it remaining:16:38 elapsed:34:50 postfix:-  (186004:tqdm_logging.py:145)
+17:22:50.230 [I] Progress on: 672it/1.00kit rate:3.0s/it remaining:16:35 elapsed:35:02 postfix:-  (186004:tqdm_logging.py:145)
+17:23:02.056 [I] Progress on: 676it/1.00kit rate:3.0s/it remaining:16:07 elapsed:35:14 postfix:-  (186004:tqdm_logging.py:145)
+17:23:14.025 [I] Progress on: 680it/1.00kit rate:3.0s/it remaining:15:57 elapsed:35:26 postfix:-  (186004:tqdm_logging.py:145)
+17:23:25.985 [I] Progress on: 684it/1.00kit rate:3.0s/it remaining:15:43 elapsed:35:38 postfix:-  (186004:tqdm_logging.py:145)
+17:23:37.941 [I] Progress on: 688it/1.00kit rate:3.0s/it remaining:15:29 elapsed:35:49 postfix:-  (186004:tqdm_logging.py:145)
+17:23:49.905 [I] Progress on: 692it/1.00kit rate:3.0s/it remaining:15:19 elapsed:36:01 postfix:-  (186004:tqdm_logging.py:145)
+17:24:01.906 [I] Progress on: 696it/1.00kit rate:3.0s/it remaining:15:12 elapsed:36:13 postfix:-  (186004:tqdm_logging.py:145)
+17:24:13.982 [I] Progress on: 700it/1.00kit rate:3.0s/it remaining:15:09 elapsed:36:26 postfix:-  (186004:tqdm_logging.py:145)
+17:24:25.816 [I] Progress on: 704it/1.00kit rate:2.9s/it remaining:14:07 elapsed:36:37 postfix:-  (186004:tqdm_logging.py:145)
+17:24:37.768 [I] Progress on: 708it/1.00kit rate:3.0s/it remaining:14:23 elapsed:36:49 postfix:-  (186004:tqdm_logging.py:145)
+17:24:49.723 [I] Progress on: 712it/1.00kit rate:3.0s/it remaining:14:17 elapsed:37:01 postfix:-  (186004:tqdm_logging.py:145)
+17:25:01.682 [I] Progress on: 716it/1.00kit rate:2.9s/it remaining:13:55 elapsed:37:13 postfix:-  (186004:tqdm_logging.py:145)
+17:25:13.633 [I] Progress on: 720it/1.00kit rate:3.0s/it remaining:13:53 elapsed:37:25 postfix:-  (186004:tqdm_logging.py:145)
+17:25:25.628 [I] Progress on: 724it/1.00kit rate:3.0s/it remaining:13:47 elapsed:37:37 postfix:-  (186004:tqdm_logging.py:145)
+17:25:37.687 [I] Progress on: 728it/1.00kit rate:3.0s/it remaining:13:44 elapsed:37:49 postfix:-  (186004:tqdm_logging.py:145)
+17:25:49.490 [I] Progress on: 732it/1.00kit rate:3.0s/it remaining:13:19 elapsed:38:01 postfix:-  (186004:tqdm_logging.py:145)
+17:26:01.438 [I] Progress on: 736it/1.00kit rate:3.0s/it remaining:13:08 elapsed:38:13 postfix:-  (186004:tqdm_logging.py:145)
+17:26:13.397 [I] Progress on: 740it/1.00kit rate:3.0s/it remaining:12:56 elapsed:38:25 postfix:-  (186004:tqdm_logging.py:145)
+17:26:25.354 [I] Progress on: 744it/1.00kit rate:3.0s/it remaining:12:42 elapsed:38:37 postfix:-  (186004:tqdm_logging.py:145)
+17:26:37.300 [I] Progress on: 748it/1.00kit rate:3.0s/it remaining:12:31 elapsed:38:49 postfix:-  (186004:tqdm_logging.py:145)
+17:26:49.312 [I] Progress on: 752it/1.00kit rate:3.0s/it remaining:12:24 elapsed:39:01 postfix:-  (186004:tqdm_logging.py:145)
+17:27:01.359 [I] Progress on: 756it/1.00kit rate:3.0s/it remaining:12:19 elapsed:39:13 postfix:-  (186004:tqdm_logging.py:145)
+17:27:13.169 [I] Progress on: 760it/1.00kit rate:3.0s/it remaining:11:56 elapsed:39:25 postfix:-  (186004:tqdm_logging.py:145)
+17:27:25.131 [I] Progress on: 764it/1.00kit rate:3.0s/it remaining:11:45 elapsed:39:37 postfix:-  (186004:tqdm_logging.py:145)
+17:27:37.079 [I] Progress on: 768it/1.00kit rate:3.0s/it remaining:11:32 elapsed:39:49 postfix:-  (186004:tqdm_logging.py:145)
+17:27:49.031 [I] Progress on: 772it/1.00kit rate:3.0s/it remaining:11:18 elapsed:40:01 postfix:-  (186004:tqdm_logging.py:145)
+17:28:00.983 [I] Progress on: 776it/1.00kit rate:3.0s/it remaining:11:08 elapsed:40:13 postfix:-  (186004:tqdm_logging.py:145)
+17:28:12.984 [I] Progress on: 780it/1.00kit rate:3.0s/it remaining:11:00 elapsed:40:25 postfix:-  (186004:tqdm_logging.py:145)
+17:28:25.032 [I] Progress on: 784it/1.00kit rate:3.0s/it remaining:10:54 elapsed:40:37 postfix:-  (186004:tqdm_logging.py:145)
+17:28:36.846 [I] Progress on: 788it/1.00kit rate:3.0s/it remaining:10:32 elapsed:40:48 postfix:-  (186004:tqdm_logging.py:145)
+17:28:48.812 [I] Progress on: 792it/1.00kit rate:3.0s/it remaining:10:21 elapsed:41:00 postfix:-  (186004:tqdm_logging.py:145)
+17:29:00.764 [I] Progress on: 796it/1.00kit rate:3.0s/it remaining:10:08 elapsed:41:12 postfix:-  (186004:tqdm_logging.py:145)
+17:29:12.725 [I] Progress on: 800it/1.00kit rate:3.0s/it remaining:09:55 elapsed:41:24 postfix:-  (186004:tqdm_logging.py:145)
+17:29:18.556 [I] [process=0][thread=MainThread][wait_until_finished] No Save Finalize thread to wait for. Returning. (186004:checkpoint_manager.py:1987)
+17:29:18.557 [I] [process=0] Saving checkpoint at step 800                                        (186004:checkpoint_manager.py:1408)
+17:29:18.558 [I] [process=0] Started async saving checkpoint to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800. (186004:async_checkpointer.py:439)
+17:29:18.568 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12 (186004:atomicity.py:144)
+17:29:18.575 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/assets.orbax-checkpoint-tmp-13 (186004:atomicity.py:144)
+17:29:18.575 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/params.orbax-checkpoint-tmp-14 (186004:atomicity.py:144)
+17:29:18.575 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/train_state.orbax-checkpoint-tmp-15 (186004:atomicity.py:144)
+17:29:18.590 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:29:20.960 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:29:20.962 [I] Array name: 'params.PaliGemma.llm.layers.mlp.gating_einsum.value', global shape: (18, 2, 2048, 16384), write shape: (18, 2, 2048, 16384), chosen chunk shape: (18, 2, 2048, 8192) (186004:tensorstore_utils.py:408)
+17:29:20.990 [I] [process=0][thread=array_type_handler] Wrote 71 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/params.orbax-checkpoint-tmp-14/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:29:22.693 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 1.7 GiB/s (total bytes: 7.2 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:29:22.703 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 861.5 MiB/s (total bytes: 3.5 GiB) (time elapsed: 4 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:29:22.710 [I] [process=0][thread=async_save] Background save thread started.                   (186004:async_checkpointer.py:77)
+17:29:22.711 [I] Finished blocking save in 4.15 seconds. Continuing to save asynchronously to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800. (186004:async_checkpointer.py:548)
+17:29:22.712 [I] Deleting Checkpoint[step=600 | time=2026-08-16 22:19:20.485675+00:00]: (Reason: old checkpoint). (186004:checkpoint_manager.py:1963)
+17:29:22.713 [I] [process=0][thread=MainThread][step=800] Starting CheckpointManager Save Finalize thread=save_finalize (186004:checkpoint_manager.py:1453)
+17:29:22.713 [I] [process=0][thread=save_finalize] Waiting for background save thread=async_save. (186004:async_checkpointer.py:258)
+17:29:22.714 [I] {'step': 800, 'event_type': 'save', 'directory': '/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100', 'reached_preemption': False, 'preemption_received_at': None, 'synchronous': False, 'wait_for_prev_start_time': 1786919358.5564754, 'wait_for_prev_duration_secs': 0.0003235340118408203, 'checkpointer_blocking_start_time': 1786919358.5574677, 'checkpointer_blocking_duration_secs': 4.154687404632568, 'get_old_steps_start_time': 1786919362.712176, 'get_old_steps_duration_secs': 0.0010118484497070312, 'checkpoint_manager_blocking_start_time': 1786919358.5561435, 'checkpoint_manager_blocking_duration_secs': 4.158253192901611} (186004:standard_logger.py:34)
+17:29:22.831 [I] [process=0][thread=array_type_handler] Wrote 105 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/train_state.orbax-checkpoint-tmp-15/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:29:22.964 [I] Progress on: 802it/1.00kit rate:3.6s/it remaining:11:59 elapsed:41:35 postfix:-  (186004:tqdm_logging.py:145)
+17:29:26.334 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 949.6 MiB/s (total bytes: 7.2 GiB) (time elapsed: 7 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:29:26.334 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 458.7 MiB/s (total bytes: 3.5 GiB) (time elapsed: 7 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:29:26.335 [I] [process=0][thread=async_save] 5 Handler Commit operations completed.            (186004:async_checkpointer.py:87)
+17:29:26.336 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/assets.orbax-checkpoint-tmp-13 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/assets (186004:atomicity.py:289)
+17:29:26.338 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:29:26.359 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/train_state.orbax-checkpoint-tmp-15 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/train_state (186004:atomicity.py:289)
+17:29:26.361 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:29:26.365 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/params.orbax-checkpoint-tmp-14 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12/params (186004:atomicity.py:289)
+17:29:26.366 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800.orbax-checkpoint-tmp-12 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800 (186004:atomicity.py:289)
+17:29:26.367 [I] [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800`. (186004:atomicity.py:573)
+17:29:26.367 [I] Finished asynchronous save (blocking + background) in 7.81 seconds to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/800 (186004:async_checkpointer.py:412)
+17:29:26.367 [I] [process=0][thread=async_save] Background save thread done.                      (186004:async_checkpointer.py:143)
+17:29:26.367 [I] [process=0][thread=save_finalize] Done with waiting for background save thread=async_save. (186004:async_checkpointer.py:266)
+17:29:26.368 [I] [process=0][thread=save_finalize] No errors found in background save thread=async_save. (186004:async_checkpointer.py:276)
+17:29:26.375 [I] Deleted step 600.                                                                (186004:deleter.py:114)
+17:29:26.376 [I] [process=0][thread=save_finalize][step=800] CheckpointManager Save Finalize is syncing with other hosts... (186004:checkpoint_manager.py:2095)
+17:29:26.376 [I] [process=0][thread=save_finalize][step=800] CheckpointManager Save Finalize is done on all hosts. (186004:checkpoint_manager.py:2110)
+17:29:34.812 [I] Progress on: 806it/1.00kit rate:3.1s/it remaining:10:07 elapsed:41:46 postfix:-  (186004:tqdm_logging.py:145)
+17:29:46.768 [I] Progress on: 810it/1.00kit rate:3.0s/it remaining:09:33 elapsed:41:58 postfix:-  (186004:tqdm_logging.py:145)
+17:29:58.733 [I] Progress on: 814it/1.00kit rate:3.0s/it remaining:09:15 elapsed:42:10 postfix:-  (186004:tqdm_logging.py:145)
+17:30:10.711 [I] Progress on: 818it/1.00kit rate:3.0s/it remaining:09:05 elapsed:42:22 postfix:-  (186004:tqdm_logging.py:145)
+17:30:22.711 [I] Progress on: 822it/1.00kit rate:3.0s/it remaining:08:54 elapsed:42:34 postfix:-  (186004:tqdm_logging.py:145)
+17:30:34.794 [I] Progress on: 826it/1.00kit rate:3.0s/it remaining:08:48 elapsed:42:46 postfix:-  (186004:tqdm_logging.py:145)
+17:30:46.612 [I] Progress on: 830it/1.00kit rate:3.0s/it remaining:08:27 elapsed:42:58 postfix:-  (186004:tqdm_logging.py:145)
+17:30:58.587 [I] Progress on: 834it/1.00kit rate:3.0s/it remaining:08:16 elapsed:43:10 postfix:-  (186004:tqdm_logging.py:145)
+17:31:10.557 [I] Progress on: 838it/1.00kit rate:3.0s/it remaining:08:03 elapsed:43:22 postfix:-  (186004:tqdm_logging.py:145)
+17:31:22.528 [I] Progress on: 842it/1.00kit rate:3.0s/it remaining:07:51 elapsed:43:34 postfix:-  (186004:tqdm_logging.py:145)
+17:31:34.496 [I] Progress on: 846it/1.00kit rate:3.0s/it remaining:07:40 elapsed:43:46 postfix:-  (186004:tqdm_logging.py:145)
+17:31:46.514 [I] Progress on: 850it/1.00kit rate:3.0s/it remaining:07:30 elapsed:43:58 postfix:-  (186004:tqdm_logging.py:145)
+17:31:58.571 [I] Progress on: 854it/1.00kit rate:3.0s/it remaining:07:22 elapsed:44:10 postfix:-  (186004:tqdm_logging.py:145)
+17:32:10.400 [I] Progress on: 858it/1.00kit rate:3.0s/it remaining:07:04 elapsed:44:22 postfix:-  (186004:tqdm_logging.py:145)
+17:32:22.373 [I] Progress on: 862it/1.00kit rate:3.0s/it remaining:06:52 elapsed:44:34 postfix:-  (186004:tqdm_logging.py:145)
+17:32:34.338 [I] Progress on: 866it/1.00kit rate:3.0s/it remaining:06:40 elapsed:44:46 postfix:-  (186004:tqdm_logging.py:145)
+17:32:46.299 [I] Progress on: 870it/1.00kit rate:3.0s/it remaining:06:27 elapsed:44:58 postfix:-  (186004:tqdm_logging.py:145)
+17:32:58.273 [I] Progress on: 874it/1.00kit rate:3.0s/it remaining:06:16 elapsed:45:10 postfix:-  (186004:tqdm_logging.py:145)
+17:33:10.292 [I] Progress on: 878it/1.00kit rate:3.0s/it remaining:06:06 elapsed:45:22 postfix:-  (186004:tqdm_logging.py:145)
+17:33:22.348 [I] Progress on: 882it/1.00kit rate:3.0s/it remaining:05:57 elapsed:45:34 postfix:-  (186004:tqdm_logging.py:145)
+17:33:34.180 [I] Progress on: 886it/1.00kit rate:3.0s/it remaining:05:40 elapsed:45:46 postfix:-  (186004:tqdm_logging.py:145)
+17:33:46.154 [I] Progress on: 890it/1.00kit rate:3.0s/it remaining:05:29 elapsed:45:58 postfix:-  (186004:tqdm_logging.py:145)
+17:33:58.123 [I] Progress on: 894it/1.00kit rate:3.0s/it remaining:05:16 elapsed:46:10 postfix:-  (186004:tqdm_logging.py:145)
+17:34:10.096 [I] Progress on: 898it/1.00kit rate:3.0s/it remaining:05:04 elapsed:46:22 postfix:-  (186004:tqdm_logging.py:145)
+17:34:21.983 [I] Progress on: 900it/1.00kit rate:3.0s/it remaining:04:58 elapsed:46:34 postfix:-  (186004:tqdm_logging.py:145)
+17:34:34.185 [I] Progress on: 906it/1.00kit rate:3.0s/it remaining:04:37 elapsed:46:46 postfix:-  (186004:tqdm_logging.py:145)
+17:34:46.272 [I] Progress on: 910it/1.00kit rate:3.0s/it remaining:04:32 elapsed:46:58 postfix:-  (186004:tqdm_logging.py:145)
+17:34:58.081 [I] Progress on: 914it/1.00kit rate:3.0s/it remaining:04:16 elapsed:47:10 postfix:-  (186004:tqdm_logging.py:145)
+17:35:10.065 [I] Progress on: 918it/1.00kit rate:3.0s/it remaining:04:05 elapsed:47:22 postfix:-  (186004:tqdm_logging.py:145)
+17:35:22.030 [I] Progress on: 922it/1.00kit rate:3.0s/it remaining:03:53 elapsed:47:34 postfix:-  (186004:tqdm_logging.py:145)
+17:35:34.000 [I] Progress on: 926it/1.00kit rate:3.0s/it remaining:03:40 elapsed:47:46 postfix:-  (186004:tqdm_logging.py:145)
+17:35:45.986 [I] Progress on: 930it/1.00kit rate:3.0s/it remaining:03:29 elapsed:47:58 postfix:-  (186004:tqdm_logging.py:145)
+17:35:57.993 [I] Progress on: 934it/1.00kit rate:3.0s/it remaining:03:18 elapsed:48:10 postfix:-  (186004:tqdm_logging.py:145)
+17:36:10.065 [I] Progress on: 938it/1.00kit rate:3.0s/it remaining:03:08 elapsed:48:22 postfix:-  (186004:tqdm_logging.py:145)
+17:36:21.889 [I] Progress on: 942it/1.00kit rate:3.0s/it remaining:02:53 elapsed:48:33 postfix:-  (186004:tqdm_logging.py:145)
+17:36:33.857 [I] Progress on: 946it/1.00kit rate:3.0s/it remaining:02:41 elapsed:48:45 postfix:-  (186004:tqdm_logging.py:145)
+17:36:45.827 [I] Progress on: 950it/1.00kit rate:3.0s/it remaining:02:29 elapsed:48:57 postfix:-  (186004:tqdm_logging.py:145)
+17:36:57.799 [I] Progress on: 954it/1.00kit rate:3.0s/it remaining:02:17 elapsed:49:09 postfix:-  (186004:tqdm_logging.py:145)
+17:37:09.767 [I] Progress on: 958it/1.00kit rate:3.0s/it remaining:02:05 elapsed:49:21 postfix:-  (186004:tqdm_logging.py:145)
+17:37:21.784 [I] Progress on: 962it/1.00kit rate:3.0s/it remaining:01:54 elapsed:49:33 postfix:-  (186004:tqdm_logging.py:145)
+17:37:33.849 [I] Progress on: 966it/1.00kit rate:3.0s/it remaining:01:43 elapsed:49:45 postfix:-  (186004:tqdm_logging.py:145)
+17:37:45.677 [I] Progress on: 970it/1.00kit rate:3.0s/it remaining:01:29 elapsed:49:57 postfix:-  (186004:tqdm_logging.py:145)
+17:37:57.653 [I] Progress on: 974it/1.00kit rate:3.0s/it remaining:01:17 elapsed:50:09 postfix:-  (186004:tqdm_logging.py:145)
+17:38:09.626 [I] Progress on: 978it/1.00kit rate:3.0s/it remaining:01:05 elapsed:50:21 postfix:-  (186004:tqdm_logging.py:145)
+17:38:21.615 [I] Progress on: 982it/1.00kit rate:3.0s/it remaining:00:53 elapsed:50:33 postfix:-  (186004:tqdm_logging.py:145)
+17:38:33.582 [I] Progress on: 986it/1.00kit rate:3.0s/it remaining:00:41 elapsed:50:45 postfix:-  (186004:tqdm_logging.py:145)
+17:38:45.606 [I] Progress on: 990it/1.00kit rate:3.0s/it remaining:00:30 elapsed:50:57 postfix:-  (186004:tqdm_logging.py:145)
+17:38:57.672 [I] Progress on: 994it/1.00kit rate:3.0s/it remaining:00:18 elapsed:51:09 postfix:-  (186004:tqdm_logging.py:145)
+17:39:09.517 [I] Progress on: 998it/1.00kit rate:3.0s/it remaining:00:05 elapsed:51:21 postfix:-  (186004:tqdm_logging.py:145)
+17:39:15.511 [I] [process=0][thread=MainThread][wait_until_finished] No Save Finalize thread to wait for. Returning. (186004:checkpoint_manager.py:1987)
+17:39:15.512 [I] [process=0] Saving checkpoint at step 999                                        (186004:checkpoint_manager.py:1408)
+17:39:15.513 [I] [process=0] Started async saving checkpoint to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999. (186004:async_checkpointer.py:439)
+17:39:15.524 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16 (186004:atomicity.py:144)
+17:39:15.529 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/assets.orbax-checkpoint-tmp-17 (186004:atomicity.py:144)
+17:39:15.530 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/params.orbax-checkpoint-tmp-18 (186004:atomicity.py:144)
+17:39:15.530 [I] Creating tmp directory /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/train_state.orbax-checkpoint-tmp-19 (186004:atomicity.py:144)
+17:39:15.544 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:39:20.579 [I] Transferring arrays to host memory with options: use_replica_parallel=True, enable_pinned_host_transfer=False (186004:replica_slices.py:341)
+17:39:20.581 [I] Array name: 'params.PaliGemma.llm.layers.mlp.gating_einsum.value', global shape: (18, 2, 2048, 16384), write shape: (18, 2, 2048, 16384), chosen chunk shape: (18, 2, 2048, 8192) (186004:tensorstore_utils.py:408)
+17:39:20.611 [I] [process=0][thread=array_type_handler] Wrote 71 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/params.orbax-checkpoint-tmp-18/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:39:22.042 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 1.1 GiB/s (total bytes: 7.2 GiB) (time elapsed: 6 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:39:22.053 [I] [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 545.6 MiB/s (total bytes: 3.5 GiB) (time elapsed: 6 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:39:22.064 [I] [process=0][thread=async_save] Background save thread started.                   (186004:async_checkpointer.py:77)
+17:39:22.065 [I] Finished blocking save in 6.55 seconds. Continuing to save asynchronously to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999. (186004:async_checkpointer.py:548)
+17:39:22.068 [I] Deleting Checkpoint[step=800 | time=2026-08-16 22:29:22.712162+00:00]: (Reason: old checkpoint). (186004:checkpoint_manager.py:1963)
+17:39:22.069 [I] [process=0][thread=MainThread][step=999] Starting CheckpointManager Save Finalize thread=save_finalize (186004:checkpoint_manager.py:1453)
+17:39:22.070 [I] [process=0][thread=save_finalize] Waiting for background save thread=async_save. (186004:async_checkpointer.py:258)
+17:39:22.070 [I] {'step': 999, 'event_type': 'save', 'directory': '/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100', 'reached_preemption': False, 'preemption_received_at': None, 'synchronous': False, 'wait_for_prev_start_time': 1786919955.511838, 'wait_for_prev_duration_secs': 0.0005953311920166016, 'checkpointer_blocking_start_time': 1786919955.5132654, 'checkpointer_blocking_duration_secs': 6.555059432983398, 'get_old_steps_start_time': 1786919962.0683477, 'get_old_steps_duration_secs': 0.0008990764617919922, 'checkpoint_manager_blocking_start_time': 1786919955.5114882, 'checkpoint_manager_blocking_duration_secs': 6.559437990188599} (186004:standard_logger.py:34)
+17:39:22.071 [I] Progress on: 1.00kit/1.00kit rate:5.0s/it remaining:00:00 elapsed:51:34 postfix:- (186004:tqdm_logging.py:145)
+17:39:22.072 [I] Progress on: 1.00kit/1.00kit rate:5.0s/it remaining:00:00 elapsed:51:34 postfix:- (186004:tqdm_logging.py:145)
+17:39:22.073 [I] Waiting for checkpoint manager to finish                                         (186004:train.py:304)
+17:39:22.073 [I] [process=0][thread=MainThread][step=999][wait_until_finished] Waiting for Save Finalize thread (save_finalize) to complete. (186004:checkpoint_manager.py:1998)
+17:39:22.102 [I] [process=0][thread=array_type_handler] Wrote 105 array_metadata.ArrayMetadata to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/train_state.orbax-checkpoint-tmp-19/array_metadatas/process_0 (186004:array_metadata_store.py:198)
+17:39:24.966 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 781.2 MiB/s (total bytes: 7.2 GiB) (time elapsed: 9 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:39:24.966 [I] [process=0] /jax/checkpoint/write/bytes_per_sec: 377.3 MiB/s (total bytes: 3.5 GiB) (time elapsed: 9 seconds) (per-host) (186004:base_pytree_checkpoint_handler.py:114)
+17:39:24.966 [I] [process=0][thread=async_save] 5 Handler Commit operations completed.            (186004:async_checkpointer.py:87)
+17:39:24.967 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/assets.orbax-checkpoint-tmp-17 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/assets (186004:atomicity.py:289)
+17:39:24.970 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:39:24.974 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/train_state.orbax-checkpoint-tmp-19 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/train_state (186004:atomicity.py:289)
+17:39:24.976 [I] [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0. (186004:array_metadata_store.py:362)
+17:39:24.980 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/params.orbax-checkpoint-tmp-18 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16/params (186004:atomicity.py:289)
+17:39:24.980 [I] Renaming /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999.orbax-checkpoint-tmp-16 to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999 (186004:atomicity.py:289)
+17:39:24.981 [I] [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999`. (186004:atomicity.py:573)
+17:39:24.981 [I] Finished asynchronous save (blocking + background) in 9.47 seconds to /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP4_10/EXP4_10_a100/999 (186004:async_checkpointer.py:412)
+17:39:24.982 [I] [process=0][thread=async_save] Background save thread done.                      (186004:async_checkpointer.py:143)
+17:39:24.982 [I] [process=0][thread=save_finalize] Done with waiting for background save thread=async_save. (186004:async_checkpointer.py:266)
+17:39:24.982 [I] [process=0][thread=save_finalize] No errors found in background save thread=async_save. (186004:async_checkpointer.py:276)
+17:39:24.992 [I] Deleted step 800.                                                                (186004:deleter.py:114)
+17:39:24.992 [I] [process=0][thread=save_finalize][step=999] CheckpointManager Save Finalize is syncing with other hosts... (186004:checkpoint_manager.py:2095)
+17:39:24.992 [I] [process=0][thread=save_finalize][step=999] CheckpointManager Save Finalize is done on all hosts. (186004:checkpoint_manager.py:2110)
+17:39:24.993 [I] [process=0][thread=MainThread][step=999][wait_until_finished] Done waiting for Save Finalize thread (save_finalize) running at step=999. (186004:checkpoint_manager.py:2010)
