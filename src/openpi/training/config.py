@@ -2456,6 +2456,70 @@ _CONFIGS = [
         ema_decay=None,
         save_interval=2500,
     ),
+    # Final, largest GraspNet collection (5500 eps / 1.69M frames, 7 tasks: cracker box,
+    # lemon, mustard bottle, nivea men face wash tube, peach, pear, tomato soup can).
+    # Same schema and hyperparameters as pi05_Franka_GraspNet_2, scaled to a 50k-step run.
+    TrainConfig(
+        name="pi05_Franka_GRASPNET_FINAL",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/GRASPNET_FINAL",
+            # Multi-task dataset (7 prompts): take the prompt from each episode's task
+            # so the policy is language-conditioned at inference time.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # decay_steps tracks num_train_steps so the cosine actually bottoms out at
+        # decay_lr; warmup scaled up from GraspNet_2's 1k/30k to stay ~3% of training.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_500,
+            peak_lr=2.5e-5,
+            decay_steps=50_000,
+            decay_lr=2.5e-6,
+        ),
+        # 50k steps x batch 32 = 1.6M samples, ~0.95 epochs of this dataset.
+        num_train_steps=50_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # Every 5k-step save is kept: keep_period matches save_interval, so pruning
+        # (max_to_keep=1) only ever drops non-multiples. Dirs on disk end up being
+        # 5000/ ... 45000/ plus the last save at num_train_steps - 1 = 49999/
+        # (there is no 50000/) — 10 dirs, ~89 GB.
+        save_interval=5_000,
+        keep_period=5_000,
+    ),
     # Same data / hyperparameters as pi05_Franka_GraspNet_2, but with a 100-step action
     # horizon instead of 50. Only Pi0Config.action_horizon differs.
     TrainConfig(
