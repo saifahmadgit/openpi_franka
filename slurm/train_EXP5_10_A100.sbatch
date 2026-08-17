@@ -1,21 +1,21 @@
 #!/bin/bash
-# Fine-tune pi0.5 on saifahmad123/EXP4_10 (single-task "pick up the orange cylinder",
-# prompt_from_task=True so it stays language-conditioned). Third in the
-# EXP1_10 / EXP3_10 / EXP4_10 series.
-#
-# NOT a drop-in copy of the EXP1/EXP3 scripts -- pi05_Franka_EXP4_10 is a HALF-LENGTH
-# run: num_train_steps=1000 (not 2000) with warmup scaled to match (100, not 200).
-# peak_lr 2.5e-5 -> 2.5e-6 cosine, batch 32, action_horizon=50 are unchanged. So this
-# is not a clean A/B against EXP1/EXP3 on dataset alone; the schedule differs too.
+# Fine-tune pi0.5 on saifahmad123/EXP5_10 (single-task "pick up the red cube",
+# prompt_from_task=True so it stays language-conditioned). Companion to
+# train_EXP1_10_A100.sbatch / train_EXP3_10_A100.sbatch -- pi05_Franka_EXP5_10 is
+# identical to pi05_Franka_EXP3_10 in every field except repo_id, so the set is a
+# clean A/B on the dataset alone. (train_EXP4_10_A100.sbatch is NOT part of that
+# comparison: EXP4 is a half-length 1k-step run.)
+# Short 2k-step run: warmup 200, peak_lr 2.5e-5 -> 2.5e-6 cosine, batch 32,
+# action_horizon=50.
 #
 # Norm stats already exist at
-# assets/pi05_Franka_EXP4_10/saifahmad123/EXP4_10/norm_stats.json
+# assets/pi05_Franka_EXP5_10/saifahmad123/EXP5_10/norm_stats.json
 # so compute_norm_stats.sbatch does NOT need to be re-run. (A miss there is silent:
 # _load_norm_stats() returns None and Normalize passes data through untouched, i.e.
 # the run would train unnormalized. Confirm with the "Loaded norm stats from ..." line
 # in the .err log before trusting a run.)
 #
-# HF_HUB_OFFLINE is deliberately NOT set: EXP4_10 is not yet cached under
+# HF_HUB_OFFLINE is deliberately NOT set: EXP5_10 is not yet cached under
 # HF_LEROBOT_HOME, so train.py's pre-download loop (scripts/train.py:220-247) must be
 # able to reach the Hub. It retries with a 320s sleep to wait out the 1000 req / 5 min
 # rate limit, then flips itself offline before create_data_loader. Once the download
@@ -24,30 +24,27 @@
 # below for subsequent runs (must be exported from the shell, not set from Python:
 # huggingface_hub freezes it into a module constant at import time).
 #
-# The dataset is small: 205 files / 50 episodes, vs 525 files for EXP1_10 (which took
-# ~19 min to fetch). Expect only a few minutes of download.
+# CONCURRENCY: the HF rate limit is per account, so kicking this off alongside another
+# first-time dataset download can trip 429s. The retry loop recovers, it just costs
+# walltime. EXP5_10 is 525 files, the same shape as EXP1_10 (~97 MB, ~19 min to fetch),
+# so expect roughly that.
 #
-# Walltime: EXP1_10 and EXP3_10 ran 2k steps in 2:18 and 2:12 on one A100, so 1k steps
-# is ~1:10 plus the download. 24 h is headroom, not an estimate. Over-requesting time is
-# free as far as fairshare goes -- Slurm charges actual elapsed, not TimeLimit (verified
-# against sreport) -- and CLAUDE.md flags wall-clock kills as the main failure mode, so
-# the headroom is deliberate.
+# Walltime: 2k steps is ~2 h on one A100 (EXP1_10 and EXP3_10 came in at 2:18 and 2:12),
+# plus the dataset download on this first run. 24 h is headroom, not an estimate.
+# Over-requesting time is free as far as fairshare goes -- Slurm charges actual elapsed,
+# not TimeLimit (verified against sreport) -- and CLAUDE.md flags wall-clock kills as the
+# main failure mode, so the headroom is deliberate.
 #
-# Retention: save_interval=200 with keep_period=500. max_to_keep=1 spares the newest save
-# plus any step where step % keep_period == 0 -- but keep_period only protects steps that
-# were actually SAVED, and saves happen at multiples of save_interval. 500 is not a
-# multiple of 200, so no checkpoint is ever written at step 500 and keep_period=500 spares
-# nothing. Confirmed on run 9551754: saved 200/400/600/800/999, each deleting the previous,
-# leaving only 999/ (~8.9 GB on disk, 5.9 GB once train_state/ is dropped for upload).
-# EXP1/EXP3 kept a mid-run checkpoint only because their keep_period=1000 IS a multiple of
-# 200. To get one here, set keep_period to a multiple of save_interval (e.g. 400).
+# Retention: save_interval=200 with keep_period=1000, and max_to_keep=1 spares the newest
+# save plus any step where step % keep_period == 0. So only 1000/ and the final 1999/
+# survive (the last save is at num_train_steps - 1, not 2000). ~8.9 GB each, ~18 GB total.
 #
 # NOTE: --overwrite deletes any existing checkpoint dir for this exp-name.
 # To continue an interrupted run, swap it for --resume (they are mutually exclusive).
-#SBATCH --job-name=pi05_EXP4_10_a100
+#SBATCH --job-name=pi05_EXP5_10_a100
 # e32706, not p53063. Priority on gengpu is ~99.8% fairshare
 # (PriorityWeightFairShare=100000 vs Age=10000), and as of 2026-08-16 the two accounts
-# sit at 0.4692 vs 0.2322 -- e32706 holds 7x the RawShares (500 vs 70) and is
+# sit at ~0.47 vs ~0.23 -- e32706 holds 7x the RawShares (500 vs 70) and is
 # under-consuming them. Same job estimated at ~13 days under p53063 vs minutes under
 # e32706. Checkpoints still land in /projects/p53063.
 #SBATCH --account=e32706
@@ -74,7 +71,7 @@ export HF_HOME=/projects/p53063/hf_cache
 echo "Running on: $(hostname)"
 nvidia-smi
 
-XLA_PYTHON_CLIENT_MEM_FRACTION=0.9 uv run scripts/train.py pi05_Franka_EXP4_10 \
-    --exp-name=EXP4_10_a100 \
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.9 uv run scripts/train.py pi05_Franka_EXP5_10 \
+    --exp-name=EXP5_10_a100 \
     --checkpoint-base-dir=/projects/p53063/checkpoints \
     --overwrite
