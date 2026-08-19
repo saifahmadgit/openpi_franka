@@ -325,6 +325,53 @@ class PromptFromLeRobotTask(DataTransformFn):
 
 
 @dataclasses.dataclass(frozen=True)
+class PromptVariants(DataTransformFn):
+    """Swaps the canonical task prompt for one of a fixed set of paraphrases.
+
+    Training-only augmentation for language-conditioned policies: it teaches the model
+    that the instruction's *meaning* selects the object, not one memorized string. Place
+    it BEFORE a RepackTransform -- repack drops every key it does not map, including the
+    `episode_index`/`frame_index` this reads.
+
+    This never runs at inference. `repack_transforms` is an argument to
+    `policy_config.create_trained_policy`, and `scripts/serve_policy.py` does not pass
+    one, so it defaults to an empty Group at serve time and a real prompt is never
+    rewritten.
+
+    Selection is a deterministic hash of (episode_index, frame_index) rather than an RNG
+    draw, which makes a run reproducible across resumes and independent of how torch
+    seeds its dataloader workers. Per-frame (not per-episode) so that phrasing is
+    decorrelated from visual context.
+    """
+
+    # Canonical prompt -> pool of variants. Repeated entries encode sampling weights.
+    variants: Mapping[str, Sequence[str]]
+
+    def __call__(self, data: DataDict) -> DataDict:
+        if (prompt := data.get("prompt")) is None:
+            raise ValueError('PromptVariants requires a "prompt" (set prompt_from_task=True)')
+        prompt = str(prompt)
+        if (pool := self.variants.get(prompt)) is None:
+            # Loud, not pass-through: a silent miss would train on unaugmented prompts
+            # and look identical to success.
+            raise ValueError(f"No prompt variants registered for {prompt!r}")
+
+        key = (int(data["episode_index"]) << 20) | int(data["frame_index"])
+        return {**data, "prompt": pool[_splitmix64(key) % len(pool)]}
+
+
+def _splitmix64(x: int) -> int:
+    """Stable integer hash. Not Python's hash(): that is salted per process for str/bytes
+    and is not guaranteed stable across releases, and we want the same sample to pick the
+    same variant on every run and after a --resume."""
+    mask = 0xFFFFFFFFFFFFFFFF
+    x = (x + 0x9E3779B97F4A7C15) & mask
+    x = ((x ^ (x >> 30)) * 0xBF58476D1CE4E5B9) & mask
+    x = ((x ^ (x >> 27)) * 0x94D049BB133111EB) & mask
+    return x ^ (x >> 31)
+
+
+@dataclasses.dataclass(frozen=True)
 class PadStatesAndActions(DataTransformFn):
     """Zero-pads states and actions to the model action dimension."""
 

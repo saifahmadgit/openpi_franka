@@ -10,6 +10,7 @@ from typing import Any, Literal, Protocol, TypeAlias
 
 import etils.epath as epath
 import flax.nnx as nnx
+import numpy as np
 from typing_extensions import override
 import tyro
 
@@ -19,6 +20,7 @@ import openpi.models.pi0_fast as pi0_fast
 import openpi.models.tokenizer as _tokenizer
 import openpi.policies.aloha_policy as aloha_policy
 import openpi.policies.droid_policy as droid_policy
+import openpi.policies.graspnet_prompts as graspnet_prompts
 import openpi.policies.libero_policy as libero_policy
 import openpi.shared.download as _download
 import openpi.shared.normalize as _normalize
@@ -91,6 +93,11 @@ class DataConfig:
 
     # If true, will use the LeRobot dataset task to define the prompt.
     prompt_from_task: bool = False
+
+    # If set, only these episode indices are loaded from the LeRobot dataset (passed straight
+    # through to LeRobotDataset(episodes=...)). Lets a config train on a subset of a larger
+    # dataset without materializing a second copy of it on disk or on the Hub.
+    episodes: Sequence[int] | None = None
 
     # Only used for RLDS data loader (ie currently only used for DROID).
     rlds_data_dir: str | None = None
@@ -2067,6 +2074,78 @@ _CONFIGS = [
         keep_period=2_000,
     ),
     TrainConfig(
+        name="pi05_Franka_EXP3_20",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # Same dataset as pi05_Franka_EXP3_50, cut down to 260 of its 650 episodes
+            # (78,096 of 196,856 frames) instead of being re-uploaded as its own repo.
+            repo_id="saifahmad123/EXP3_50",
+            # Single-task dataset ("pick up the orange cylinder"), but still take the
+            # prompt from the episode task so the policy stays language-conditioned.
+            base_config=DataConfig(
+                prompt_from_task=True,
+                # The 260-episode subset, drawn once without replacement. numpy's Generator
+                # stream is stability-guaranteed across versions, so seed 20 reproduces this
+                # exact set of episode indices -- do not change the seed or the size without
+                # accepting that any checkpoint trained under the old value is no longer
+                # reproducible. Norm stats are reused from the full EXP3_50 (see below), so
+                # they describe all 650 episodes, not just these 260.
+                episodes=tuple(sorted(np.random.default_rng(20).choice(650, size=260, replace=False).tolist())),
+            ),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # 6k-step run: same peak/floor LR as the rest of the EXP family, warmup held at
+        # 10% of training and decay_steps set to the last step so the cosine bottoms out
+        # there. 260 eps / 78,096 frames at batch 32 -> ~2.5 epochs.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=600,
+            peak_lr=2.5e-5,
+            decay_steps=6_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=6_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # Exactly two checkpoints: saves land on multiples of save_interval plus the final
+        # step (num_train_steps - 1 = 5999), so 3000/ and 5999/ are the only ones written.
+        # keep_period=3000 spares 3000/ from pruning and max_to_keep=1 spares 5999/.
+        # Two dirs on disk, ~18 GB.
+        save_interval=3_000,
+        keep_period=3_000,
+    ),
+    TrainConfig(
         name="pi05_Franka_GraspNet_Test",
         model=pi0_config.Pi0Config(
             pi05=True,
@@ -2640,6 +2719,102 @@ _CONFIGS = [
         # (there is no 50000/) — 10 dirs, ~89 GB.
         save_interval=5_000,
         keep_period=5_000,
+    ),
+    # Three datasets merged on disk (scripts/merge_graspnet_moredata.py):
+    #   michaelyeah7/Franka_GraspNet_20260817  16,596 eps / 4.92M frames / 10 tasks
+    #   saifahmad123/GRASPNET_FINAL             5,500 eps / 1.69M frames /  7 (subset)
+    #   saifahmad123/Franka_3_objects_2         1,965 eps / 1.36M frames /  3 (all new)
+    #   -> 24,061 eps / 7,971,809 frames / 13 tasks
+    # Same simulator, robot and table throughout; identical v2.1 schema.
+    #
+    # Merged on disk ONLY -- there is no Hub repo for
+    # "saifahmad123/GRASPNET_FINAL_moreData", so every job touching this config must
+    # export HF_HUB_OFFLINE=1 (that turns the pre-download loops in scripts/train.py and
+    # scripts/compute_norm_stats.py into no-ops that just return the local dir; without
+    # it snapshot_download 404s and the retry loop sleeps forever).
+    #
+    # Merge layout: michaelyeah7 keeps indices 0..16595 untouched (its task indices
+    # already match the merged table, so its parquets are reused as-is); GRASPNET_FINAL
+    # lands at 16596..22095 and Franka_3_objects_2 at 22096..24060, both with
+    # episode_index/index shifted and task_index remapped by task name. Task table is
+    # michaelyeah7's 10 plus orange cylinder / red cube / purple cube at 10..12.
+    TrainConfig(
+        name="pi05_Franka_GRASPNET_FINAL_moreData",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/GRASPNET_FINAL_moreData",
+            # Multi-task dataset (10 prompts): take the prompt from each episode's task
+            # so the policy is language-conditioned at inference time.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    # Prompt augmentation: up to 20 phrasings per object (11
+                    # paraphrases + 3 category generics like "pick up the can" + 6
+                    # misspellings), 239 unique strings over the 13 objects, sampled
+                    # ~65% specific / ~14% generic / ~21% noisy with the canonical
+                    # string weighted heaviest so eval prompts using the original
+                    # wording stay in distribution. Must come BEFORE RepackTransform,
+                    # which drops the
+                    # episode_index/frame_index this keys its deterministic choice on.
+                    # Training-only: serve_policy.py passes no repack_transforms, so a
+                    # real prompt is never rewritten at inference.
+                    _transforms.PromptVariants(graspnet_prompts.PROMPT_VARIANTS),
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # decay_steps tracks num_train_steps so the cosine actually bottoms out at
+        # decay_lr; warmup stays ~3% of training, as in pi05_Franka_GRASPNET_FINAL.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=3_000,
+            peak_lr=2.5e-5,
+            decay_steps=100_000,
+            decay_lr=2.5e-6,
+        ),
+        # 100k steps x batch 32 = 3.2M samples, ~0.40 epochs of this 7.97M-frame dataset.
+        num_train_steps=100_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # keep_period matches save_interval so every 10k save is kept (Orbax runs with
+        # max_to_keep=1, so pruning only ever drops non-multiples of keep_period).
+        # On disk: 10000/ ... 90000/ plus the last save at num_train_steps - 1 = 99999/
+        # (there is no 100000/) -- 10 dirs x 8.9 GB = ~89 GB. Measured against
+        # /projects/p53063 at 168 GB free after the merged dataset lands, leaving ~79 GB.
+        # 10k rather than 20k because this runs on a single H100: ~37 h of compute
+        # against gengpu's hard 2-day MaxTime, so a wall-clock kill is a live risk and
+        # 10k bounds the lost work. If disk gets tight, raising keep_period to 20_000
+        # while leaving save_interval at 10_000 keeps 10k-granularity crash recovery but
+        # prunes down to ~5 dirs (~45 GB).
+        save_interval=10_000,
+        keep_period=10_000,
     ),
     # Same data / hyperparameters as pi05_Franka_GraspNet_2, but with a 100-step action
     # horizon instead of 50. Only Pi0Config.action_horizon differs.

@@ -1,6 +1,7 @@
 from collections.abc import Iterator, Sequence
 import logging
 import multiprocessing
+import operator
 import os
 import typing
 from typing import Literal, Protocol, SupportsIndex, TypeVar
@@ -60,6 +61,20 @@ class TransformedDataset(Dataset[T_co]):
 
     def __len__(self) -> int:
         return len(self._dataset)
+
+
+class SubsetDataset(Dataset[T_co]):
+    """Restricts a dataset to a subset of its indices, keeping the given order."""
+
+    def __init__(self, dataset: Dataset, indices: Sequence[int]):
+        self._dataset = dataset
+        self._indices = list(indices)
+
+    def __getitem__(self, index: SupportsIndex) -> T_co:
+        return self._dataset[self._indices[operator.index(index)]]
+
+    def __len__(self) -> int:
+        return len(self._indices)
 
 
 class IterableTransformedDataset(IterableDataset[T_co]):
@@ -148,6 +163,19 @@ def create_torch_dataset(
         # import time. pyav bundles its own FFmpeg statically, so it works everywhere.
         video_backend="pyav",
     )
+
+    if data_config.episodes is not None:
+        # Deliberately NOT LeRobotDataset(episodes=...): that filters the rows but builds
+        # episode_data_index positionally over the subset, while __getitem__ still indexes it
+        # with the dataset's original episode_index -- so it raises IndexError as soon as an
+        # episode index exceeds the subset size. Loading everything and restricting which
+        # frame indices are reachable keeps all of lerobot's bookkeeping in its original
+        # coordinates.
+        ep_from, ep_to = dataset.episode_data_index["from"], dataset.episode_data_index["to"]
+        frame_indices = [
+            i for ep in data_config.episodes for i in range(int(ep_from[ep]), int(ep_to[ep]))
+        ]
+        dataset = SubsetDataset(dataset, frame_indices)
 
     if data_config.prompt_from_task:
         dataset = TransformedDataset(dataset, [_transforms.PromptFromLeRobotTask(dataset_meta.tasks)])

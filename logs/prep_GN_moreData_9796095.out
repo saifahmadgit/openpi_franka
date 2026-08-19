@@ -1,0 +1,8 @@
+Running on: qdtn01
+Filesystem      Size  Used Avail Use% Mounted on
+gpfs            1.0T  843G  182G  83% /gpfs
+=== downloading michaelyeah7/Franka_GraspNet_20260817 ===
+[attempt 1] 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/michaelyeah7/Franka_GraspNet_20260817/xet-read-token/661ef434a202357a6f83091d2ae3bc1c09274e25 (Request ID: Root=1-6a84b -- sleeping 320s
+[14:49:15] parquet 989/16596  mp4 0/49788  43M
+[attempt 2] 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/michaelyeah7/Franka_GraspNet_20260817/xet-read-token/661ef434a202357a6f83091d2ae3bc1c09274e25 (Request ID: Root=1-6a84b -- sleeping 320s
+[14:54:15] parquet 1421/16596  mp4 0/49788  61M

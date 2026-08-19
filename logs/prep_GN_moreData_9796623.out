@@ -1,0 +1,104 @@
+Running on: qdtn01
+Filesystem      Size  Used Avail Use% Mounted on
+gpfs            1.0T  843G  182G  83% /gpfs
+=== downloading michaelyeah7/Franka_GraspNet_20260817 ===
+[attempt 1] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/data/chunk-003/episode_003017.parque -- sleeping 320s
+[15:01:22] parquet 3017/16596  mp4 0/49788  135M
+[attempt 2] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/data/chunk-004/episode_004508.parque -- sleeping 320s
+[15:06:22] parquet 4508/16596  mp4 0/49788  206M
+[15:11:23] parquet 6008/16596  mp4 0/49788  278M
+[attempt 3] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection -- sleeping 320s
+[15:16:24] parquet 6008/16596  mp4 0/49788  278M
+[attempt 4] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/data/chunk-009/episode_009007.parque -- sleeping 320s
+[15:21:25] parquet 9007/16596  mp4 0/49788  424M
+[15:26:27] parquet 10507/16596  mp4 0/49788  495M
+[attempt 5] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection -- sleeping 320s
+[15:31:30] parquet 10507/16596  mp4 0/49788  495M
+[attempt 6] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection -- sleeping 320s
+[15:36:33] parquet 13507/16596  mp4 0/49788  635M
+[15:41:36] parquet 14995/16596  mp4 0/49788  705M
+[attempt 7] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/data/chunk-014/episode_014995.parque -- sleeping 320s
+[15:46:38] parquet 14995/16596  mp4 0/49788  705M
+[attempt 8] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-000/observation.images. -- sleeping 320s
+[15:51:42] parquet 16596/16596  mp4 1396/49788  1.1G
+[15:56:50] parquet 16596/16596  mp4 2895/49788  1.6G
+[attempt 9] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-000/observation.images. -- sleeping 320s
+[16:01:58] parquet 16596/16596  mp4 2895/49788  1.6G
+[attempt 10] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-001/observation.images. -- sleeping 320s
+[16:07:01] parquet 16596/16596  mp4 5760/49788  2.3G
+[attempt 11] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-002/observation.images. -- sleeping 320s
+[16:12:08] parquet 16596/16596  mp4 7249/49788  2.6G
+[16:17:13] parquet 16596/16596  mp4 7249/49788  2.6G
+[attempt 12] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-003/observation.images. -- sleeping 320s
+[16:22:17] parquet 16596/16596  mp4 10113/49788  3.3G
+[attempt 13] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-003/observation.images. -- sleeping 320s
+[16:27:22] parquet 16596/16596  mp4 11612/49788  3.6G
+[16:32:27] parquet 16596/16596  mp4 11612/49788  3.6G
+[attempt 14] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-004/observation.images. -- sleeping 320s
+[16:37:33] parquet 16596/16596  mp4 14327/49788  4.3G
+[attempt 15] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-005/observation.images. -- sleeping 320s
+[16:42:39] parquet 16596/16596  mp4 15825/49788  4.6G
+[16:47:44] parquet 16596/16596  mp4 16175/49788  4.7G
+[attempt 16] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-006/observation.images. -- sleeping 320s
+[16:52:51] parquet 16596/16596  mp4 18559/49788  5.3G
+[attempt 17] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-006/observation.images. -- sleeping 320s
+[16:57:57] parquet 16596/16596  mp4 20058/49788  5.7G
+[17:03:04] parquet 16596/16596  mp4 20900/49788  6.0G
+[attempt 18] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection -- sleeping 320s
+[17:08:10] parquet 16596/16596  mp4 22620/49788  6.4G
+[attempt 19] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-008/observation.images. -- sleeping 320s
+[17:13:16] parquet 16596/16596  mp4 24119/49788  6.8G
+[17:18:26] parquet 16596/16596  mp4 25343/49788  7.1G
+[attempt 20] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-008/observation.images. -- sleeping 320s
+[17:23:34] parquet 16596/16596  mp4 26396/49788  7.3G
+[attempt 21] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-009/observation.images. -- sleeping 320s
+[17:28:43] parquet 16596/16596  mp4 27894/49788  7.7G
+[17:33:52] parquet 16596/16596  mp4 29813/49788  8.1G
+[attempt 22] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-010/observation.images. -- sleeping 320s
+[17:39:05] parquet 16596/16596  mp4 30073/49788  8.2G
+[attempt 23] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-010/observation.images. -- sleeping 320s
+[17:44:13] parquet 16596/16596  mp4 31572/49788  8.5G
+[17:49:21] parquet 16596/16596  mp4 33922/49788  9.0G
+[attempt 24] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection -- sleeping 320s
+[17:54:32] parquet 16596/16596  mp4 33922/49788  9.0G
+[attempt 25] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-011/observation.images. -- sleeping 320s
+[17:59:40] parquet 16596/16596  mp4 35421/49788  9.4G
+[attempt 26] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-012/observation.images. -- sleeping 320s
+[18:04:49] parquet 16596/16596  mp4 37877/49788  9.9G
+[18:09:59] parquet 16596/16596  mp4 37877/49788  9.9G
+[attempt 27] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-013/observation.images. -- sleeping 320s
+[18:15:12] parquet 16596/16596  mp4 39375/49788  11G
+[attempt 28] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-013/observation.images. -- sleeping 320s
+[18:20:24] parquet 16596/16596  mp4 41614/49788  11G
+[18:25:35] parquet 16596/16596  mp4 41712/49788  11G
+[attempt 29] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection -- sleeping 320s
+[18:30:46] parquet 16596/16596  mp4 43114/49788  11G
+[attempt 30] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-014/observation.images. -- sleeping 320s
+[18:36:00] parquet 16596/16596  mp4 44968/49788  12G
+[18:41:13] parquet 16596/16596  mp4 46137/49788  12G
+[attempt 31] An error happened while trying to locate the file on the Hub and we cannot find the requested files in the local cache. Please check your connection and try again or make sure your Internet connection -- sleeping 320s
+[18:46:31] parquet 16596/16596  mp4 46468/49788  12G
+[attempt 32] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-016/observation.images. -- sleeping 320s
+[18:51:54] parquet 16596/16596  mp4 48200/49788  13G
+[attempt 33] 429 Client Error: Too Many Requests for url: https://huggingface.co/datasets/michaelyeah7/Franka_GraspNet_20260817/resolve/661ef434a202357a6f83091d2ae3bc1c09274e25/videos/chunk-016/observation.images. -- sleeping 320s
+[18:57:18] parquet 16596/16596  mp4 49699/49788  13G
+[19:02:38] parquet 16596/16596  mp4 49699/49788  13G
+download complete after 34 attempt(s)
+=== merging ===
+Franka_GraspNet_20260817: task remap {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9}
+GRASPNET_FINAL: task remap {0: 0, 1: 1, 2: 3, 3: 4, 4: 6, 5: 7, 6: 9}
+Franka_3_objects_2: task remap {0: 10, 1: 11, 2: 12}
+merged: 24061 eps / 7971809 frames / 13 tasks
+meta written
+[19:08:02] parquet 16596/16596  mp4 49788/49788  13G
+  ep      0  task_index  0  'pick up the cracker box'  rows 219
+  ep  16595  task_index  9  'pick up the tomato soup can'  rows 336
+  ep  16596  task_index  0  'pick up the cracker box'  rows 269
+  ep  22095  task_index  9  'pick up the tomato soup can'  rows 269
+  ep  22096  task_index 10  'pick up the orange cylinder'  rows 754
+  ep  24060  task_index 12  'pick up the purple cube'  rows 657
+verify OK
+merge complete -> /projects/p53063/data/lerobot/saifahmad123/GRASPNET_FINAL_moreData
+Filesystem      Size  Used Avail Use% Mounted on
+gpfs            1.0T  859G  166G  84% /gpfs
+=== prep done ===

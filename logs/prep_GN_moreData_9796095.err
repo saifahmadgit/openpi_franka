@@ -1,0 +1,4 @@
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+Fetching ... files: 0it [00:00, ?it/s]Fetching ... files: 614it [00:00, 4361.45it/s]Fetching ... files: 614it [00:12, 4361.45it/s]Fetching ... files: 878it [00:12, 56.79it/s]  Fetching ... files: 883it [00:12, 56.09it/s]Fetching ... files: 990it [00:17, 57.43it/s]
+Fetching ... files: 0it [00:00, ?it/s]Fetching ... files: 1072it [00:00, 8819.65it/s]Fetching ... files: 1072it [00:15, 8819.65it/s]Fetching ... files: 1398it [00:15, 70.26it/s]  Fetching ... files: 1403it [00:15, 70.06it/s]Fetching ... files: 1422it [00:16, 85.86it/s]
+Fetching ... files: 0it [00:00, ?it/s]Fetching ... files: 1447it [00:00, 5080.35it/s][2026-08-18T14:56:06.899] error: *** JOB 9796095 ON qdtn01 CANCELLED AT 2026-08-18T14:56:06 DUE to SIGNAL Terminated ***
