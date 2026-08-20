@@ -1,0 +1,16 @@
+Running on: qnode0309
+Config:     pi05_Franka_EXP3_30
+Dataset ->  /projects/p53063/data/lerobot
+[15:24:09] downloaded: 36G in 487380 files
+[attempt 1] HF rate-limited; waiting 320s then resuming: 429 Client Error: Too Many Requests for url: https://huggingface.co/api/datasets/saifahmad123/EXP3_30/xet-read-token/5cd553a0abec18fbb6ff96136909ba95a3b466e8 (Request ID: Root=1-6a8611c8-1825b60a2a803
+[15:27:03] downloaded: 36G in 488583 files
+[15:29:58] downloaded: 36G in 488583 files
+[15:32:48] downloaded: 36G in 488676 files
+[15:35:35] downloaded: 36G in 489663 files
+[15:38:54] downloaded: 36G in 490122 files
+[15:41:52] downloaded: 36G in 490731 files
+[15:44:34] downloaded: 36G in 491541 files
+Dataset fully cached at /projects/p53063/data/lerobot/saifahmad123/EXP3_30
+[15:47:21] downloaded: 36G in 491752 files
+[15:50:05] downloaded: 36G in 491752 files
+Writing stats to: /gpfs/home/wgk1727/openpi_franka/assets/pi05_Franka_EXP3_30/saifahmad123/EXP3_30

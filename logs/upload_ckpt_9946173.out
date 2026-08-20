@@ -1,0 +1,17 @@
+Running on: qnode0331
+checkpoint: /projects/p53063/checkpoints/pi05_Franka_EXP7_10/EXP7_10_a100/2999
+repo:       saifahmad123/EXP7_10_a100 (public)
+checkpoint   : /gpfs/projects/p53063/checkpoints/pi05_Franka_EXP7_10/EXP7_10_a100/2999
+config       : pi05_Franka_EXP7_10
+experiment   : EXP7_10_a100
+step         : 2999
+dataset      : saifahmad123/EXP7_10
+repo         : saifahmad123/EXP7_10_a100  (PUBLIC)
+destination  : step_2999/
+train_state  : skipped (--include-train-state to add)
+upload size  : 5.9 GB
+
+uploading 5.9 GB to saifahmad123/EXP7_10_a100/step_2999 ...
+
+done: https://huggingface.co/saifahmad123/EXP7_10_a100
+=== upload done: https://huggingface.co/saifahmad123/EXP7_10_a100 ===

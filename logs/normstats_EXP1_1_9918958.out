@@ -1,0 +1,6 @@
+Running on: qnode0429
+Config:     pi05_Franka_EXP1_1
+Dataset ->  /projects/p53063/data/lerobot
+[15:09:21] downloaded: 36G in 487043 files
+Dataset fully cached at /projects/p53063/data/lerobot/saifahmad123/EXP1_1
+Writing stats to: /gpfs/home/wgk1727/openpi_franka/assets/pi05_Franka_EXP1_1/saifahmad123/EXP1_1

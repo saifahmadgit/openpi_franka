@@ -1779,6 +1779,136 @@ _CONFIGS = [
         keep_period=1000,
     ),
     TrainConfig(
+        name="pi05_Franka_EXP1_5",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # 65 episodes / 19,841 frames -- the 5% rung of the EXP1 data-scaling
+            # ladder, a real uploaded dataset (not an episodes= subset of EXP1_10), so it
+            # needs its own norm stats.
+            repo_id="saifahmad123/EXP1_5",
+            # Single-task dataset ("pick up the orange cylinder"), but still take the
+            # prompt from the episode task so the policy stays language-conditioned.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # Identical schedule to pi05_Franka_EXP1_10 so the only variable across the rung
+        # is dataset size: same 2k steps, same LR, same batch. That means 3.2 epochs
+        # here versus 1.6 on EXP1_10 -- equal compute, not equal epochs.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=200,
+            peak_lr=2.5e-5,
+            decay_steps=2_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=2_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # Exactly two checkpoints, ~18 GB total. Saves land on multiples of
+        # save_interval plus the final step (num_train_steps - 1 = 1999), so only 1000/
+        # and 1999/ are ever written: keep_period=1000 spares 1000/ from pruning and
+        # max_to_keep=1 (checkpoints.py) spares the newest. Unlike EXP1_10 this writes
+        # two dirs rather than writing ten and pruning eight.
+        save_interval=1_000,
+        keep_period=1_000,
+    ),
+    TrainConfig(
+        name="pi05_Franka_EXP1_1",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # 13 episodes / 3,920 frames -- the 1% rung of the EXP1 data-scaling
+            # ladder, a real uploaded dataset (not an episodes= subset of EXP1_10), so it
+            # needs its own norm stats.
+            repo_id="saifahmad123/EXP1_1",
+            # Single-task dataset ("pick up the orange cylinder"), but still take the
+            # prompt from the episode task so the policy stays language-conditioned.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # Identical schedule to pi05_Franka_EXP1_10 so the only variable across the rung
+        # is dataset size: same 2k steps, same LR, same batch. That means 16.3 epochs
+        # here versus 1.6 on EXP1_10 -- equal compute, not equal epochs.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=200,
+            peak_lr=2.5e-5,
+            decay_steps=2_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=2_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # Exactly two checkpoints, ~18 GB total. Saves land on multiples of
+        # save_interval plus the final step (num_train_steps - 1 = 1999), so only 1000/
+        # and 1999/ are ever written: keep_period=1000 spares 1000/ from pruning and
+        # max_to_keep=1 (checkpoints.py) spares the newest. Unlike EXP1_10 this writes
+        # two dirs rather than writing ten and pruning eight.
+        save_interval=1_000,
+        keep_period=1_000,
+    ),
+    TrainConfig(
         name="pi05_Franka_EXP3_10",
         model=pi0_config.Pi0Config(
             pi05=True,
@@ -2013,6 +2143,69 @@ _CONFIGS = [
         keep_period=1_000,
     ),
     TrainConfig(
+        name="pi05_Franka_EXP7_10",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # 130 episodes / 40,573 frames -- the same shape and the same task string as
+            # pi05_Franka_EXP6_10 (130 eps / 40,979 frames, "pick up the red cube"), so the
+            # pair is an A/B on the data itself rather than on size or schedule.
+            repo_id="saifahmad123/EXP7_10",
+            # Single-task dataset ("pick up the red cube"), but still take the prompt
+            # from the episode task so the policy stays language-conditioned.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # Schedule copied verbatim from pi05_Franka_EXP6_10: 3k steps, warmup 300 (10% of
+        # training), decay_steps spanning the whole run so the cosine bottoms out at the
+        # last step, same peak/floor LR as the rest of the EXP family.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=300,
+            peak_lr=2.5e-5,
+            decay_steps=3_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=3_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # Same retention as pi05_Franka_EXP6_10: save every 1k, keep_period matches
+        # save_interval so 1000/ and 2000/ survive pruning, and max_to_keep=1 spares the
+        # final save at num_train_steps - 1 = 2999. Three dirs on disk, ~27 GB.
+        save_interval=1_000,
+        keep_period=1_000,
+    ),
+    TrainConfig(
         name="pi05_Franka_EXP3_50",
         model=pi0_config.Pi0Config(
             pi05=True,
@@ -2072,6 +2265,74 @@ _CONFIGS = [
         # the final save at num_train_steps - 1 = 9999. Five dirs on disk, ~45 GB.
         save_interval=2_000,
         keep_period=2_000,
+    ),
+    TrainConfig(
+        name="pi05_Franka_EXP3_30",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # 390 episodes / 118,104 frames -- the rung between pi05_Franka_EXP3_20
+            # (260 eps) and pi05_Franka_EXP3_50 (650 eps). Unlike EXP3_20 this is a real
+            # uploaded dataset rather than an episodes= subset of EXP3_50, so it gets its
+            # own norm stats under assets/pi05_Franka_EXP3_30/saifahmad123/EXP3_30/.
+            repo_id="saifahmad123/EXP3_30",
+            # Single-task dataset ("pick up the orange cylinder"), but still take the
+            # prompt from the episode task so the policy stays language-conditioned.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # Schedule copied verbatim from pi05_Franka_EXP3_50 so dataset size stays the only
+        # variable across the rung: 10k steps, warmup 10% of training, cosine bottoming
+        # out at the last step. 390 eps / 118,104 frames at batch 32 -> ~2.7 epochs.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=10_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=10_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # ONE checkpoint: 9999 only, ~8.9 GB. train.py:301 saves when
+        # (step % save_interval == 0 and step > start_step) or step == num_train_steps - 1,
+        # so save_interval=10_000 never fires inside a 0..9999 run -- step 0 is excluded by
+        # step > start_step and step 10000 is never reached. Only the final save is
+        # written, and keep_period=None leaves max_to_keep=1 (checkpoints.py:48) to spare
+        # it. Consequence: there is no mid-run checkpoint to --resume from, so an
+        # interrupted run restarts from scratch. Sized the sbatch walltime accordingly.
+        save_interval=10_000,
+        keep_period=None,
     ),
     TrainConfig(
         name="pi05_Franka_EXP3_20",
