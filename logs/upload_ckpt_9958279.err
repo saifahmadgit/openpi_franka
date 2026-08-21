@@ -1,0 +1,38 @@
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+Traceback (most recent call last):
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 409, in hf_raise_for_status
+    response.raise_for_status()
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://huggingface.co/api/models/saifahmad123/pi05-franka-graspnet-frozen-siglip/commit/main
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/gpfs/home/wgk1727/openpi_franka/scripts/upload_checkpoint.py", line 283, in <module>
+    main(tyro.cli(Args))
+  File "/gpfs/home/wgk1727/openpi_franka/scripts/upload_checkpoint.py", line 248, in main
+    api.upload_folder(
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/hf_api.py", line 1633, in _inner
+    return fn(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/hf_api.py", line 4945, in upload_folder
+    commit_info = self.create_commit(
+                  ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/hf_api.py", line 1633, in _inner
+    return fn(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/hf_api.py", line 4294, in create_commit
+    hf_raise_for_status(commit_resp, endpoint_name="commit")
+  File "/gpfs/home/wgk1727/openpi_franka/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_http.py", line 465, in hf_raise_for_status
+    raise _format(BadRequestError, message, response) from e
+huggingface_hub.errors.BadRequestError: (Request ID: Root=1-6a86d59e-5ea41fa112aca8de2565da80;5983678a-a1df-4161-b449-830191bf3274)
+
+Bad request for commit endpoint:
+Private repository storage limit reached, please upgrade your plan to increase your private storage limit

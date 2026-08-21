@@ -1,0 +1,15 @@
+Running on: qnode0630
+checkpoint: /projects/p53063/checkpoints/pi05_Franka_GRASPNET_frozen_siglip/GRASPNET_frozen_siglip/42500
+repo:       saifahmad123/pi05-franka-graspnet-frozen-siglip (public)
+checkpoint   : /gpfs/projects/p53063/checkpoints/pi05_Franka_GRASPNET_frozen_siglip/GRASPNET_frozen_siglip/42500
+config       : pi05_Franka_GRASPNET_frozen_siglip
+experiment   : GRASPNET_frozen_siglip
+step         : 42500
+dataset      : saifahmad123/Franka_GRASPNET
+repo         : saifahmad123/pi05-franka-graspnet-frozen-siglip  (PUBLIC)
+destination  : step_42500/
+train_state  : skipped (--include-train-state to add)
+upload size  : 5.1 GB
+already there : step_30000
+
+uploading 5.1 GB to saifahmad123/pi05-franka-graspnet-frozen-siglip/step_42500 ...
