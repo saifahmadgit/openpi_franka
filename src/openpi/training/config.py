@@ -2479,6 +2479,138 @@ _CONFIGS = [
         keep_period=1_000,
     ),
     TrainConfig(
+        name="pi05_Franka_EXP9_ALL",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # 686 episodes / 205,955 frames across 8 tasks (cracker box, orange
+            # cylinder, lemon, mustard bottle, peach, purple cube, red cube, tomato soup
+            # can) -- the full-object pool, not a rung of the EXP1/EXP3 size ladders.
+            repo_id="saifahmad123/EXP9_ALL",
+            # Multi-task: take the prompt from each episode's task string so the policy
+            # is language-conditioned across all 8 objects.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # 20k-step run, same peak/floor LR as the rest of the EXP family with warmup at
+        # 10% of training and decay_steps spanning the whole run so the cosine bottoms
+        # out at the last step. 686 eps / 205,955 frames at batch 32 -> ~3.1 epochs.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=2_000,
+            peak_lr=2.5e-5,
+            decay_steps=20_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=20_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # TWO checkpoints, ~18 GB. train.py saves when
+        # (step % save_interval == 0 and step > start_step) or step == num_train_steps - 1,
+        # so over steps 0..19999 only step 10000 and the final step 19999 are written.
+        # keep_period=10_000 spares 10000/ from pruning and max_to_keep=1
+        # (checkpoints.py) spares the newest, 19999/. The midpoint save also doubles as
+        # the only --resume point if the job hits its walltime.
+        save_interval=10_000,
+        keep_period=10_000,
+    ),
+    TrainConfig(
+        name="pi05_Franka_EXP10_ALL",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # 700 episodes / 207,539 frames across 8 tasks (cracker box, orange
+            # cylinder, lemon, mustard bottle, peach, purple cube, red cube, tomato soup
+            # can) -- the full-object pool, not a rung of the EXP1/EXP3 size ladders.
+            repo_id="saifahmad123/EXP10_ALL",
+            # Multi-task: take the prompt from each episode's task string so the policy
+            # is language-conditioned across all 8 objects.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # 20k-step run, same peak/floor LR as the rest of the EXP family with warmup at
+        # 10% of training and decay_steps spanning the whole run so the cosine bottoms
+        # out at the last step. 700 eps / 207,539 frames at batch 32 -> ~3.1 epochs.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=2_000,
+            peak_lr=2.5e-5,
+            decay_steps=20_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=20_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # TWO checkpoints, ~18 GB. train.py saves when
+        # (step % save_interval == 0 and step > start_step) or step == num_train_steps - 1,
+        # so over steps 0..19999 only step 10000 and the final step 19999 are written.
+        # keep_period=10_000 spares 10000/ from pruning and max_to_keep=1
+        # (checkpoints.py) spares the newest, 19999/. The midpoint save also doubles as
+        # the only --resume point if the job hits its walltime.
+        save_interval=10_000,
+        keep_period=10_000,
+    ),
+    TrainConfig(
         name="pi05_Franka_EXP3_50",
         model=pi0_config.Pi0Config(
             pi05=True,
