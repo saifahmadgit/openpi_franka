@@ -2118,6 +2118,72 @@ _CONFIGS = [
         keep_period=10_000,
     ),
     TrainConfig(
+        name="pi05_Franka_EXP1_50",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            # 650 episodes / 195,289 frames (13 sites x 50) -> ~1.6 epochs at 10k steps,
+            # batch 32. The top rung of the EXP1 ladder above EXP1_1 / EXP1_5 / EXP1_10,
+            # and a matched partner for pi05_Franka_EXP3_50 (650 eps / 196,856 frames of
+            # the same orange cylinder): same size, same schedule, so EXP1 vs EXP3 stays
+            # an A/B on the data alone.
+            repo_id="saifahmad123/EXP1_50",
+            # Single-task dataset ("pick up the orange cylinder"), but still take the
+            # prompt from the episode task so the policy stays language-conditioned.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # Schedule copied verbatim from pi05_Franka_EXP3_50: same peak/floor LR as the
+        # rest of the EXP family, warmup at 10% of training and decay_steps spanning the
+        # whole run so the cosine bottoms out at the last step.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_000,
+            peak_lr=2.5e-5,
+            decay_steps=10_000,
+            decay_lr=2.5e-6,
+        ),
+        num_train_steps=10_000,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # Same retention as pi05_Franka_EXP3_50: save every 2k and keep them all, since
+        # keep_period matches save_interval so 2000/, 4000/, 6000/ and 8000/ survive
+        # pruning, and max_to_keep=1 spares the final save at num_train_steps - 1 = 9999.
+        # Five dirs on disk, ~45 GB.
+        save_interval=2_000,
+        keep_period=2_000,
+    ),
+    TrainConfig(
         name="pi05_Franka_EXP3_10",
         model=pi0_config.Pi0Config(
             pi05=True,
