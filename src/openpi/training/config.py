@@ -3637,6 +3637,73 @@ _CONFIGS = [
         save_interval=5_000,
         keep_period=5_000,
     ),
+    # Block-stacking collection (791 eps / 1,449,410 frames, single task:
+    # "stack the objects on top of each other"). Same v2.1 franka schema as the
+    # GraspNet datasets (state 9, action 8, wrist/front_1/front_2 video), so the
+    # config is pi05_Franka_GRASPNET_FINAL with a shorter schedule.
+    TrainConfig(
+        name="pi05_Franka_STACKING",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/stacking",
+            # Only one task here, but taking the prompt from the episode still beats a
+            # hardcoded default_prompt: the string stays in sync with meta/tasks.jsonl.
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+        # decay_steps tracks the last training step so the cosine bottoms out at
+        # decay_lr; warmup stays ~3% of training, as on GRASPNET_FINAL.
+        lr_schedule=_optimizer.CosineDecaySchedule(
+            warmup_steps=1_350,
+            peak_lr=2.5e-5,
+            decay_steps=45_000,
+            decay_lr=2.5e-6,
+        ),
+        # 45,001 rather than 45,000: train.py iterates range(0, num_train_steps) and
+        # saves on `step % save_interval == 0` or `step == num_train_steps - 1`, so a
+        # flat 45_000 would end on 44999/ instead of 45000/. This way the only dirs
+        # written are 15000/, 30000/ and 45000/ -- 45,001 steps x batch 32 = 1.44M
+        # samples, ~1.0 epoch of this dataset.
+        num_train_steps=45_001,
+        batch_size=32,
+        num_workers=14,
+        freeze_filter=pi0_config.Pi0Config(
+            paligemma_variant="gemma_2b_lora",
+            action_expert_variant="gemma_300m_lora",
+        ).get_freeze_filter(),
+        ema_decay=None,
+        # keep_period matches save_interval so all three saves survive pruning
+        # (max_to_keep=1). ~27 GB on disk.
+        save_interval=15_000,
+        keep_period=15_000,
+    ),
     # Three datasets merged on disk (scripts/merge_graspnet_moredata.py):
     #   michaelyeah7/Franka_GraspNet_20260817  16,596 eps / 4.92M frames / 10 tasks
     #   saifahmad123/GRASPNET_FINAL             5,500 eps / 1.69M frames /  7 (subset)
