@@ -1,3 +1,32 @@
+## Contributions to the main fork
+
+This fork extends upstream `openpi` in two ways:
+
+**Franka training configs.** A family of `pi05_Franka_*` `TrainConfig`s in
+`src/openpi/training/config.py` for fine-tuning π₀.₅ on real Franka arm LeRobot
+datasets — LoRA on both towers, delta joint actions with an absolute gripper, and the
+matching camera remaps and normalization stats under `assets/`.
+
+**Real-time chunking (RTC).** An implementation of inference-time action chunking
+([Black, Galliker & Levine, 2025](https://www.pi.website/research/real_time_chunking))
+that keeps consecutive action chunks consistent under inference latency. It uses
+soft, pinv-corrected velocity guidance rather than a hard prefix freeze, and measured
+a ~90% reduction in joint deviation across the chunk overlap on our Franka setup.
+
+The RTC server is purely additive — no existing file is modified, so the stock
+`serve_policy.py` path is unchanged:
+
+| File | Role |
+|---|---|
+| `scripts/serve_policy_RTC.py` | Websocket policy server with RTC enabled |
+| `src/openpi/models/rtc.py` | Guidance / inpainting logic |
+| `src/openpi/models/pi0_rtc.py` | π₀.₅ sampling loop with guidance hooks |
+| `src/openpi/policies/policy_rtc.py` | Policy wrapper accepting the previous chunk |
+
+Everything below is the upstream README.
+
+---
+
 # openpi
 
 openpi holds open-source models and packages for robotics, published by the [Physical Intelligence team](https://www.physicalintelligence.company/).

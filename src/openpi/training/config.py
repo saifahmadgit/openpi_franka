@@ -2183,6 +2183,57 @@ _CONFIGS = [
         save_interval=2_000,
         keep_period=2_000,
     ),
+    # Zero-shot baseline for the EXP1 ladder: the *untouched* pi05_base checkpoint,
+    # served through pi05_Franka_EXP1_50's exact I/O pipeline -- same camera remap, same
+    # delta-joint decoding, same EXP1_50 norm stats -- so "base policy" and "fine-tuned
+    # policy" are measured in identical action space. Nothing is ever trained with this
+    # config; it exists only so serve_policy.py / serve_policy_RTC.py can build a policy
+    # around the base weights and give the EXP1_* runs a step-0 number to beat.
+    #
+    # Two deliberate departures from pi05_Franka_EXP1_50:
+    #   - No LoRA variants. `BaseModelConfig.load` checks the restored param tree against
+    #     the graph for equality (models/model.py:248), and pi05_base has no lora_a/lora_b
+    #     arrays, so a gemma_2b_lora graph cannot load from it.
+    #   - `assets` points at this repo's EXP1_50 norm stats, because pi05_base ships a
+    #     params/ directory and no assets/ of its own.
+    TrainConfig(
+        name="pi05_base_EXP1_50_eval",
+        model=pi0_config.Pi0Config(
+            pi05=True,
+            action_dim=32,
+            action_horizon=50,
+        ),
+        data=LeRobotAlohaDataConfig(
+            use_delta_joint_actions=True,
+            delta_action_mask=_transforms.make_bool_mask(7, -1),
+            adapt_to_pi=False,
+            repo_id="saifahmad123/EXP1_50",
+            assets=AssetsConfig(
+                assets_dir="./assets/pi05_Franka_EXP1_50",
+                asset_id="saifahmad123/EXP1_50",
+            ),
+            base_config=DataConfig(prompt_from_task=True),
+            repack_transforms=_transforms.Group(
+                inputs=[
+                    _transforms.RepackTransform(
+                        {
+                            "images": {
+                                "cam_high": "observation.images.wrist",
+                                "cam_left_wrist": "observation.images.front_1",
+                                "cam_right_wrist": "observation.images.front_2",
+                            },
+                            "state": "observation.state",
+                            "actions": "action",
+                            "prompt": "prompt",
+                        }
+                    )
+                ]
+            ),
+        ),
+        weight_loader=weight_loaders.CheckpointWeightLoader(
+            "gs://openpi-assets/checkpoints/pi05_base/params"
+        ),
+    ),
     TrainConfig(
         name="pi05_Franka_EXP3_10",
         model=pi0_config.Pi0Config(
